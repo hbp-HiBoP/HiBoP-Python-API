@@ -35,6 +35,9 @@ class LeftRightMesh(Mesh):
         self.right_marsAtlas_hemisphere = right_marsAtlas_hemisphere
         super().__init__(name, transformation, ID)
 
+    def __repr__(self):
+        return super().__repr__() + "\n" + str(json.dumps(self.to_json_data(), indent=2))
+
     def to_json_data(self):
         result = dict()
         result["&type"] = "HBP.Data.Anatomy.LeftRightMesh, Assembly-CSharp"
@@ -61,6 +64,9 @@ class SingleMesh(Mesh):
         self.marsAtlas = marsAtlas
         super().__init__(name, transformation, ID)
 
+    def __repr__(self):
+        return super().__repr__() + "\n" + str(json.dumps(self.to_json_data(), indent=2))
+
     def to_json_data(self):
         result = dict()
         result["&type"] = "HBP.Data.Anatomy.SingleMesh, Assembly-CSharp"
@@ -83,6 +89,9 @@ class MRI:
         self.name = name
         self.file = file
 
+    def __repr__(self):
+        return super().__repr__() + "\n" + str(json.dumps(self.to_json_data(), indent=2))
+
     def to_json_data(self):
         return dict(Name=self.name, File=self.file)
 
@@ -96,6 +105,9 @@ class Implantation:
         self.name = name
         self.file = file
         self.marsAtlas = marsAtlas
+
+    def __repr__(self):
+        return super().__repr__() + "\n" + str(json.dumps(self.to_json_data(), indent=2))
 
     def to_json_data(self):
         return dict(Name=self.name, File=self.file, MarsAtlas=self.marsAtlas)

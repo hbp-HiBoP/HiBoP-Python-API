@@ -2,8 +2,8 @@ import uuid
 import json
 import abc
 from typing import List
-from HiBoP.protocol import Protocol
-from HiBoP.patient import Patient
+from protocol import Protocol
+from patient import Patient
 
 
 class DataContainer(abc.ABC):
@@ -40,6 +40,40 @@ class BrainVision(DataContainer):
     @classmethod
     def from_json_data(cls, json_data) -> 'BrainVision':
         return cls(json_data["Header"], json_data["ID"])
+
+
+class EDF(DataContainer):
+    def __init__(self, edf: str = "", ID: str = ""):
+        super().__init__(ID)
+        self.edf = edf
+
+    def to_json_data(self) -> dict:
+        result = dict()
+        result["&type"] = "HBP.Data.Container.EDF, Assembly-CSharp"
+        result["ID"] = self.ID
+        result["EDF"] = self.edf
+        return result
+
+    @classmethod
+    def from_json_data(cls, json_data) -> 'EDF':
+        return cls(json_data["EDF"], json_data["ID"])
+
+
+class Micromed(DataContainer):
+    def __init__(self, trc: str = "", ID: str = ""):
+        super().__init__(ID)
+        self.trc = trc
+
+    def to_json_data(self) -> dict:
+        result = dict()
+        result["&type"] = "HBP.Data.Container.EDF, Assembly-CSharp"
+        result["ID"] = self.ID
+        result["TRC"] = self.trc
+        return result
+
+    @classmethod
+    def from_json_data(cls, json_data) -> 'Micromed':
+        return cls(json_data["TRC"], json_data["ID"])
 
 
 class Elan(DataContainer):

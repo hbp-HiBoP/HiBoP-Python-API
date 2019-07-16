@@ -1,9 +1,9 @@
 from typing import List
-from HiBoP.patient import Patient
-from HiBoP.dataset import Dataset
-from HiBoP.protocol import Bloc
+from patient import Patient
+from dataset import Dataset
+from protocol import Bloc
 import json
-from HiBoP.tools import *
+from tools import *
 import abc
 
 

@@ -1,7 +1,7 @@
 import uuid
 import json
 from typing import List
-from HiBoP.patient import Patient
+from patient import Patient
 
 
 class Group:

@@ -1,12 +1,12 @@
 import zipfile
 import os
 import shutil
-from HiBoP.settings import Settings
-from HiBoP.patient import Patient
-from HiBoP.group import Group
-from HiBoP.protocol import Protocol
-from HiBoP.dataset import Dataset
-from HiBoP.visualization import Visualization
+from settings import Settings
+from patient import Patient
+from group import Group
+from protocol import Protocol
+from dataset import Dataset
+from visualization import Visualization
 
 from typing import List
 

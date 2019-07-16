@@ -1,6 +1,6 @@
 import uuid
 import json
-from HiBoP.tools import Window
+from tools import Window
 from typing import List
 
 
