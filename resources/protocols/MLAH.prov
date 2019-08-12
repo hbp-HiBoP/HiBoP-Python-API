@@ -1,0 +1,138 @@
+{
+  "ID": "xxxxxxxxxxxxxxxxxxxxxxxxx",
+  "Name": "MLAH",
+  "Blocs": [
+    {
+      "IllustrationPath": "",
+      "ID": "7ec96976-3fc5-49ae-bf5c-7e16f5122e7b",
+      "Name": "NORM",
+      "Order": 0,
+      "Sort": "",
+      "SubBlocs": [
+        {
+          "ID": "5816a39f-b4cf-4667-85ec-0b05b1adc6d8",
+          "Name": "Main",
+          "Order": 0,
+          "Type": 0,
+          "Window": {
+            "Start": -400,
+            "End": 2500,
+            "Lenght": 2900
+          },
+          "Baseline": {
+            "Start": -200,
+            "End": 0,
+            "Lenght": 200
+          },
+          "Events": [
+            {
+              "Name": "L1",
+              "Codes": [
+                10
+              ],
+              "Type": 0
+            },
+            {
+              "Name": "RESPONSE",
+              "Codes": [
+                1,
+                2
+              ],
+              "Type": 1
+            }
+          ],
+          "Icons": [],
+          "Treatments": []
+        }
+      ]
+    },
+    {
+      "IllustrationPath": "",
+      "ID": "471cf41c-1bfb-409c-ab63-d1ef315b64d4",
+      "Name": "COUL",
+      "Order": 1,
+      "Sort": "",
+      "SubBlocs": [
+        {
+          "ID": "d3eaa052-d76a-461c-9699-a37584409026",
+          "Name": "Main",
+          "Order": 0,
+          "Type": 0,
+          "Window": {
+            "Start": -400,
+            "End": 2500,
+            "Lenght": 2900
+          },
+          "Baseline": {
+            "Start": -200,
+            "End": 0,
+            "Lenght": 200
+          },
+          "Events": [
+            {
+              "Name": "L1",
+              "Codes": [
+                60
+              ],
+              "Type": 0
+            },
+            {
+              "Name": "RESPONSE",
+              "Codes": [
+                1,
+                2
+              ],
+              "Type": 1
+            }
+          ],
+          "Icons": [],
+          "Treatments": []
+        }
+      ]
+    },
+    {
+      "IllustrationPath": "",
+      "ID": "c322275e-09d2-4be0-9a66-6662f8387c58",
+      "Name": "COTE",
+      "Order": 2,
+      "Sort": "",
+      "SubBlocs": [
+        {
+          "ID": "63df6cd3-d2d9-4be5-a8c7-ecca14d34870",
+          "Name": "Main",
+          "Order": 0,
+          "Type": 0,
+          "Window": {
+            "Start": -400,
+            "End": 2500,
+            "Lenght": 2900
+          },
+          "Baseline": {
+            "Start": -200,
+            "End": 0,
+            "Lenght": 200
+          },
+          "Events": [
+            {
+              "Name": "L1",
+              "Codes": [
+                20
+              ],
+              "Type": 0
+            },
+            {
+              "Name": "RESPONSE",
+              "Codes": [
+                1,
+                2
+              ],
+              "Type": 1
+            }
+          ],
+          "Icons": [],
+          "Treatments": []
+        }
+      ]
+    }
+  ]
+}

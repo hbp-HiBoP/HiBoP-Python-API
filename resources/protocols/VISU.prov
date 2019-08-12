@@ -1,0 +1,337 @@
+{
+  "ID": "xxxxxxxxxxxxxxxxxxxxxxxxx",
+  "Name": "VISU",
+  "Blocs": [
+    {
+      "IllustrationPath": "",
+      "ID": "e65e9f04-f626-44e4-9516-97def8fc7c0a",
+      "Name": "FRUIT",
+      "Order": 0,
+      "Sort": "C0L1",
+      "SubBlocs": [
+        {
+          "ID": "51bbf696-c698-42a2-9ecb-7b60a8264bd4",
+          "Name": "Main",
+          "Order": 0,
+          "Type": 0,
+          "Window": {
+            "Start": -500,
+            "End": 1000,
+            "Lenght": 1500
+          },
+          "Baseline": {
+            "Start": -200,
+            "End": 0,
+            "Lenght": 200
+          },
+          "Events": [
+            {
+              "Name": "FRUIT",
+              "Codes": [
+                80
+              ],
+              "Type": 0
+            },
+            {
+              "Name": "RESPONSE",
+              "Codes": [
+                1
+              ],
+              "Type": 1
+            }
+          ],
+          "Icons": [],
+          "Treatments": []
+        }
+      ]
+    },
+    {
+      "IllustrationPath": "",
+      "ID": "b7bd58e5-8b42-44ec-9f75-360b967d227d",
+      "Name": "FACE",
+      "Order": 7,
+      "Sort": "C0L1",
+      "SubBlocs": [
+        {
+          "ID": "433ec4c7-ddc9-4a12-90c8-ab36ffccb8ee",
+          "Name": "Main",
+          "Order": 0,
+          "Type": 0,
+          "Window": {
+            "Start": -500,
+            "End": 1000,
+            "Lenght": 1500
+          },
+          "Baseline": {
+            "Start": -200,
+            "End": 0,
+            "Lenght": 200
+          },
+          "Events": [
+            {
+              "Name": "FACE",
+              "Codes": [
+                20
+              ],
+              "Type": 0
+            }
+          ],
+          "Icons": [],
+          "Treatments": []
+        }
+      ]
+    },
+    {
+      "IllustrationPath": "",
+      "ID": "fa56e7bc-83ef-485b-a38f-31e78e0cb7a0",
+      "Name": "ANIMAL",
+      "Order": 6,
+      "Sort": "C0L1",
+      "SubBlocs": [
+        {
+          "ID": "ec88d25b-9157-47d6-bbd9-586e9fdeca1d",
+          "Name": "Main",
+          "Order": 0,
+          "Type": 0,
+          "Window": {
+            "Start": -500,
+            "End": 1000,
+            "Lenght": 1500
+          },
+          "Baseline": {
+            "Start": -200,
+            "End": 0,
+            "Lenght": 200
+          },
+          "Events": [
+            {
+              "Name": "ANIMAL",
+              "Codes": [
+                30
+              ],
+              "Type": 0
+            }
+          ],
+          "Icons": [],
+          "Treatments": []
+        }
+      ]
+    },
+    {
+      "IllustrationPath": "",
+      "ID": "2630224e-08bc-44c4-9857-93e90002508b",
+      "Name": "LANDSCAPE",
+      "Order": 5,
+      "Sort": "C0L1",
+      "SubBlocs": [
+        {
+          "ID": "178f2cb8-73b6-4675-90de-2228b59cf45a",
+          "Name": "Main",
+          "Order": 0,
+          "Type": 0,
+          "Window": {
+            "Start": -500,
+            "End": 1000,
+            "Lenght": 1500
+          },
+          "Baseline": {
+            "Start": -200,
+            "End": 0,
+            "Lenght": 200
+          },
+          "Events": [
+            {
+              "Name": "LANDSCAPE",
+              "Codes": [
+                40
+              ],
+              "Type": 0
+            }
+          ],
+          "Icons": [],
+          "Treatments": []
+        }
+      ]
+    },
+    {
+      "IllustrationPath": "",
+      "ID": "87564be1-5fe3-4c84-b9e3-eb890683240d",
+      "Name": "OBJECT",
+      "Order": 4,
+      "Sort": "C0L1",
+      "SubBlocs": [
+        {
+          "ID": "53d6e3f1-23e5-4e09-ba6c-c04caf3c45fe",
+          "Name": "Main",
+          "Order": 0,
+          "Type": 0,
+          "Window": {
+            "Start": -500,
+            "End": 1000,
+            "Lenght": 1500
+          },
+          "Baseline": {
+            "Start": -200,
+            "End": 0,
+            "Lenght": 200
+          },
+          "Events": [
+            {
+              "Name": "OBJECT",
+              "Codes": [
+                50
+              ],
+              "Type": 0
+            }
+          ],
+          "Icons": [],
+          "Treatments": []
+        }
+      ]
+    },
+    {
+      "IllustrationPath": "",
+      "ID": "5a144fa1-6662-4f97-a3e3-be8197983a49",
+      "Name": "PSEUDOWORD",
+      "Order": 3,
+      "Sort": "C0L1",
+      "SubBlocs": [
+        {
+          "ID": "9890d2c1-cbac-4ce0-b71b-aa940e820760",
+          "Name": "Main",
+          "Order": 0,
+          "Type": 0,
+          "Window": {
+            "Start": -500,
+            "End": 1000,
+            "Lenght": 1500
+          },
+          "Baseline": {
+            "Start": -200,
+            "End": 0,
+            "Lenght": 200
+          },
+          "Events": [
+            {
+              "Name": "PSEUDOWORD",
+              "Codes": [
+                60
+              ],
+              "Type": 0
+            }
+          ],
+          "Icons": [],
+          "Treatments": []
+        }
+      ]
+    },
+    {
+      "IllustrationPath": "",
+      "ID": "ab59a3d2-1c8f-4c38-9ab6-90a656928aba",
+      "Name": "CONSONANT",
+      "Order": 2,
+      "Sort": "C0L1",
+      "SubBlocs": [
+        {
+          "ID": "42913a12-3baa-42d5-912b-bac71adc4e4f",
+          "Name": "Main",
+          "Order": 0,
+          "Type": 0,
+          "Window": {
+            "Start": -500,
+            "End": 1000,
+            "Lenght": 1500
+          },
+          "Baseline": {
+            "Start": -200,
+            "End": 0,
+            "Lenght": 200
+          },
+          "Events": [
+            {
+              "Name": "CONSONANT",
+              "Codes": [
+                70
+              ],
+              "Type": 0
+            }
+          ],
+          "Icons": [],
+          "Treatments": []
+        }
+      ]
+    },
+    {
+      "IllustrationPath": "",
+      "ID": "85d1e3aa-ac94-4144-8d27-297695f00f74",
+      "Name": "SCRAMBLED",
+      "Order": 1,
+      "Sort": "C0L1",
+      "SubBlocs": [
+        {
+          "ID": "1e15af37-b9ca-4b10-85c0-6808e847d836",
+          "Name": "Main",
+          "Order": 0,
+          "Type": 0,
+          "Window": {
+            "Start": -500,
+            "End": 1000,
+            "Lenght": 1500
+          },
+          "Baseline": {
+            "Start": -200,
+            "End": 0,
+            "Lenght": 200
+          },
+          "Events": [
+            {
+              "Name": "SCRAMBLED",
+              "Codes": [
+                90
+              ],
+              "Type": 0
+            }
+          ],
+          "Icons": [],
+          "Treatments": []
+        }
+      ]
+    },
+    {
+      "IllustrationPath": "",
+      "ID": "d876b5ac-c097-46f4-9016-1c359eb4fe1c",
+      "Name": "HOUSE",
+      "Order": 8,
+      "Sort": "C0L1",
+      "SubBlocs": [
+        {
+          "ID": "ca32f740-95e1-45af-b39a-8562fdbee6cb",
+          "Name": "Main",
+          "Order": 0,
+          "Type": 0,
+          "Window": {
+            "Start": -500,
+            "End": 1000,
+            "Lenght": 1500
+          },
+          "Baseline": {
+            "Start": -200,
+            "End": 0,
+            "Lenght": 200
+          },
+          "Events": [
+            {
+              "Name": "HOUSE",
+              "Codes": [
+                10
+              ],
+              "Type": 0
+            }
+          ],
+          "Icons": [],
+          "Treatments": []
+        }
+      ]
+    }
+  ]
+}

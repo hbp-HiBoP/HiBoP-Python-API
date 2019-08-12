@@ -1,0 +1,186 @@
+{
+  "ID": "xxxxxxxxxxxxxxxxxxxxxxxxx",
+  "Name": "LEC2_STATISTICS",
+  "Blocs": [
+    {
+      "IllustrationPath": "",
+      "ID": "1a24988b-f652-4442-9bd3-be2b8427644a",
+      "Name": "ATTEND",
+      "Order": 0,
+      "Sort": "C0L1",
+      "SubBlocs": [
+        {
+          "ID": "8c51ccd6-0fdc-45c8-9189-e271afbee2a6",
+          "Name": "Main",
+          "Order": 0,
+          "Type": 0,
+          "Window": {
+            "Start": -500,
+            "End": 650,
+            "Lenght": 1150
+          },
+          "Baseline": {
+            "Start": -200,
+            "End": 0,
+            "Lenght": 200
+          },
+          "Events": [
+            {
+              "Name": "ATTEND",
+              "Codes": [
+                10
+              ],
+              "Type": 0
+            }
+          ],
+          "Icons": [],
+          "Treatments": []
+        }
+      ]
+    },
+    {
+      "IllustrationPath": "",
+      "ID": "a61d5344-fc15-48ba-a645-b5f6f5ca0f8e",
+      "Name": "IGNORE",
+      "Order": 1,
+      "Sort": "C0L1",
+      "SubBlocs": [
+        {
+          "ID": "be1ac46e-b8bf-4925-b4ad-dcabab7acd07",
+          "Name": "Main",
+          "Order": 0,
+          "Type": 0,
+          "Window": {
+            "Start": -500,
+            "End": 650,
+            "Lenght": 1150
+          },
+          "Baseline": {
+            "Start": -200,
+            "End": 0,
+            "Lenght": 200
+          },
+          "Events": [
+            {
+              "Name": "IGNORE",
+              "Codes": [
+                20
+              ],
+              "Type": 0
+            }
+          ],
+          "Icons": [],
+          "Treatments": []
+        }
+      ]
+    },
+    {
+      "IllustrationPath": "",
+      "ID": "eea8cf95-2225-4b11-9db4-8bb5e6e00e21",
+      "Name": "ATTEND_SI",
+      "Order": 2,
+      "Sort": "C0L1",
+      "SubBlocs": [
+        {
+          "ID": "a0d06f09-d297-46ef-9b68-e4a70a7a073b",
+          "Name": "Main",
+          "Order": 0,
+          "Type": 0,
+          "Window": {
+            "Start": -500,
+            "End": 650,
+            "Lenght": 1150
+          },
+          "Baseline": {
+            "Start": -200,
+            "End": 0,
+            "Lenght": 200
+          },
+          "Events": [
+            {
+              "Name": "ATTEND_SI",
+              "Codes": [
+                1010
+              ],
+              "Type": 0
+            }
+          ],
+          "Icons": [],
+          "Treatments": []
+        }
+      ]
+    },
+    {
+      "IllustrationPath": "",
+      "ID": "909a09ca-c5cb-4037-8e1b-3cdbcd6abadc",
+      "Name": "IGNORE_SI",
+      "Order": 3,
+      "Sort": "C0L1",
+      "SubBlocs": [
+        {
+          "ID": "7f81df66-9ce5-4d72-b7ad-11082a984d19",
+          "Name": "Main",
+          "Order": 0,
+          "Type": 0,
+          "Window": {
+            "Start": -500,
+            "End": 650,
+            "Lenght": 1150
+          },
+          "Baseline": {
+            "Start": -200,
+            "End": 0,
+            "Lenght": 200
+          },
+          "Events": [
+            {
+              "Name": "IGNORE_SI",
+              "Codes": [
+                1020
+              ],
+              "Type": 0
+            }
+          ],
+          "Icons": [],
+          "Treatments": []
+        }
+      ]
+    },
+    {
+      "IllustrationPath": "",
+      "ID": "e9c84155-db3e-44bf-821f-c55cefd83ac9",
+      "Name": "KW_ATTEND_IGNORE",
+      "Order": 4,
+      "Sort": "C0L1",
+      "SubBlocs": [
+        {
+          "ID": "2c284e11-78d5-402f-b93d-7d2203145269",
+          "Name": "Main",
+          "Order": 0,
+          "Type": 0,
+          "Window": {
+            "Start": -500,
+            "End": 650,
+            "Lenght": 1150
+          },
+          "Baseline": {
+            "Start": -200,
+            "End": 0,
+            "Lenght": 200
+          },
+          "Events": [
+            {
+              "Name": "KW_ATTEND_IGNORE",
+              "Codes": [
+                10101020
+              ],
+              "Type": 0
+            }
+          ],
+          "Icons": [],
+          "Treatments": []
+        }
+      ]
+    }
+  ]
+}

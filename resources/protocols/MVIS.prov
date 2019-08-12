@@ -1,0 +1,184 @@
+{
+  "ID": "xxxxxxxxxxxxxxxxxxxxxxxxx",
+  "Name": "MVIS",
+  "Blocs": [
+    {
+      "IllustrationPath": "",
+      "ID": "d01dec2a-02eb-446a-9d2a-c88d771cf556",
+      "Name": "LOAD2",
+      "Order": 0,
+      "Sort": "C0L1",
+      "SubBlocs": [
+        {
+          "ID": "19ec52c0-5399-42af-a546-36366bc6e49a",
+          "Name": "Main",
+          "Order": 0,
+          "Type": 0,
+          "Window": {
+            "Start": -500,
+            "End": 7000,
+            "Lenght": 7500
+          },
+          "Baseline": {
+            "Start": -200,
+            "End": 0,
+            "Lenght": 200
+          },
+          "Events": [
+            {
+              "Name": "LOAD2",
+              "Codes": [
+                20
+              ],
+              "Type": 0
+            },
+            {
+              "Name": "RESPONSE",
+              "Codes": [
+                1,
+                2
+              ],
+              "Type": 1
+            }
+          ],
+          "Icons": [],
+          "Treatments": []
+        }
+      ]
+    },
+    {
+      "IllustrationPath": "",
+      "ID": "1b74da38-1e0a-4dfd-b0f8-09cf871d5abe",
+      "Name": "LOAD4",
+      "Order": 1,
+      "Sort": "C0L1",
+      "SubBlocs": [
+        {
+          "ID": "d02cf1d2-9d59-4899-a36c-8162f87bcc08",
+          "Name": "Main",
+          "Order": 0,
+          "Type": 0,
+          "Window": {
+            "Start": -500,
+            "End": 7000,
+            "Lenght": 7500
+          },
+          "Baseline": {
+            "Start": -200,
+            "End": 0,
+            "Lenght": 200
+          },
+          "Events": [
+            {
+              "Name": "LOAD4",
+              "Codes": [
+                40
+              ],
+              "Type": 0
+            },
+            {
+              "Name": "RESPONSE",
+              "Codes": [
+                1,
+                2
+              ],
+              "Type": 1
+            }
+          ],
+          "Icons": [],
+          "Treatments": []
+        }
+      ]
+    },
+    {
+      "IllustrationPath": "",
+      "ID": "483a8d0b-7c7e-4a36-b79a-3ad80cdf29fb",
+      "Name": "LOAD6",
+      "Order": 2,
+      "Sort": "C0L1",
+      "SubBlocs": [
+        {
+          "ID": "c4e83d67-6418-4dd9-9954-17cfb805ba34",
+          "Name": "Main",
+          "Order": 0,
+          "Type": 0,
+          "Window": {
+            "Start": -500,
+            "End": 7000,
+            "Lenght": 7500
+          },
+          "Baseline": {
+            "Start": -200,
+            "End": 0,
+            "Lenght": 200
+          },
+          "Events": [
+            {
+              "Name": "LOAD6",
+              "Codes": [
+                60
+              ],
+              "Type": 0
+            },
+            {
+              "Name": "RESPONSE",
+              "Codes": [
+                1,
+                2
+              ],
+              "Type": 1
+            }
+          ],
+          "Icons": [],
+          "Treatments": []
+        }
+      ]
+    },
+    {
+      "IllustrationPath": "",
+      "ID": "6ec39a57-53ec-4c86-9f90-6820c05bc338",
+      "Name": "CONTROL",
+      "Order": 3,
+      "Sort": "C0L1",
+      "SubBlocs": [
+        {
+          "ID": "0b50b4e3-e67f-4d26-b604-c8117aaaae48",
+          "Name": "Main",
+          "Order": 0,
+          "Type": 0,
+          "Window": {
+            "Start": -500,
+            "End": 7000,
+            "Lenght": 7500
+          },
+          "Baseline": {
+            "Start": -200,
+            "End": 0,
+            "Lenght": 200
+          },
+          "Events": [
+            {
+              "Name": "CONTROL",
+              "Codes": [
+                21,
+                41,
+                61
+              ],
+              "Type": 0
+            },
+            {
+              "Name": "RESPONSE",
+              "Codes": [
+                1,
+                2
+              ],
+              "Type": 1
+            }
+          ],
+          "Icons": [],
+          "Treatments": []
+        }
+      ]
+    }
+  ]
+}

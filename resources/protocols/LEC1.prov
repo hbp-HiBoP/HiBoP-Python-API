@@ -1,0 +1,138 @@
+{
+  "ID": "xxxxxxxxxxxxxxxxxxxxxxxxx",
+  "Name": "LEC1",
+  "Blocs": [
+    {
+      "IllustrationPath": "",
+      "ID": "48ed4ac4-3cb7-4ff0-adec-e96ebb3859b5",
+      "Name": "SEMANTIC",
+      "Order": 0,
+      "Sort": "C0L1",
+      "SubBlocs": [
+        {
+          "ID": "9ce7fbb8-931d-4023-ba32-c05078bf4d95",
+          "Name": "Main",
+          "Order": 0,
+          "Type": 0,
+          "Window": {
+            "Start": -500,
+            "End": 3500,
+            "Lenght": 4000
+          },
+          "Baseline": {
+            "Start": -200,
+            "End": 0,
+            "Lenght": 200
+          },
+          "Events": [
+            {
+              "Name": "SEMANTIC",
+              "Codes": [
+                10
+              ],
+              "Type": 0
+            },
+            {
+              "Name": "RESPONSE",
+              "Codes": [
+                1,
+                2
+              ],
+              "Type": 1
+            }
+          ],
+          "Icons": [],
+          "Treatments": []
+        }
+      ]
+    },
+    {
+      "IllustrationPath": "",
+      "ID": "f9a5f9d9-eed6-4512-8165-eec89aefa616",
+      "Name": "PHONETIC",
+      "Order": 1,
+      "Sort": "C0L1",
+      "SubBlocs": [
+        {
+          "ID": "31a38d0d-5dbc-4c49-b1f3-1a147d87674d",
+          "Name": "Main",
+          "Order": 0,
+          "Type": 0,
+          "Window": {
+            "Start": -500,
+            "End": 3500,
+            "Lenght": 4000
+          },
+          "Baseline": {
+            "Start": -200,
+            "End": 0,
+            "Lenght": 200
+          },
+          "Events": [
+            {
+              "Name": "PHONETIC",
+              "Codes": [
+                20
+              ],
+              "Type": 0
+            },
+            {
+              "Name": "RESPONSE",
+              "Codes": [
+                1,
+                2
+              ],
+              "Type": 1
+            }
+          ],
+          "Icons": [],
+          "Treatments": []
+        }
+      ]
+    },
+    {
+      "IllustrationPath": "",
+      "ID": "00d64693-75b4-424f-bc48-b9ecbd69724f",
+      "Name": "VISUAL",
+      "Order": 2,
+      "Sort": "C0L1",
+      "SubBlocs": [
+        {
+          "ID": "abc1bab9-5733-48bd-bac7-86a8bc6ed956",
+          "Name": "Main",
+          "Order": 0,
+          "Type": 0,
+          "Window": {
+            "Start": -500,
+            "End": 3500,
+            "Lenght": 4000
+          },
+          "Baseline": {
+            "Start": -200,
+            "End": 0,
+            "Lenght": 200
+          },
+          "Events": [
+            {
+              "Name": "VISUAL",
+              "Codes": [
+                30
+              ],
+              "Type": 0
+            },
+            {
+              "Name": "RESPONSE",
+              "Codes": [
+                1,
+                2
+              ],
+              "Type": 1
+            }
+          ],
+          "Icons": [],
+          "Treatments": []
+        }
+      ]
+    }
+  ]
+}

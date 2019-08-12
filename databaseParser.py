@@ -71,16 +71,27 @@ def create_project_from_bids(path):
                                 transformation_file = anat_directory + os.altsep + patient.name + ".trm"
 
                                 # Grey matter
-                                grey_matter_left_file = anat_directory + os.altsep + patient.name + "_T1w_pial.L.gii"
-                                grey_matter_right_file = anat_directory + os.altsep + patient.name + "_T1w_pial.R.gii"
+                                grey_matter_left_file = anat_directory + os.altsep + patient.name + "_T1w_pial.L.surf.gii"
+                                grey_matter_right_file = anat_directory + os.altsep + patient.name + "_T1w_pial.R.surf.gii"
                                 if os.path.exists(grey_matter_left_file) and os.path.exists(grey_matter_right_file) and os.path.exists(transformation_file):
-                                    patient.meshes.append(LeftRightMesh("White matter", grey_matter_left_file, grey_matter_right_file, transformation=transformation_file))
+                                    patient.meshes.append(LeftRightMesh("Grey matter", grey_matter_left_file, grey_matter_right_file, transformation=transformation_file))
 
                                 # White matter
                                 white_matter_left_file = anat_directory + os.altsep + patient.name + "_T1w_white.L.surf.gii"
                                 white_matter_right_file = anat_directory + os.altsep + patient.name + "_T1w_white.R.surf.gii"
                                 if os.path.exists(white_matter_left_file) and os.path.exists(white_matter_right_file) and os.path.exists(transformation_file):
-                                    print(patient.meshes[0])
+                                    white_matter_mesh = LeftRightMesh("White matter", white_matter_left_file, white_matter_right_file, transformation=transformation_file)
+                                    patient.meshes.append(white_matter_mesh)
+                                    white_matter_marsatlas_left_file = anat_directory + os.altsep + patient_name + "_T1w_marsatlas.L.surf.gii"
+                                    white_matter_marsatlas_right_file = anat_directory + os.altsep + patient_name + "_T1w_marsatlas.R.surf.gii"
+                                    if os.path.exists(white_matter_marsatlas_left_file) and os.path.exists(white_matter_marsatlas_right_file):
+                                        white_matter_mesh.left_marsAtlas_hemisphere = white_matter_marsatlas_left_file
+                                        white_matter_mesh.right_marsAtlas_hemisphere = white_matter_marsatlas_right_file
+                # Protocols
+                    
+                # Datasets
+                    print(patient)
+
     except OSError:
         print("Creation of the directory %s failed" % path)
     else:

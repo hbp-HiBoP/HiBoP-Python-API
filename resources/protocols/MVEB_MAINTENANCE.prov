@@ -1,0 +1,150 @@
+{
+  "ID": "xxxxxxxxxxxxxxxxxxxxxxxxx",
+  "Name": "MVEB_MAINTENANCE",
+  "Blocs": [
+    {
+      "IllustrationPath": "",
+      "ID": "396782c5-fea9-4b8c-bf59-ea7f4432726d",
+      "Name": "LOAD2",
+      "Order": 0,
+      "Sort": "C0L1",
+      "SubBlocs": [
+        {
+          "ID": "bae67547-df47-4a7f-8c48-5c5ecb4d72b8",
+          "Name": "Main",
+          "Order": 0,
+          "Type": 0,
+          "Window": {
+            "Start": -500,
+            "End": 500,
+            "Lenght": 1000
+          },
+          "Baseline": {
+            "Start": -200,
+            "End": 0,
+            "Lenght": 200
+          },
+          "Events": [
+            {
+              "Name": "LOAD2",
+              "Codes": [
+                25
+              ],
+              "Type": 0
+            }
+          ],
+          "Icons": [],
+          "Treatments": []
+        }
+      ]
+    },
+    {
+      "IllustrationPath": "",
+      "ID": "2e182205-f047-47a7-a94c-1f598b7a2131",
+      "Name": "LOAD4",
+      "Order": 1,
+      "Sort": "C0L1",
+      "SubBlocs": [
+        {
+          "ID": "6ee3973c-ad10-4306-9b5a-0904a3fd559c",
+          "Name": "Main",
+          "Order": 0,
+          "Type": 0,
+          "Window": {
+            "Start": -500,
+            "End": 500,
+            "Lenght": 1000
+          },
+          "Baseline": {
+            "Start": -200,
+            "End": 0,
+            "Lenght": 200
+          },
+          "Events": [
+            {
+              "Name": "LOAD4",
+              "Codes": [
+                45
+              ],
+              "Type": 0
+            }
+          ],
+          "Icons": [],
+          "Treatments": []
+        }
+      ]
+    },
+    {
+      "IllustrationPath": "",
+      "ID": "27d5807f-e7b5-46e4-9fc6-03a8a27ab465",
+      "Name": "LOAD6",
+      "Order": 2,
+      "Sort": "C0L1",
+      "SubBlocs": [
+        {
+          "ID": "f1fbe0bb-8ff9-4005-91cc-7ef92278d202",
+          "Name": "Main",
+          "Order": 0,
+          "Type": 0,
+          "Window": {
+            "Start": -500,
+            "End": 500,
+            "Lenght": 1000
+          },
+          "Baseline": {
+            "Start": -200,
+            "End": 0,
+            "Lenght": 200
+          },
+          "Events": [
+            {
+              "Name": "LOAD6",
+              "Codes": [
+                65
+              ],
+              "Type": 0
+            }
+          ],
+          "Icons": [],
+          "Treatments": []
+        }
+      ]
+    },
+    {
+      "IllustrationPath": "",
+      "ID": "13aefc6b-f3e6-4c3e-9166-93bb496b8316",
+      "Name": "CONTROL",
+      "Order": 3,
+      "Sort": "C0L1",
+      "SubBlocs": [
+        {
+          "ID": "3cd59a46-701d-46df-80a0-8a1877876e1d",
+          "Name": "Main",
+          "Order": 0,
+          "Type": 0,
+          "Window": {
+            "Start": -500,
+            "End": 500,
+            "Lenght": 1000
+          },
+          "Baseline": {
+            "Start": -200,
+            "End": 0,
+            "Lenght": 200
+          },
+          "Events": [
+            {
+              "Name": "CONTROL",
+              "Codes": [
+                90
+              ],
+              "Type": 0
+            }
+          ],
+          "Icons": [],
+          "Treatments": []
+        }
+      ]
+    }
+  ]
+}
