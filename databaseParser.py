@@ -41,13 +41,13 @@ def create_project_from_bids(path):
                                 mni_electrodes_file = ieeg_directory + os.altsep + patient.name + \
                                                       "_ses-post_space-MNI152Lin_electrodes.tsv"
                                 if os.path.exists(mni_electrodes_file):
-                                    patient.implantations.append(Implantation("MNI 152", mni_electrodes_file))
+                                    patient.implantations.append(Site("MNI 152", mni_electrodes_file))
 
                                 # Patient implantation
                                 patient_electrodes_file = ieeg_directory + os.altsep + patient.name + \
                                                           "_ses-post_space-T1w_electrodes.tsv"
                                 if os.path.exists(patient_electrodes_file):
-                                    patient.implantations.append(Implantation("patient", patient_electrodes_file))
+                                    patient.implantations.append(Site("patient", patient_electrodes_file))
 
                         # Pre
                         pre_directory = patient_directory + os.altsep + "ses-pre"

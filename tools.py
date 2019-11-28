@@ -1,3 +1,21 @@
+import abc
+import uuid
+from project import Project
+
+
+class BaseData(abc.ABC):
+    def __init__(self, ID: str = ""):
+        self.ID = ID if ID != "" else str(uuid.uuid4())
+
+    @abc.abstractmethod
+    def to_json_data(self) -> dict:
+        return dict(ID=self.ID)
+
+    @classmethod
+    def from_json_data(cls, json_data, project: Project = None) -> 'BaseData':
+        pass
+
+
 class Quaternion:
     def __init__(self, x, y, z, w):
         self.x = x

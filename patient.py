@@ -1,31 +1,36 @@
-import uuid
 import json
 import abc
+from settings import BaseTagValue
+from tools import Vector3, BaseData
 from typing import List
+from project import Project
 
 
-class Mesh(abc.ABC):
+class BaseMesh(BaseData):
     def __init__(self, name: str = "", transformation: str = "", ID: str = ""):
         self.name = name
         self.transformation = transformation
-        self.ID = ID if ID != "" else str(uuid.uuid4())
+        super().__init__(ID)
 
     @abc.abstractmethod
-    def to_json_data(self):
-        pass
+    def to_json_data(self) -> dict:
+        json_data = super().to_json_data()
+        json_data['Name'] = self.name
+        json_data['Transformation'] = self.transformation
+        return json_data
 
     @classmethod
-    def from_json_data(cls, json_data):
+    def from_json_data(cls, json_data: dict, project: Project = None) -> 'BaseMesh':
         class_type = json_data["$type"]
         result = None
-        if class_type == "HBP.Data.Anatomy.LeftRightMesh, Assembly-CSharp":
+        if class_type == "HBP.Data.LeftRightMesh, Assembly-CSharp":
             result = LeftRightMesh.from_json_data(json_data)
-        elif class_type == "HBP.Data.Anatomy.SingleMesh, Assembly-CSharp":
+        elif class_type == "HBP.Data.SingleMesh, Assembly-CSharp":
             result = SingleMesh.from_json_data(json_data)
         return result
 
 
-class LeftRightMesh(Mesh):
+class LeftRightMesh(BaseMesh):
     def __init__(self, name: str = "", left_hemisphere_mesh: str = "", right_hemisphere_mesh: str = "",
                  left_marsAtlas_hemisphere: str = "", right_marsAtlas_hemisphere: str = "", transformation: str = "",
                  ID: str = ""):
@@ -39,26 +44,23 @@ class LeftRightMesh(Mesh):
         return super().__repr__() + "\n" + str(json.dumps(self.to_json_data(), indent=2))
 
     def to_json_data(self):
-        result = dict()
-        result["&type"] = "HBP.Data.Anatomy.LeftRightMesh, Assembly-CSharp"
-        result["ID"] = self.ID
-        result["Name"] = self.name
-        result["LeftHemisphere"] = self.left_hemisphere_mesh
-        result["RightHemisphere"] = self.right_hemisphere_mesh
-        result["LeftMarsAtlasHemisphere"] = self.left_marsAtlas_hemisphere
-        result["RightMarsAtlasHemisphere"] = self.right_marsAtlas_hemisphere
-        result["Transformation"] = self.transformation
-        return result
+        json_data = super().to_json_data()
+        json_data["&type"] = "HBP.Data.LeftRightMesh, Assembly-CSharp"
+        json_data["LeftHemisphere"] = self.left_hemisphere_mesh
+        json_data["RightHemisphere"] = self.right_hemisphere_mesh
+        json_data["LeftMarsAtlasHemisphere"] = self.left_marsAtlas_hemisphere
+        json_data["RightMarsAtlasHemisphere"] = self.right_marsAtlas_hemisphere
+        return json_data
 
     @classmethod
-    def from_json_data(cls, json_data):
+    def from_json_data(cls, json_data: dict, project: Project = None) -> 'LeftRightMesh':
         result = cls(json_data["Name"], json_data["LeftHemisphere"], json_data["RightHemisphere"],
                      json_data["LeftMarsAtlasHemisphere"], json_data["RightMarsAtlasHemisphere"],
                      json_data["Transformation"], json_data["ID"])
         return result
 
 
-class SingleMesh(Mesh):
+class SingleMesh(BaseMesh):
     def __init__(self, name: str = "", mesh: str = "", marsAtlas: str = "", transformation: str = "", ID: str = ""):
         self.mesh = mesh
         self.marsAtlas = marsAtlas
@@ -68,76 +70,109 @@ class SingleMesh(Mesh):
         return super().__repr__() + "\n" + str(json.dumps(self.to_json_data(), indent=2))
 
     def to_json_data(self):
-        result = dict()
-        result["&type"] = "HBP.Data.Anatomy.SingleMesh, Assembly-CSharp"
-        result["ID"] = self.ID
-        result["Name"] = self.name
-        result["Mesh"] = self.mesh
-        result["MarsAtlas"] = self.marsAtlas
-        result["Transformation"] = self.transformation
-        return result
+        json_data = super().to_json_data()
+        json_data["&type"] = "HBP.Data.SingleMesh, Assembly-CSharp"
+        json_data["Mesh"] = self.mesh
+        json_data["MarsAtlas"] = self.marsAtlas
+        return json_data
 
     @classmethod
-    def from_json_data(cls, json_data):
+    def from_json_data(cls, json_data: dict, project: Project = None) -> 'SingleMesh':
         result = cls(json_data["Name"], json_data["Mesh"], json_data["MarsAtlas"],
                      json_data["Transformation"], json_data["ID"])
         return result
 
 
-class MRI:
-    def __init__(self, name: str = "", file: str = ""):
+class MRI(BaseData):
+    def __init__(self, name: str = "", file: str = "", ID: str = ""):
         self.name = name
         self.file = file
+        super().__init__(ID)
 
     def __repr__(self):
         return super().__repr__() + "\n" + str(json.dumps(self.to_json_data(), indent=2))
 
     def to_json_data(self):
-        return dict(Name=self.name, File=self.file)
+        json_data = super().to_json_data()
+        json_data['Name'] = self.name
+        json_data['File'] = self.file
+        return json_data
 
     @classmethod
-    def from_json_data(cls, json_data):
-        return cls(json_data["Name"], json_data["File"])
+    def from_json_data(cls, json_data: dict, project: Project = None) -> 'MRI':
+        return cls(json_data["Name"], json_data["File"], json_data['ID'])
 
 
-class Implantation:
-    def __init__(self, name: str = "", file: str = "", marsAtlas: str = ""):
-        self.name = name
-        self.file = file
-        self.marsAtlas = marsAtlas
+class Coordinate(BaseData):
+    def __init__(self, reference_system: str = "", value: Vector3 = None, ID: str = ""):
+        self.reference_system = reference_system
+        self.value = value
+        super().__init__(ID)
 
     def __repr__(self):
         return super().__repr__() + "\n" + str(json.dumps(self.to_json_data(), indent=2))
 
     def to_json_data(self):
-        return dict(Name=self.name, File=self.file, MarsAtlas=self.marsAtlas)
+        json_data = super().to_json_data()
+        json_data['ReferenceSystem'] = self.reference_system
+        json_data['Value'] = self.value.to_json_data()
+        return json_data
 
     @classmethod
-    def from_json_data(cls, json_data):
-        return cls(json_data["Name"], json_data["File"], json_data["MarsAtlas"])
+    def from_json_data(cls, json_data: dict, project: Project = None) -> 'Coordinate':
+        return cls(json_data["ReferenceSystem"], Vector3.from_json_data(json_data["Value"]), json_data['ID'])
 
 
-class Patient:
-    def __init__(self, name: str = "John Doe", date: int = 0, place: str = "Unknown", meshes: List[Mesh] = None,
-                 MRIs: List[MRI] = None, connectivities=None, implantations: List[Implantation] = None, ID: str = ""):
+class Site(BaseData):
+    def __init__(self, name: str = "", coordinates: List[Coordinate] = None, tags: List[BaseTagValue] = None, ID: str = ""):
+        super().__init__(ID)
+        self.name = name
+        self.coordinates = coordinates if coordinates is not None else []
+        self.tags = tags if tags is not None else []
+
+    def __repr__(self):
+        return super().__repr__() + "\n" + str(json.dumps(self.to_json_data(), indent=2))
+
+    def to_json_data(self):
+        json_data = super().to_json_data()
+        json_data['Name'] = self.name
+        json_data['Coordinates'] = [coordinate.to_json_data() for coordinate in self.coordinates]
+        json_data['Tags'] = [tag.to_json_data() for tag in self.tags]
+        return json_data
+
+    @classmethod
+    def from_json_data(cls, json_data: dict, project: Project = None) -> 'Site':
+        return cls(json_data['Name'],
+                   [Coordinate.from_json_data(coordinate) for coordinate in json_data['Coordinates']],
+                   [BaseTagValue.from_json_data(tag) for tag in json_data['Tags']],
+                   json_data['ID'])
+
+
+class Patient(BaseData):
+    def __init__(self, name: str = "John Doe", date: int = 0, place: str = "Unknown", meshes: List[BaseMesh] = None,
+                 MRIs: List[MRI] = None, sites: List[Site] = None, tags: List[BaseTagValue] = None, ID: str = ""):
         self.name = name
         self.date = date
         self.place = place
         self.meshes = meshes if meshes is not None else []
         self.MRIs = MRIs if MRIs is not None else []
-        self.connectivities = connectivities if connectivities is not None else []
-        self.implantations = implantations if implantations is not None else []
-        self.ID = ID if ID != "" else str(uuid.uuid4())
+        self.sites = sites if sites is not None else []
+        self.tags = tags if tags is not None else []
+        super().__init__(ID)
 
     def __repr__(self):
         return str(super().__repr__()) + "\n" + str(json.dumps(self.to_json_data(), indent=2))
 
-    def to_json_data(self):
-        brain_dictionary = dict(Meshes=[mesh.to_json_data() for mesh in self.meshes],
-                                MRIs=[mri.to_json_data() for mri in self.MRIs],
-                                Connectivities=self.connectivities,
-                                Implantations=[implantation.to_json_data() for implantation in self.implantations])
-        return dict(ID=self.ID, Name=self.name, Date=self.date, Place=self.place, Brain=brain_dictionary)
+    def to_json_data(self) -> dict:
+        json_data = super().to_json_data()
+        json_data['Name'] = self.name
+        json_data['Data'] = self.date
+        json_data['Place'] = self.place
+        json_data['Meshes'] = [mesh.to_json_data() for mesh in self.meshes]
+        json_data['MRIs'] = [mri.to_json_data() for mri in self.MRIs]
+        json_data['Sites'] = [site.to_json_data() for site in self.sites]
+        json_data['Tags'] = [tag.to_json_data() for tag in self.tags]
+        return json_data
 
     def to_json_file(self, json_file: str):
         with open(json_file, "w") as f:
@@ -150,13 +185,12 @@ class Patient:
             return cls.from_json_data(json_data)
 
     @classmethod
-    def from_json_data(cls, json_data) -> 'Patient':
-        brain_dictionary = json_data["Brain"]
+    def from_json_data(cls, json_data: dict, project: Project = None) -> 'Patient':
         return cls(json_data["Name"],
                    json_data["Date"],
                    json_data["Place"],
-                   [Mesh.from_json_data(mesh) for mesh in brain_dictionary["Meshes"]],
-                   [MRI.from_json_data(mri) for mri in brain_dictionary["MRIs"]],
-                   brain_dictionary["Connectivities"],
-                   [Implantation.from_json_data(implantation) for implantation in brain_dictionary["Implantations"]],
+                   [BaseMesh.from_json_data(mesh) for mesh in json_data["Meshes"]],
+                   [MRI.from_json_data(mri) for mri in json_data["MRIs"]],
+                   [Site.from_json_data(site) for site in json_data["Sites"]],
+                   [BaseTagValue.from_json_data(tag) for tag in json_data["Tags"]],
                    json_data["ID"])
