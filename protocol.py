@@ -1,28 +1,33 @@
 import json
 from tools import Window, BaseData
 from typing import List
-from project import Project
+import enum
+
+
+class EventType(enum.Enum):
+    Main = 0
+    Secondary = 1
 
 
 class Event(BaseData):
-    def __init__(self, name: str = "", codes: List[int] = None, type_enum: int = 0, ID: str = ""):
+    def __init__(self, name: str = "", codes: List[int] = None, event_type: EventType = EventType.Main, ID: str = ""):
         super().__init__(ID)
         self.name = name
         self.codes = codes if codes is not None else []
-        self.type_enum = type_enum
+        self.event_type = event_type
 
     def to_json_data(self):
         json_data = super().to_json_data()
         json_data['Name'] = self.name
         json_data['Codes'] = self.codes
-        json_data['Type'] = self.type_enum
+        json_data['Type'] = self.event_type.value
         return json_data
 
     @classmethod
-    def from_json_data(cls, json_data: dict, project: Project = None) -> 'Event':
+    def from_json_data(cls, json_data: dict) -> 'Event':
         return cls(json_data["Name"],
                    json_data["Codes"],
-                   json_data["Type"],
+                   EventType(json_data["Type"]),
                    json_data['ID'])
 
 
@@ -41,19 +46,20 @@ class Icon(BaseData):
         return json_data
 
     @classmethod
-    def from_json_data(cls, json_data: dict, project: Project = None) -> 'Icon':
+    def from_json_data(cls, json_data: dict) -> 'Icon':
         return cls(json_data["Name"],
                    json_data["IllustrationPath"],
-                   Window.from_json_data(json_data["Window"]))
+                   Window.from_json_data(json_data["Window"]),
+                   json_data['ID'])
 
 
 class Treatment(BaseData):
     def __init__(self, use_on_window: bool = True, window: Window = None, use_on_baseline: bool = True, baseline: Window = None, order: int = 0, ID: str = ""):
         super().__init__(ID)
         self.use_on_window = use_on_window
-        self.window = window
+        self.window = window if window is not None else Window()
         self.use_on_baseline = use_on_baseline
-        self.baseline = baseline
+        self.baseline = baseline if baseline is not None else Window()
         self.order = order
 
     def to_json_data(self) -> dict:
@@ -66,7 +72,7 @@ class Treatment(BaseData):
         return json_data
 
     @classmethod
-    def from_json_data(cls, json_data: dict, project: Project = None) -> 'Treatment':
+    def from_json_data(cls, json_data: dict) -> 'Treatment':
         class_type = json_data["$type"]
         result = None
         if class_type == "HBP.Data.Experience.Protocol.AbsTreatment, Assembly-CSharp":
@@ -96,12 +102,13 @@ class AbsTreatment(Treatment):
         super().__init__(use_on_window, window, use_on_baseline, baseline, order, ID)
 
     def to_json_data(self) -> dict:
-        json_data = super().to_json_data()
+        json_data = dict()
         json_data["$type"] = "HBP.Data.Experience.Protocol.AbsTreatment, Assembly-CSharp"
+        json_data.update(super().to_json_data())
         return json_data
 
     @classmethod
-    def from_json_data(cls, json_data: dict, project: Project = None) -> 'AbsTreatment':
+    def from_json_data(cls, json_data: dict) -> 'AbsTreatment':
         return cls(json_data["UseOnWindow"],
                    Window.from_json_data(json_data["Window"]),
                    json_data["UseOnBaseline"],
@@ -121,16 +128,17 @@ class ClampTreatment(Treatment):
         self.max_value = max_value
 
     def to_json_data(self) -> dict:
-        json_data = super().to_json_data()
+        json_data = dict()
+        json_data["$type"] = "HBP.Data.Experience.Protocol.ClampTreatment, Assembly-CSharp"
+        json_data.update(super().to_json_data())
         json_data['UseMinClamp'] = self.use_min_clamp
         json_data['Min'] = self.min_value
         json_data['UseMaxClamp'] = self.use_max_clamp
         json_data['Max'] = self.max_value
-        json_data["$type"] = "HBP.Data.Experience.Protocol.ClampTreatment, Assembly-CSharp"
         return json_data
 
     @classmethod
-    def from_json_data(cls, json_data: dict, project: Project = None) -> 'ClampTreatment':
+    def from_json_data(cls, json_data: dict) -> 'ClampTreatment':
         return cls(json_data["UseOnWindow"],
                    Window.from_json_data(json_data["Window"]),
                    json_data["UseOnBaseline"],
@@ -150,13 +158,14 @@ class FactorTreatment(Treatment):
         self.factor = factor
 
     def to_json_data(self) -> dict:
-        json_data = super().to_json_data()
-        json_data['Factor'] = self.factor
+        json_data = dict()
         json_data["$type"] = "HBP.Data.Experience.Protocol.FactorTreatment, Assembly-CSharp"
+        json_data.update(super().to_json_data())
+        json_data['Factor'] = self.factor
         return json_data
 
     @classmethod
-    def from_json_data(cls, json_data: dict, project: Project = None) -> 'FactorTreatment':
+    def from_json_data(cls, json_data: dict) -> 'FactorTreatment':
         return cls(json_data["UseOnWindow"],
                    Window.from_json_data(json_data["Window"]),
                    json_data["UseOnBaseline"],
@@ -172,12 +181,13 @@ class MaxTreatment(Treatment):
         super().__init__(use_on_window, window, use_on_baseline, baseline, order, ID)
 
     def to_json_data(self) -> dict:
-        json_data = super().to_json_data()
+        json_data = dict()
         json_data["$type"] = "HBP.Data.Experience.Protocol.MaxTreatment, Assembly-CSharp"
+        json_data.update(super().to_json_data())
         return json_data
 
     @classmethod
-    def from_json_data(cls, json_data: dict, project: Project = None) -> 'MaxTreatment':
+    def from_json_data(cls, json_data: dict) -> 'MaxTreatment':
         return cls(json_data["UseOnWindow"],
                    Window.from_json_data(json_data["Window"]),
                    json_data["UseOnBaseline"],
@@ -192,12 +202,13 @@ class MeanTreatment(Treatment):
         super().__init__(use_on_window, window, use_on_baseline, baseline, order, ID)
 
     def to_json_data(self) -> dict:
-        json_data = super().to_json_data()
+        json_data = dict()
         json_data["$type"] = "HBP.Data.Experience.Protocol.MeanTreatment, Assembly-CSharp"
+        json_data.update(super().to_json_data())
         return json_data
 
     @classmethod
-    def from_json_data(cls, json_data: dict, project: Project = None) -> 'MeanTreatment':
+    def from_json_data(cls, json_data: dict) -> 'MeanTreatment':
         return cls(json_data["UseOnWindow"],
                    Window.from_json_data(json_data["Window"]),
                    json_data["UseOnBaseline"],
@@ -212,12 +223,13 @@ class MedianTreatment(Treatment):
         super().__init__(use_on_window, window, use_on_baseline, baseline, order, ID)
 
     def to_json_data(self) -> dict:
-        json_data = super().to_json_data()
+        json_data = dict()
         json_data["$type"] = "HBP.Data.Experience.Protocol.MedianTreatment, Assembly-CSharp"
+        json_data.update(super().to_json_data())
         return json_data
 
     @classmethod
-    def from_json_data(cls, json_data: dict, project: Project = None) -> 'MedianTreatment':
+    def from_json_data(cls, json_data: dict) -> 'MedianTreatment':
         return cls(json_data["UseOnWindow"],
                    Window.from_json_data(json_data["Window"]),
                    json_data["UseOnBaseline"],
@@ -232,12 +244,13 @@ class MinTreatment(Treatment):
         super().__init__(use_on_window, window, use_on_baseline, baseline, order, ID)
 
     def to_json_data(self) -> dict:
-        json_data = super().to_json_data()
+        json_data = dict()
         json_data["$type"] = "HBP.Data.Experience.Protocol.MinTreatment, Assembly-CSharp"
+        json_data.update(super().to_json_data())
         return json_data
 
     @classmethod
-    def from_json_data(cls, json_data: dict, project: Project = None) -> 'MinTreatment':
+    def from_json_data(cls, json_data: dict) -> 'MinTreatment':
         return cls(json_data["UseOnWindow"],
                    Window.from_json_data(json_data["Window"]),
                    json_data["UseOnBaseline"],
@@ -253,13 +266,14 @@ class OffsetTreatment(Treatment):
         self.offset = offset
 
     def to_json_data(self) -> dict:
-        json_data = super().to_json_data()
+        json_data = dict()
         json_data["$type"] = "HBP.Data.Experience.Protocol.OffsetTreatment, Assembly-CSharp"
+        json_data.update(super().to_json_data())
         json_data['Offset'] = self.offset
         return json_data
 
     @classmethod
-    def from_json_data(cls, json_data: dict, project: Project = None) -> 'OffsetTreatment':
+    def from_json_data(cls, json_data: dict) -> 'OffsetTreatment':
         return cls(json_data["UseOnWindow"],
                    Window.from_json_data(json_data["Window"]),
                    json_data["UseOnBaseline"],
@@ -280,8 +294,9 @@ class RescaleTreatment(Treatment):
         self.after_max = after_max
 
     def to_json_data(self) -> dict:
-        json_data = super().to_json_data()
+        json_data = dict()
         json_data["$type"] = "HBP.Data.Experience.Protocol.RescaleTreatment, Assembly-CSharp"
+        json_data.update(super().to_json_data())
         json_data['BeforeMin'] = self.before_min
         json_data['BeforeMax'] = self.before_max
         json_data['AfterMin'] = self.after_min
@@ -289,7 +304,7 @@ class RescaleTreatment(Treatment):
         return json_data
 
     @classmethod
-    def from_json_data(cls, json_data: dict, project: Project = None) -> 'RescaleTreatment':
+    def from_json_data(cls, json_data: dict) -> 'RescaleTreatment':
         return cls(json_data["UseOnWindow"],
                    Window.from_json_data(json_data["Window"]),
                    json_data["UseOnBaseline"],
@@ -302,25 +317,30 @@ class RescaleTreatment(Treatment):
                    json_data["ID"])
 
 
+class SubBlocType(enum.Enum):
+    Main = 0
+    Secondary = 1
+
+
 class SubBloc(BaseData):
-    def __init__(self, name: str = "", order: int = 0, type_enum: int = 0,
+    def __init__(self, name: str = "", order: int = 0, subBloc_type: SubBlocType = 0,
                  window: Window = None, baseline: Window = None, events: List[Event] = None,
                  icons: List[Icon] = None, treatments: List[Treatment] = None, ID: str = ""):
         super().__init__(ID)
         self.name = name
         self.order = order
-        self.type_enum = type_enum
+        self.subBloc_type = subBloc_type
         self.window = window if window is not None else Window()
         self.baseline = baseline if baseline is not None else Window()
         self.events = events if events is not None else []
-        self.icons = icons if events is not None else []
+        self.icons = icons if icons is not None else []
         self.treatments = treatments if treatments is not None else []
 
     def to_json_data(self) -> dict:
         json_data = super().to_json_data()
         json_data['Name'] = self.name
         json_data['Order'] = self.order
-        json_data['Type'] = self.type_enum
+        json_data['Type'] = self.subBloc_type.value
         json_data['Window'] = self.window.to_json_data()
         json_data['Baseline'] = self.baseline.to_json_data()
         json_data['Events'] = [event.to_json_data() for event in self.events]
@@ -329,10 +349,10 @@ class SubBloc(BaseData):
         return json_data
 
     @classmethod
-    def from_json_data(cls, json_data: dict, project: Project = None) -> 'SubBloc':
+    def from_json_data(cls, json_data: dict) -> 'SubBloc':
         return cls(json_data["Name"],
                    json_data["Order"],
-                   json_data["Type"],
+                   SubBlocType(json_data["Type"]),
                    Window.from_json_data(json_data["Window"]),
                    Window.from_json_data(json_data["Baseline"]),
                    [Event.from_json_data(event) for event in json_data["Events"]],
@@ -361,7 +381,7 @@ class Bloc(BaseData):
         return json_data
 
     @classmethod
-    def from_json_data(cls, json_data, project: Project = None) -> 'Bloc':
+    def from_json_data(cls, json_data: dict) -> 'Bloc':
         return cls(json_data["Name"],
                    json_data["Order"],
                    json_data["IllustrationPath"],
@@ -375,9 +395,6 @@ class Protocol(BaseData):
         super().__init__(ID)
         self.name = name
         self.blocs = blocs if blocs is not None else []
-
-    def __repr__(self):
-        return str(super().__repr__()) + "\n" + str(json.dumps(self.to_json_data(), indent=2))
 
     def to_json_data(self) -> dict:
         json_data = super().to_json_data()
@@ -395,7 +412,7 @@ class Protocol(BaseData):
             return cls.from_json_data(json.load(f))
 
     @classmethod
-    def from_json_data(cls, json_data: dict, project: Project = None) -> 'Protocol':
+    def from_json_data(cls, json_data: dict) -> 'Protocol':
         return cls(json_data["Name"],
                    [Bloc.from_json_data(bloc) for bloc in json_data["Blocs"]],
                    json_data["ID"])

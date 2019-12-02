@@ -1,9 +1,8 @@
 import json
 import abc
-from settings import BaseTagValue
+from settings import BaseTagValue, BaseTag
 from tools import Vector3, BaseData
 from typing import List
-from project import Project
 
 
 class BaseMesh(BaseData):
@@ -20,7 +19,7 @@ class BaseMesh(BaseData):
         return json_data
 
     @classmethod
-    def from_json_data(cls, json_data: dict, project: Project = None) -> 'BaseMesh':
+    def from_json_data(cls, json_data: dict) -> 'BaseMesh':
         class_type = json_data["$type"]
         result = None
         if class_type == "HBP.Data.LeftRightMesh, Assembly-CSharp":
@@ -40,12 +39,10 @@ class LeftRightMesh(BaseMesh):
         self.right_marsAtlas_hemisphere = right_marsAtlas_hemisphere
         super().__init__(name, transformation, ID)
 
-    def __repr__(self):
-        return super().__repr__() + "\n" + str(json.dumps(self.to_json_data(), indent=2))
-
     def to_json_data(self):
-        json_data = super().to_json_data()
-        json_data["&type"] = "HBP.Data.LeftRightMesh, Assembly-CSharp"
+        json_data = dict()
+        json_data["$type"] = "HBP.Data.LeftRightMesh, Assembly-CSharp"
+        json_data.update(super().to_json_data())
         json_data["LeftHemisphere"] = self.left_hemisphere_mesh
         json_data["RightHemisphere"] = self.right_hemisphere_mesh
         json_data["LeftMarsAtlasHemisphere"] = self.left_marsAtlas_hemisphere
@@ -53,11 +50,14 @@ class LeftRightMesh(BaseMesh):
         return json_data
 
     @classmethod
-    def from_json_data(cls, json_data: dict, project: Project = None) -> 'LeftRightMesh':
-        result = cls(json_data["Name"], json_data["LeftHemisphere"], json_data["RightHemisphere"],
-                     json_data["LeftMarsAtlasHemisphere"], json_data["RightMarsAtlasHemisphere"],
-                     json_data["Transformation"], json_data["ID"])
-        return result
+    def from_json_data(cls, json_data: dict) -> 'LeftRightMesh':
+        return cls(json_data["Name"],
+                   json_data["LeftHemisphere"],
+                   json_data["RightHemisphere"],
+                   json_data["LeftMarsAtlasHemisphere"],
+                   json_data["RightMarsAtlasHemisphere"],
+                   json_data["Transformation"],
+                   json_data["ID"])
 
 
 class SingleMesh(BaseMesh):
@@ -66,21 +66,21 @@ class SingleMesh(BaseMesh):
         self.marsAtlas = marsAtlas
         super().__init__(name, transformation, ID)
 
-    def __repr__(self):
-        return super().__repr__() + "\n" + str(json.dumps(self.to_json_data(), indent=2))
-
     def to_json_data(self):
-        json_data = super().to_json_data()
-        json_data["&type"] = "HBP.Data.SingleMesh, Assembly-CSharp"
+        json_data = dict()
+        json_data["$type"] = "HBP.Data.SingleMesh, Assembly-CSharp"
+        json_data.update(super().to_json_data())
         json_data["Mesh"] = self.mesh
         json_data["MarsAtlas"] = self.marsAtlas
         return json_data
 
     @classmethod
-    def from_json_data(cls, json_data: dict, project: Project = None) -> 'SingleMesh':
-        result = cls(json_data["Name"], json_data["Mesh"], json_data["MarsAtlas"],
-                     json_data["Transformation"], json_data["ID"])
-        return result
+    def from_json_data(cls, json_data: dict) -> 'SingleMesh':
+        return cls(json_data["Name"],
+                   json_data["Mesh"],
+                   json_data["MarsAtlas"],
+                   json_data["Transformation"],
+                   json_data["ID"])
 
 
 class MRI(BaseData):
@@ -89,9 +89,6 @@ class MRI(BaseData):
         self.file = file
         super().__init__(ID)
 
-    def __repr__(self):
-        return super().__repr__() + "\n" + str(json.dumps(self.to_json_data(), indent=2))
-
     def to_json_data(self):
         json_data = super().to_json_data()
         json_data['Name'] = self.name
@@ -99,8 +96,10 @@ class MRI(BaseData):
         return json_data
 
     @classmethod
-    def from_json_data(cls, json_data: dict, project: Project = None) -> 'MRI':
-        return cls(json_data["Name"], json_data["File"], json_data['ID'])
+    def from_json_data(cls, json_data: dict) -> 'MRI':
+        return cls(json_data["Name"],
+                   json_data["File"],
+                   json_data['ID'])
 
 
 class Coordinate(BaseData):
@@ -109,9 +108,6 @@ class Coordinate(BaseData):
         self.value = value
         super().__init__(ID)
 
-    def __repr__(self):
-        return super().__repr__() + "\n" + str(json.dumps(self.to_json_data(), indent=2))
-
     def to_json_data(self):
         json_data = super().to_json_data()
         json_data['ReferenceSystem'] = self.reference_system
@@ -119,7 +115,7 @@ class Coordinate(BaseData):
         return json_data
 
     @classmethod
-    def from_json_data(cls, json_data: dict, project: Project = None) -> 'Coordinate':
+    def from_json_data(cls, json_data: dict) -> 'Coordinate':
         return cls(json_data["ReferenceSystem"], Vector3.from_json_data(json_data["Value"]), json_data['ID'])
 
 
@@ -130,9 +126,6 @@ class Site(BaseData):
         self.coordinates = coordinates if coordinates is not None else []
         self.tags = tags if tags is not None else []
 
-    def __repr__(self):
-        return super().__repr__() + "\n" + str(json.dumps(self.to_json_data(), indent=2))
-
     def to_json_data(self):
         json_data = super().to_json_data()
         json_data['Name'] = self.name
@@ -141,16 +134,17 @@ class Site(BaseData):
         return json_data
 
     @classmethod
-    def from_json_data(cls, json_data: dict, project: Project = None) -> 'Site':
+    def from_json_data(cls, json_data: dict, tags: List[BaseTag] = None) -> 'Site':
         return cls(json_data['Name'],
                    [Coordinate.from_json_data(coordinate) for coordinate in json_data['Coordinates']],
-                   [BaseTagValue.from_json_data(tag) for tag in json_data['Tags']],
+                   [BaseTagValue.from_json_data(tagID, tags) for tagID in json_data['Tags']],
                    json_data['ID'])
 
 
 class Patient(BaseData):
     def __init__(self, name: str = "John Doe", date: int = 0, place: str = "Unknown", meshes: List[BaseMesh] = None,
                  MRIs: List[MRI] = None, sites: List[Site] = None, tags: List[BaseTagValue] = None, ID: str = ""):
+        super().__init__(ID)
         self.name = name
         self.date = date
         self.place = place
@@ -158,15 +152,11 @@ class Patient(BaseData):
         self.MRIs = MRIs if MRIs is not None else []
         self.sites = sites if sites is not None else []
         self.tags = tags if tags is not None else []
-        super().__init__(ID)
-
-    def __repr__(self):
-        return str(super().__repr__()) + "\n" + str(json.dumps(self.to_json_data(), indent=2))
 
     def to_json_data(self) -> dict:
         json_data = super().to_json_data()
         json_data['Name'] = self.name
-        json_data['Data'] = self.date
+        json_data['Date'] = self.date
         json_data['Place'] = self.place
         json_data['Meshes'] = [mesh.to_json_data() for mesh in self.meshes]
         json_data['MRIs'] = [mri.to_json_data() for mri in self.MRIs]
@@ -179,18 +169,18 @@ class Patient(BaseData):
             json.dump(self.to_json_data(), f, indent=2)
 
     @classmethod
-    def from_json_file(cls, json_file: str) -> 'Patient':
+    def from_json_file(cls, json_file: str, tags: List[BaseTag] = None) -> 'Patient':
         with open(json_file, "r") as f:
             json_data = json.load(f)
-            return cls.from_json_data(json_data)
+            return cls.from_json_data(json_data, tags)
 
     @classmethod
-    def from_json_data(cls, json_data: dict, project: Project = None) -> 'Patient':
+    def from_json_data(cls, json_data: dict, tags: List[BaseTag] = None) -> 'Patient':
         return cls(json_data["Name"],
                    json_data["Date"],
                    json_data["Place"],
                    [BaseMesh.from_json_data(mesh) for mesh in json_data["Meshes"]],
                    [MRI.from_json_data(mri) for mri in json_data["MRIs"]],
-                   [Site.from_json_data(site) for site in json_data["Sites"]],
-                   [BaseTagValue.from_json_data(tag) for tag in json_data["Tags"]],
+                   [Site.from_json_data(site, tags) for site in json_data["Sites"]],
+                   [BaseTagValue.from_json_data(tag, tags) for tag in json_data["Tags"]],
                    json_data["ID"])

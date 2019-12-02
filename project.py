@@ -1,7 +1,7 @@
 import zipfile
 import os
 import shutil
-from settings import Settings
+from settings import ProjectPreferences
 from patient import Patient
 from group import Group
 from protocol import Protocol
@@ -14,10 +14,10 @@ from typing import List
 class Project:
     """description of class"""
 
-    def __init__(self, settings: Settings, patients: List[Patient] = None,
+    def __init__(self, preferences: ProjectPreferences, patients: List[Patient] = None,
                  groups: List[Group] = None, protocols: List[Protocol] = None,
                  datasets: List[Dataset] = None, visualizations: List[Visualization] = None):
-        self.settings = settings
+        self.preferences = preferences
         self.patients = patients if patients is not None else []
         self.groups = groups if groups is not None else []
         self.protocols = protocols if protocols is not None else []
@@ -26,7 +26,7 @@ class Project:
 
     def save(self, path):
         # General
-        project_directory_path = path + os.altsep + self.settings.name
+        project_directory_path = path + os.altsep + self.preferences.name
         try:
             if os.path.exists(project_directory_path):
                 shutil.rmtree(project_directory_path)
@@ -36,10 +36,10 @@ class Project:
         else:
             print("Successfully created the directory %s " % project_directory_path)
 
-            # Settings
-            settings_path = project_directory_path + os.altsep + self.settings.name + ".settings"
+            # Project Preferences
+            settings_path = project_directory_path + os.altsep + self.preferences.name + ".settings"
             try:
-                self.settings.to_json_file(settings_path)
+                self.preferences.to_json_file(settings_path)
             except OSError:
                 print("Creation of the file %s failed" % settings_path)
             else:

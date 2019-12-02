@@ -1,18 +1,21 @@
 import abc
 import uuid
-from project import Project
+import json
 
 
 class BaseData(abc.ABC):
     def __init__(self, ID: str = ""):
         self.ID = ID if ID != "" else str(uuid.uuid4())
 
+    def __repr__(self):
+        return str(super().__repr__()) + "\n" + str(json.dumps(self.to_json_data(), indent=2))
+
     @abc.abstractmethod
     def to_json_data(self) -> dict:
         return dict(ID=self.ID)
 
     @classmethod
-    def from_json_data(cls, json_data, project: Project = None) -> 'BaseData':
+    def from_json_data(cls, json_data) -> 'BaseData':
         pass
 
 
@@ -51,11 +54,12 @@ class Window:
         self.end = end
 
     def to_json_data(self) -> dict:
-        return dict(start=self.start, end=self.end)
+        return dict(Start=self.start, End=self.end)
 
     @classmethod
     def from_json_data(cls, json_data: dict) -> 'Window':
-        return cls(json_data["Start"], json_data["End"])
+        return cls(json_data["Start"],
+                   json_data["End"])
 
 
 class Sphere:
@@ -68,7 +72,7 @@ class Sphere:
 
     @classmethod
     def from_json_data(cls, json_data: dict) -> 'Sphere':
-        return cls(json_data["Position"], json_data["Radius"])
+        return cls(Vector3.from_json_data(json_data["Position"]), json_data["Radius"])
 
 
 class Color:

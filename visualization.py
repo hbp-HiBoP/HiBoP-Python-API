@@ -2,32 +2,35 @@ from typing import List
 from patient import Patient
 from dataset import Dataset
 from protocol import Bloc
-import json
 from tools import *
+import enum
 import abc
 
 
-class SiteConfiguration:
+class SiteConfiguration(BaseData):
     def __init__(self, is_blacklisted: bool = False, is_highlighted: bool = False,
-                 color: Color = None, labels: List[str] = None):
+                 color: Color = None, labels: List[str] = None, ID: str = ""):
+        super().__init__(ID)
         self.is_blacklisted = is_blacklisted
         self.is_highlighted = is_highlighted
         self.color = color
         self.labels = labels if labels is not None else []
 
-    def __repr__(self):
-        return super().__repr__() + "\n" + str(json.dumps(self.to_json_data(), indent=2))
-
     def to_json_data(self) -> dict:
-        return dict(IsBlacklisted=self.is_blacklisted,
-                    IsHighlighted=self.is_highlighted,
-                    Color=self.color.to_json_data(),
-                    Labels=self.labels)
+        json_data = super().to_json_data()
+        json_data['IsBlacklisted'] = self.is_blacklisted
+        json_data['IsHighlighted'] = self.is_highlighted
+        json_data['Color'] = self.color.to_json_data()
+        json_data['Labels'] = self.labels
+        return json_data
 
     @classmethod
-    def from_json_data(cls, json_data) -> 'SiteConfiguration':
-        return cls(json_data["IsBlacklisted"], json_data["IsHighlighted"],
-                   Color.from_json_data(json_data["Color"]), json_data["Labels"])
+    def from_json_data(cls, json_data: dict) -> 'SiteConfiguration':
+        return cls(json_data["IsBlacklisted"],
+                   json_data["IsHighlighted"],
+                   Color.from_json_data(json_data["Color"]),
+                   json_data["Labels"],
+                   json_data['ID'])
 
 
 class RegionOfInterest:
@@ -46,37 +49,31 @@ class RegionOfInterest:
         return cls(json_data["Name"], [Sphere.from_json_data(sphere) for sphere in json_data["Spheres"]])
 
 
-class BaseConfiguration:
-    def __init__(self, site_size: int = 0, region_of_interest=None, configuration_by_site=None):
+class BaseConfiguration(BaseData):
+    def __init__(self, site_size: int = 0, regions_of_interest: List[RegionOfInterest] = None, configuration_by_site=None, ID: str = ""):
+        super().__init__(ID)
         self.site_size = site_size
-        self.region_of_interest = region_of_interest if region_of_interest is not None else []
+        self.regions_of_interest = regions_of_interest if regions_of_interest is not None else []
         self.configuration_by_site = configuration_by_site if configuration_by_site is not None else {}
 
-    def __repr__(self):
-        return super().__repr__() + "\n" + str(json.dumps(self.to_json_data(), indent=2))
-
     def to_json_data(self) -> dict:
-        configuration_by_site = dict()
-        for key in self.configuration_by_site:
-            configuration_by_site[key] = self.configuration_by_site[key].to_json_data()
-        return dict(SiteSize=self.site_size,
-                    RegionOfInterest=[roi.to_json_data() for roi in self.region_of_interest],
-                    ConfigurationBySite=configuration_by_site)
+        json_data = super().to_json_data()
+        json_data['SiteSize'] = self.site_size
+        json_data['RegionsOfInterest'] = [region_of_interest.to_json_data() for region_of_interest in self.regions_of_interest]
+        json_data['ConfigurationBySite'] = {key: self.configuration_by_site[key].to_json_data() for key in self.configuration_by_site.keys()}
+        return json_data
 
     @classmethod
     def from_json_data(cls, json_data) -> 'BaseConfiguration':
-        configuration_by_site = json_data["ConfigurationBySite"]
-        for key in configuration_by_site:
-            configuration_by_site[key] = SiteConfiguration.from_json_data(configuration_by_site[key])
-        result = cls(json_data["SiteSize"],
-                     [RegionOfInterest.from_json_data(roi) for roi in json_data["RegionsOfInterest"]],
-                     configuration_by_site)
-        return result
+        return cls(json_data["SiteSize"],
+                   [RegionOfInterest.from_json_data(roi) for roi in json_data["RegionsOfInterest"]],
+                   {key: SiteConfiguration.from_json_data(json_data["ConfigurationBySite"][key]) for key in json_data["ConfigurationBySite"].keys()})
 
 
-class IEEGConfiguration:
+class DynamicConfiguration(BaseData):
     def __init__(self, site_gain: float = 1.0, site_maximum_influence: float = 15.0, transparency: float = 0.8,
-                 span_min: float = 0, middle: float = 0.5, span_max: float = 1.0):
+                 span_min: float = 0, middle: float = 0.5, span_max: float = 1.0, ID: str = ""):
+        super().__init__(ID)
         self.site_gain = site_gain
         self.site_maximum_influence = site_maximum_influence
         self.transparency = transparency
@@ -84,11 +81,8 @@ class IEEGConfiguration:
         self.middle = middle
         self.span_max = span_max
 
-    def __repr__(self):
-        return super().__repr__() + "\n" + str(json.dumps(self.to_json_data(), indent=2))
-
     def to_json_data(self) -> dict:
-        result = dict()
+        result = super().to_json_data()
         result["Site Gain"] = self.site_gain
         result["Site Maximum Influence"] = self.site_maximum_influence
         result["Transparency"] = self.transparency
@@ -98,64 +92,49 @@ class IEEGConfiguration:
         return result
 
     @classmethod
-    def from_json_data(cls, json_data) -> 'IEEGConfiguration':
-        return cls(json_data["Site Gain"], json_data["Site Maximum Influence"], json_data["Transparency"],
-                   json_data["Span Min"], json_data["Middle"], json_data["Span Max"])
+    def from_json_data(cls, json_data) -> 'DynamicConfiguration':
+        return cls(json_data["Site Gain"],
+                   json_data["Site Maximum Influence"],
+                   json_data["Transparency"],
+                   json_data["Span Min"],
+                   json_data["Middle"],
+                   json_data["Span Max"],
+                   json_data["ID"])
 
 
-class AnatomicConfiguration:
-    def __init__(self):
-        pass
-
-    def __repr__(self):
-        return super().__repr__() + "\n" + str(json.dumps(self.to_json_data(), indent=2))
+class AnatomicConfiguration(BaseData):
+    def __init__(self, ID: str = ""):
+        super().__init__(ID)
 
     def to_json_data(self) -> dict:
-        result = dict()
-        return result
+        return super().to_json_data()
 
     @classmethod
     def from_json_data(cls, json_data) -> 'AnatomicConfiguration':
-        return cls()
+        return cls(json_data['ID'])
 
 
-class CCEPConfiguration:
-    def __init__(self):
-        pass
-
-    def __repr__(self):
-        return super().__repr__() + "\n" + str(json.dumps(self.to_json_data(), indent=2))
-
-    def to_json_data(self) -> dict:
-        result = dict()
-        return result
-
-    @classmethod
-    def from_json_data(cls, json_data) -> 'CCEPConfiguration':
-        return cls()
-
-
-class Column(abc.ABC):
-    def __init__(self, name: str = "", base_configuration=None):
+class Column(BaseData):
+    def __init__(self, name: str = "", base_configuration: BaseConfiguration = None, ID: str = ""):
+        super().__init__(ID)
         self.name = name
         self.base_configuration = base_configuration
-        pass
-
-    def __repr__(self):
-        return super().__repr__() + "\n" + str(json.dumps(self.to_json_data(), indent=2))
 
     @abc.abstractmethod
     def to_json_data(self):
-        pass
+        json_data = super().to_json_data()
+        json_data['Name'] = self.name
+        json_data['BaseConfiguration'] = self.base_configuration.to_json_data()
+        return json_data
 
     @classmethod
-    def from_json_data(cls, json_data, project_datasets: List[Dataset]):
+    def from_json_data(cls, json_data: dict, datasets: List[Dataset] = None) -> 'Column':
         class_type = json_data["$type"]
         result = None
         if class_type == "HBP.Data.Visualization.IEEGColumn, Assembly-CSharp":
-            result = IEEGColumn.from_json_data(json_data, project_datasets)
+            result = IEEGColumn.from_json_data(json_data, datasets)
         elif class_type == "HBP.Data.Visualization.CCEPColumn, Assembly-CSharp":
-            result = CCEPColumn.from_json_data(json_data, project_datasets)
+            result = CCEPColumn.from_json_data(json_data, datasets)
         elif class_type == "HBP.Data.Visualization.AnatomicColumn, Assembly-CSharp":
             result = AnatomicColumn.from_json_data(json_data)
         return result
@@ -163,95 +142,85 @@ class Column(abc.ABC):
 
 class IEEGColumn(Column):
     def __init__(self, name: str = "", base_configuration: BaseConfiguration = None, dataset: Dataset = None,
-                 data: str = "", bloc: Bloc = None, iEEG_configuration: IEEGConfiguration = None):
-        super().__init__(name, base_configuration)
+                 data: str = "", bloc: Bloc = None, dynamic_configuration: DynamicConfiguration = None, ID: str = ""):
+        super().__init__(name, base_configuration, ID)
         self.dataset = dataset
         self.data = data
         self.bloc = bloc
-        self.iEEG_configuration = iEEG_configuration
-
-    def __repr__(self):
-        return super().__repr__() + "\n" + str(json.dumps(self.to_json_data(), indent=2))
+        self.dynamic_configuration = dynamic_configuration
 
     def to_json_data(self) -> dict:
-        result = dict()
-        result["$type"] = "HBP.Data.Visualization.IEEGColumn, Assembly-CSharp"
-        result["Name"] = self.name
-        result["BaseConfiguration"] = self.base_configuration.to_json_data()
-        result["Dataset"] = self.dataset.ID
-        result["Bloc"] = self.bloc.ID
-        result["DataName"] = self.data
-        result["IEEGConfiguration"] = self.iEEG_configuration.to_json_data()
-        return result
+        json_data = dict()
+        json_data["$type"] = "HBP.Data.Visualization.IEEGColumn, Assembly-CSharp"
+        json_data.update(super().to_json_data())
+        json_data["Dataset"] = self.dataset.ID
+        json_data["DataName"] = self.data
+        json_data["Bloc"] = self.bloc.ID
+        json_data["DynamicConfiguration"] = self.dynamic_configuration.to_json_data()
+        return json_data
 
     @classmethod
-    def from_json_data(cls, json_data, project_datasets: List[Dataset]) -> 'IEEGColumn':
-        dataset = next(dataset for dataset in project_datasets if dataset.ID == json_data["Dataset"])
-        result = cls(json_data["Name"], BaseConfiguration.from_json_data(json_data["BaseConfiguration"]),
-                     dataset, json_data["DataName"],
-                     next(bloc for bloc in dataset.protocol.blocs if bloc.ID == json_data["Bloc"]),
-                     IEEGConfiguration.from_json_data(json_data["IEEGConfiguration"]))
-        return result
+    def from_json_data(cls, json_data: dict, datasets: List[Dataset] = None) -> 'IEEGColumn':
+        dataset = next(dataset for dataset in datasets if dataset.ID == json_data["Dataset"])
+        return cls(json_data["Name"],
+                   BaseConfiguration.from_json_data(json_data["BaseConfiguration"]),
+                   dataset,
+                   json_data["DataName"],
+                   next(bloc for bloc in dataset.protocol.blocs if bloc.ID == json_data["Bloc"]),
+                   DynamicConfiguration.from_json_data(json_data["DynamicConfiguration"]),
+                   json_data['ID'])
 
 
 class CCEPColumn(Column):
-    def __init__(self, name, base_configuration, dataset, data, bloc, CCEP_configuration):
-        super().__init__(name, base_configuration)
+    def __init__(self, name: str = '', base_configuration: BaseConfiguration = None, dataset: Dataset = None, data: str = '', bloc: Bloc = None, dynamic_configuration: DynamicConfiguration = None, ID: str = ""):
+        super().__init__(name, base_configuration, ID)
         self.dataset = dataset
         self.data = data
         self.bloc = bloc
-        self.CCEP_configuration = CCEP_configuration
-
-    def __repr__(self):
-        return super().__repr__() + "\n" + str(json.dumps(self.to_json_data(), indent=2))
+        self.dynamic_configuration = dynamic_configuration
 
     def to_json_data(self) -> dict:
-        result = dict()
-        result["$type"] = "HBP.Data.Visualization.CCEPColumn, Assembly-CSharp"
-        result["Name"] = self.name
-        result["BaseConfiguration"] = self.base_configuration.to_json_data()
-        result["Dataset"] = self.dataset.ID
-        result["Bloc"] = self.bloc.ID
-        result["DataName"] = self.data
-        result["CCEPConfiguration"] = self.CCEP_configuration.to_json_data()
-        return result
+        json_data = dict()
+        json_data["$type"] = "HBP.Data.Visualization.CCEPColumn, Assembly-CSharp"
+        json_data.update(super().to_json_data())
+        json_data["Dataset"] = self.dataset.ID
+        json_data["Bloc"] = self.bloc.ID
+        json_data["DataName"] = self.data
+        json_data["DynamicConfiguration"] = self.dynamic_configuration.to_json_data()
+        return json_data
 
     @classmethod
-    def from_json_data(cls, json_data, project_datasets: List[Dataset] = None) -> 'CCEPColumn':
-        dataset = next(dataset for dataset in project_datasets if dataset.ID == json_data["Dataset"])
+    def from_json_data(cls, json_data: dict, datasets: List[Dataset] = None) -> 'CCEPColumn':
+        dataset = next(dataset for dataset in datasets if dataset.ID == json_data["Dataset"])
         bloc = next(bloc for bloc in dataset.protocol.blocs if bloc.ID == json_data["Bloc"])
-        result = cls(json_data["Name"],
-                     BaseConfiguration.from_json_data(json_data["BaseConfiguration"]),
-                     dataset,
-                     json_data["DataName"],
-                     bloc,
-                     CCEPConfiguration.from_json_data(json_data["CCEPConfiguration"]))
-        return result
+        return cls(json_data["Name"],
+                   BaseConfiguration.from_json_data(json_data["BaseConfiguration"]),
+                   dataset,
+                   json_data["DataName"],
+                   bloc,
+                   DynamicConfiguration.from_json_data(json_data["DynamicConfiguration"]),
+                   json_data['ID'])
 
 
 class AnatomicColumn(Column):
     def __init__(self, name: str = "", base_configuration: BaseConfiguration = None,
-                 anatomic_configuration: AnatomicConfiguration = None):
-        super().__init__(name, base_configuration)
+                 anatomic_configuration: AnatomicConfiguration = None, ID: str = ""):
+        super().__init__(name, base_configuration, ID)
         self.anatomic_configuration = anatomic_configuration
 
-    def __repr__(self):
-        return super().__repr__() + "\n" + str(json.dumps(self.to_json_data(), indent=2))
-
     def to_json_data(self) -> dict:
-        result = dict()
-        result["$type"] = "HBP.Data.Visualization.AnatomicColumn, Assembly-CSharp"
-        result["Name"] = self.name
-        result["BaseConfiguration"] = self.base_configuration.to_json_data()
-        result["CCEPConfiguration"] = self.anatomic_configuration.to_json_data()
-        return result
+        json_data = dict()
+        json_data["$type"] = "HBP.Data.Visualization.AnatomicColumn, Assembly-CSharp"
+        json_data.update(super().to_json_data())
+        json_data["AnatomicConfiguration"] = self.anatomic_configuration.to_json_data()
+        return json_data
 
     @classmethod
-    def from_json_data(cls, json_data, project_patients: List[Patient] = None) -> 'AnatomicColumn':
-        result = cls(json_data["Name"],
-                     BaseConfiguration.from_json_data(json_data["BaseConfiguration"]),
-                     AnatomicConfiguration.from_json_data(json_data["AnatomicConfiguration"]))
-        return result
+    def from_json_data(cls, json_data: dict, patients: List[Patient] = None) -> 'AnatomicColumn':
+        return cls(json_data["Name"],
+                   BaseConfiguration.from_json_data(json_data["BaseConfiguration"]),
+                   AnatomicConfiguration.from_json_data(json_data["AnatomicConfiguration"]),
+                   json_data['ID'])
 
 
 class View:
@@ -289,12 +258,47 @@ class Cut:
         return cls(json_data["Normal"], json_data["Orientation"], json_data["Flip"], json_data["Position"])
 
 
-class VisualizationConfiguration:
-    def __init__(self, brain_color: int = 0, brain_cut_color: int = 0, EEG_color: int = 0, mesh_part: int = 0,
+class ColorType(enum.Enum):
+    Grayscale = 0
+    Hot = 1
+    Winter = 2
+    Warm = 3
+    Surface = 4
+    Cool = 5
+    RedYellow = 6
+    BlueGreen = 7
+    ACTC = 8
+    Bone = 9
+    GEColor = 10
+    Gold = 11
+    XRain = 12
+    MatLab = 13
+    Default = 14
+    BrainColor = 15
+    White = 16
+    SoftGrayscale = 17
+
+
+class MeshPart(enum.Enum):
+    Left = 0
+    Right = 1
+    Both = 2
+    No = 3
+
+
+class CameraControl(enum.Enum):
+    Trackball = 0
+    Orbital = 1
+
+
+class VisualizationConfiguration(BaseData):
+    def __init__(self, brain_color: ColorType = ColorType.Grayscale, brain_cut_color: ColorType = ColorType.Grayscale,
+                 EEG_color: ColorType = ColorType.Grayscale, mesh_part: MeshPart = MeshPart.Left,
                  mesh_name: str = "", MRI_name: str = "", implantation_name: str = "", show_edges: bool = False,
                  strong_cuts: bool = False, hide_blacklisted_sites: bool = False, show_all_sites: bool = False,
-                 MRI_min: float = 0, MRI_max: float = 0, camera_type: int = 0, cuts: List[Cut] = None,
-                 views: List[View] = None):
+                 MRI_min: float = 0, MRI_max: float = 0, camera_type: CameraControl = CameraControl.Trackball,
+                 cuts: List[Cut] = None, views: List[View] = None, ID: str = ""):
+        super().__init__(ID)
         self.brain_color = brain_color
         self.brain_cut_color = brain_cut_color
         self.EEG_color = EEG_color
@@ -312,71 +316,77 @@ class VisualizationConfiguration:
         self.cuts = cuts if cuts is not None else []
         self.views = views if views is not None else []
 
-    def __repr__(self):
-        return super().__repr__() + "\n" + str(json.dumps(self.to_json_data(), indent=2))
-
     def to_json_data(self) -> dict:
-        result = dict()
-        result["Brain Color"] = self.brain_color
-        result["Brain Cut Color"] = self.brain_cut_color
-        result["EEG Colormap"] = self.EEG_color
-        result["Mesh Part"] = self.mesh_part
-        result["Mesh"] = self.mesh_name
-        result["MRI"] = self.MRI_name
-        result["Implantation"] = self.implantation_name
-        result["Edges"] = self.show_edges
-        result["Strong Cuts"] = self.strong_cuts
-        result["Hide Blacklisted Sites"] = self.hide_blacklisted_sites
-        result["ShowAllSites"] = self.show_all_sites
-        result["MRI Min"] = self.MRI_min
-        result["MRI Max"] = self.MRI_max
-        result["Camera Type"] = self.camera_type
-        result["Cuts"] = [cut.to_json_data() for cut in self.cuts]
-        result["Views"] = [view.to_json_data() for view in self.views]
-        return result
+        json_data = super().to_json_data()
+        json_data["Brain Color"] = self.brain_color.value
+        json_data["Brain Cut Color"] = self.brain_cut_color.value
+        json_data["EEG Colormap"] = self.EEG_color.value
+        json_data["Mesh Part"] = self.mesh_part.value
+        json_data["Mesh"] = self.mesh_name
+        json_data["MRI"] = self.MRI_name
+        json_data["Implantation"] = self.implantation_name
+        json_data["Edges"] = self.show_edges
+        json_data["Strong Cuts"] = self.strong_cuts
+        json_data["Hide Blacklisted Sites"] = self.hide_blacklisted_sites
+        json_data["ShowAllSites"] = self.show_all_sites
+        json_data["MRI Min"] = self.MRI_min
+        json_data["MRI Max"] = self.MRI_max
+        json_data["Camera Type"] = self.camera_type.value
+        json_data["Cuts"] = [cut.to_json_data() for cut in self.cuts]
+        json_data["Views"] = [view.to_json_data() for view in self.views]
+        return json_data
 
     @classmethod
     def from_json_data(cls, json_data) -> 'VisualizationConfiguration':
-        return cls(json_data["Brain Color"], json_data["Brain Cut Color"], json_data["EEG Colormap"],
-                   json_data["Mesh Part"], json_data["Mesh"], json_data["MRI"], json_data["Implantation"],
-                   json_data["Edges"], json_data["Strong Cuts"], json_data["Hide Blacklisted Sites"],
-                   json_data["ShowAllSites"], json_data["MRI Min"], json_data["MRI Max"], json_data["Camera Type"],
+        return cls(ColorType(json_data["Brain Color"]),
+                   ColorType(json_data["Brain Cut Color"]),
+                   ColorType(json_data["EEG Colormap"]),
+                   MeshPart(json_data["Mesh Part"]),
+                   json_data["Mesh"],
+                   json_data["MRI"],
+                   json_data["Implantation"],
+                   json_data["Edges"],
+                   json_data["Strong Cuts"],
+                   json_data["Hide Blacklisted Sites"],
+                   json_data["ShowAllSites"],
+                   json_data["MRI Min"],
+                   json_data["MRI Max"],
+                   CameraControl(json_data["Camera Type"]),
                    [Cut.from_json_data(cut) for cut in json_data["Cuts"]],
-                   [View.from_json_data(view) for view in json_data["Views"]])
+                   [View.from_json_data(view) for view in json_data["Views"]],
+                   json_data['ID'])
 
 
-class Visualization:
-    def __init__(self, name: str = "", patients: List[Patient] = None, configuration: VisualizationConfiguration = None,
-                 columns: List[Column] = None, ID: str = ""):
+class Visualization(BaseData):
+    def __init__(self, name: str = "", patients: List[Patient] = None,
+                 columns: List[Column] = None, configuration: VisualizationConfiguration = None, ID: str = ""):
+        super().__init__(ID)
         self.name = name
         self.patients = patients if patients is not None else []
-        self.configuration = configuration
         self.columns = columns if columns is not None else []
-        self.ID = ID
-
-    def __repr__(self):
-        return super().__repr__() + "\n" + str(json.dumps(self.to_json_data(), indent=2))
+        self.configuration = configuration
 
     def to_json_file(self, json_file: str):
         with open(json_file, "w") as f:
             json.dump(self.to_json_data(), f, indent=2)
 
     def to_json_data(self) -> dict:
-        return dict(ID=self.ID, Name=self.name, Patients=[patient.ID for patient in self.patients],
-                    Configuration=self.configuration.to_json_data(),
-                    Columns=[column.to_json_data() for column in self.columns])
+        json_data = super().to_json_data()
+        json_data['Name'] = self.name
+        json_data['Patients'] = [patient.ID for patient in self.patients]
+        json_data['Configuration'] = self.configuration.to_json_data()
+        json_data['Columns'] = [column.to_json_data() for column in self.columns]
+        return json_data
 
     @classmethod
-    def from_json_file(cls, json_file: str, project_patients: List[Patient], project_datasets: List[Dataset]) -> 'Visualization':
+    def from_json_file(cls, json_file: str, patients: List[Patient], datasets: List[Dataset]) -> 'Visualization':
         with open(json_file, "r") as f:
-            return cls.from_json_data(json.load(f), project_patients, project_datasets)
+            return cls.from_json_data(json.load(f), patients, datasets)
 
     @classmethod
-    def from_json_data(cls, json_data, project_patients: List[Patient], project_datasets: List[Dataset]) -> 'Visualization':
-        result = cls(json_data["Name"],
-                     [next(patient for patient in project_patients if patient.ID == patient_ID)
-                      for patient_ID in json_data["Patients"]],
-                     VisualizationConfiguration.from_json_data(json_data["Configuration"]),
-                     [Column.from_json_data(column, project_datasets) for column in json_data["Columns"]],
-                     json_data["ID"])
-        return result
+    def from_json_data(cls, json_data, patients: List[Patient] = None, datasets: List[Dataset] = None) -> 'Visualization':
+        return cls(json_data["Name"],
+                   [next(patient for patient in patients if patient.ID == patient_ID) for patient_ID in json_data["Patients"]],
+                   [Column.from_json_data(column, datasets) for column in json_data["Columns"]],
+                   VisualizationConfiguration.from_json_data(json_data["Configuration"]),
+                   json_data["ID"])

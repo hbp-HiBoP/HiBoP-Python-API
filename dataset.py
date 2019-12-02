@@ -1,27 +1,40 @@
-import uuid
-import json
-import abc
+from tools import *
 from typing import List
 from protocol import Protocol
 from patient import Patient
+import enum
 
 
-class DataContainer(abc.ABC):
+class NormalizationType(enum.Enum):
+    No = 0
+    SubTrial = 1
+    Trial = 2
+    SubBloc = 3
+    Bloc = 4
+    Protocol = 5
+    Auto = 6
+
+
+class DataContainer(BaseData):
     def __init__(self, ID: str = ""):
-        self.ID = ID if ID != "" else str(uuid.uuid4())
+        super().__init__(ID)
 
     @abc.abstractmethod
     def to_json_data(self):
-        pass
+        return super().to_json_data()
 
     @classmethod
-    def from_json_data(cls, json_data):
+    def from_json_data(cls, json_data: dict) -> 'DataContainer':
         class_type = json_data["$type"]
         result = None
         if class_type == "HBP.Data.Container.BrainVision, Assembly-CSharp":
             result = BrainVision.from_json_data(json_data)
         elif class_type == "HBP.Data.Container.Elan, Assembly-CSharp":
             result = Elan.from_json_data(json_data)
+        elif class_type == "HBP.Data.Container.EDF, Assembly-CSharp":
+            result = EDF.from_json_data(json_data)
+        elif class_type == "HBP.Data.Container.Micromed, Assembly-CSharp":
+            result = Micromed.from_json_data(json_data)
         return result
 
 
@@ -31,11 +44,11 @@ class BrainVision(DataContainer):
         self.header = header
 
     def to_json_data(self) -> dict:
-        result = dict()
-        result["&type"] = "HBP.Data.Container.BrainVision, Assembly-CSharp"
-        result["ID"] = self.ID
-        result["Header"] = self.header
-        return result
+        json_data = dict()
+        json_data["$type"] = "HBP.Data.Container.BrainVision, Assembly-CSharp"
+        json_data.update(super().to_json_data())
+        json_data["Header"] = self.header
+        return json_data
 
     @classmethod
     def from_json_data(cls, json_data) -> 'BrainVision':
@@ -48,11 +61,11 @@ class EDF(DataContainer):
         self.edf = edf
 
     def to_json_data(self) -> dict:
-        result = dict()
-        result["&type"] = "HBP.Data.Container.EDF, Assembly-CSharp"
-        result["ID"] = self.ID
-        result["EDF"] = self.edf
-        return result
+        json_data = dict()
+        json_data["$type"] = "HBP.Data.Container.EDF, Assembly-CSharp"
+        json_data.update(super().to_json_data())
+        json_data["EDF"] = self.edf
+        return json_data
 
     @classmethod
     def from_json_data(cls, json_data) -> 'EDF':
@@ -65,11 +78,11 @@ class Micromed(DataContainer):
         self.trc = trc
 
     def to_json_data(self) -> dict:
-        result = dict()
-        result["&type"] = "HBP.Data.Container.EDF, Assembly-CSharp"
-        result["ID"] = self.ID
-        result["TRC"] = self.trc
-        return result
+        json_data = dict()
+        json_data["$type"] = "HBP.Data.Container.EDF, Assembly-CSharp"
+        json_data.update(super().to_json_data())
+        json_data["TRC"] = self.trc
+        return json_data
 
     @classmethod
     def from_json_data(cls, json_data) -> 'Micromed':
@@ -84,63 +97,64 @@ class Elan(DataContainer):
         self.notes = notes
 
     def to_json_data(self) -> dict:
-        result = dict()
-        result["&type"] = "HBP.Data.Container.Elan, Assembly-CSharp"
-        result["ID"] = self.ID
-        result["EEG"] = self.eeg
-        result["POS"] = self.pos
-        result["Notes"] = self.notes
-        return result
+        json_data = dict()
+        json_data["$type"] = "HBP.Data.Container.Elan, Assembly-CSharp"
+        json_data.update(super().to_json_data())
+        json_data["EEG"] = self.eeg
+        json_data["POS"] = self.pos
+        json_data["Notes"] = self.notes
+        return json_data
 
     @classmethod
     def from_json_data(cls, json_data) -> 'Elan':
         return cls(json_data["EEG"], json_data["POS"], json_data["Notes"], json_data["ID"])
 
 
-class DataInfo(abc.ABC):
+class DataInfo(BaseData):
     def __init__(self, name: str, data_container: DataContainer = None, ID: str = ""):
+        super().__init__(ID)
         self.name = name
         self.data_container = data_container
-        self.ID = ID if ID != "" else str(uuid.uuid4())
 
     @abc.abstractmethod
     def to_json_data(self):
-        pass
+        json_data = super().to_json_data()
+        json_data['Name'] = self.name
+        json_data['DataContainer'] = self.data_container.to_json_data()
+        return json_data
 
     @classmethod
-    def from_json_data(cls, json_data, project_patients: List[Patient]):
+    def from_json_data(cls, json_data: dict, patients: List[Patient] = None) -> 'DataInfo':
         class_type = json_data["$type"]
         result = None
         if class_type == "HBP.Data.Experience.Dataset.iEEGDataInfo, Assembly-CSharp":
-            result = IEEGDataInfo.from_json_data(json_data, project_patients)
+            result = IEEGDataInfo.from_json_data(json_data, patients)
         elif class_type == "HBP.Data.Experience.Dataset.CCEPDataInfo, Assembly-CSharp":
-            result = CCEPDataInfo.from_json_data(json_data, project_patients)
+            result = CCEPDataInfo.from_json_data(json_data, patients)
         return result
 
 
 class IEEGDataInfo(DataInfo):
     def __init__(self, name: str = "", data_container: DataContainer = None, patient: Patient = None,
-                 normalization: int = 0, ID: str = ""):
+                 normalization: NormalizationType = NormalizationType.No, ID: str = ""):
         super().__init__(name, data_container, ID)
         self.patient = patient
         self.normalization = normalization
 
     def to_json_data(self) -> dict:
-        result = dict()
-        result["&type"] = "HBP.Data.Experience.Dataset.iEEGDataInfo, Assembly-CSharp"
-        result["ID"] = self.ID
-        result["Name"] = self.name
-        result["Patient"] = self.patient.ID
-        result["DataContainer"] = self.data_container.to_json_data()
-        result["Normalization"] = self.normalization
-        return result
+        json_data = dict()
+        json_data["$type"] = "HBP.Data.Experience.Dataset.iEEGDataInfo, Assembly-CSharp"
+        json_data.update(super().to_json_data())
+        json_data["Patient"] = self.patient.ID
+        json_data["Normalization"] = self.normalization.value
+        return json_data
 
     @classmethod
-    def from_json_data(cls, json_data, project_patients) -> 'IEEGDataInfo':
+    def from_json_data(cls, json_data, patients: List[Patient] = None) -> 'IEEGDataInfo':
         return cls(json_data["Name"],
                    DataContainer.from_json_data(json_data["DataContainer"]),
-                   next(patient for patient in project_patients if patient.ID == json_data["Patient"]),
-                   json_data["Normalization"],
+                   next(patient for patient in patients if patient.ID == json_data["Patient"]),
+                   NormalizationType(json_data["Normalization"]),
                    json_data["ID"])
 
 
@@ -152,39 +166,35 @@ class CCEPDataInfo(DataInfo):
         self.stimulated_channel = stimulated_channel
 
     def to_json_data(self) -> dict:
-        result = dict()
-        result["&type"] = "HBP.Data.Experience.Dataset.CCEPDataInfo, Assembly-CSharp"
-        result["ID"] = self.ID
-        result["Name"] = self.name
-        result["Patient"] = self.patient.ID
-        result["DataContainer"] = self.data_container.to_json_data()
-        result["StimulatedChannel"] = self.stimulated_channel
-        return result
+        json_data = dict()
+        json_data["$type"] = "HBP.Data.Experience.Dataset.CCEPDataInfo, Assembly-CSharp"
+        json_data.update(super().to_json_data())
+        json_data["Patient"] = self.patient.ID
+        json_data["StimulatedChannel"] = self.stimulated_channel
+        return json_data
 
     @classmethod
-    def from_json_data(cls, json_data, project_patients: List[Patient]) -> 'CCEPDataInfo':
+    def from_json_data(cls, json_data, patients: List[Patient] = None) -> 'CCEPDataInfo':
         return cls(json_data["Name"],
                    DataContainer.from_json_data(json_data["DataContainer"]),
-                   next(patient for patient in project_patients if patient.ID == json_data["Patient"]),
+                   next(patient for patient in patients if patient.ID == json_data["Patient"]),
                    json_data["StimulatedChannel"],
                    json_data["ID"])
 
 
-class Dataset:
+class Dataset(BaseData):
     def __init__(self, name: str = "", protocol: Protocol = None, data: List[DataInfo] = None, ID: str = ""):
+        super().__init__(ID)
         self.name = name
         self.protocol = protocol
         self.data = data if data is not None else []
-        self.ID = ID if ID != "" else str(uuid.uuid4())
-
-    def __repr__(self):
-        return str(super().__repr__()) + "\n" + json.dumps(self.to_json_data(), indent=2)
 
     def to_json_data(self) -> dict:
-        return dict(ID=self.ID,
-                    Name=self.name,
-                    Protocol=self.protocol.ID,
-                    Data=[data.to_json_data() for data in self.data])
+        json_data = super().to_json_data()
+        json_data['Name'] = self.name
+        json_data['Protocol'] = self.protocol.ID
+        json_data['Data'] = [data.to_json_data() for data in self.data]
+        return json_data
 
     def to_json_file(self, json_file):
         with open(json_file, "w") as f:
@@ -196,8 +206,8 @@ class Dataset:
             return cls.from_json_data(json.load(f), project_protocols, project_patients)
 
     @classmethod
-    def from_json_data(cls, json_data, project_protocols: List[Protocol], project_patients: List[Patient]) -> 'Dataset':
+    def from_json_data(cls, json_data: dict, protocols: List[Protocol] = None, patients: List[Patient] = None) -> 'Dataset':
         return cls(json_data["Name"],
-                   next(protocol for protocol in project_protocols if protocol.ID == json_data["Protocol"]),
-                   [DataInfo.from_json_data(data, project_patients) for data in json_data["Data"]],
+                   next(protocol for protocol in protocols if protocol.ID == json_data["Protocol"]),
+                   [DataInfo.from_json_data(data, patients) for data in json_data["Data"]],
                    json_data["ID"])
