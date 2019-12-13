@@ -160,7 +160,7 @@ class Project:
                 settings_path = next(name for name in namelist if str.endswith(name, ".settings"))
                 settings = None
                 try:
-                    settings = Settings.from_json_file(zip.extract(settings_path))
+                    settings = ProjectPreferences.from_json_file(zip.extract(settings_path))
                 except OSError:
                     print("[1/1] Loading of the settings file %s failed" % settings_path)
                 else:
