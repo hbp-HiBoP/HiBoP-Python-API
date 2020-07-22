@@ -61,24 +61,24 @@ class LeftRightMesh(BaseMesh):
 
 
 class SingleMesh(BaseMesh):
-    def __init__(self, name: str = "", mesh: str = "", marsAtlas: str = "", transformation: str = "", ID: str = ""):
-        self.mesh = mesh
-        self.marsAtlas = marsAtlas
+    def __init__(self, name: str = "", path: str = "", marsAtlasPath: str = "", transformation: str = "", ID: str = ""):
+        self.path = path
+        self.marsAtlasPath = marsAtlasPath
         super().__init__(name, transformation, ID)
 
     def to_json_data(self):
         json_data = dict()
         json_data["$type"] = "HBP.Data.SingleMesh, Assembly-CSharp"
         json_data.update(super().to_json_data())
-        json_data["Mesh"] = self.mesh
-        json_data["MarsAtlas"] = self.marsAtlas
+        json_data["Path"] = self.path
+        json_data["MarsAtlasPath"] = self.marsAtlasPath
         return json_data
 
     @classmethod
     def from_json_data(cls, json_data: dict) -> 'SingleMesh':
         return cls(json_data["Name"],
-                   json_data["Mesh"],
-                   json_data["MarsAtlas"],
+                   json_data["Path"],
+                   json_data["MarsAtlasPath"],
                    json_data["Transformation"],
                    json_data["ID"])
 
@@ -103,20 +103,20 @@ class MRI(BaseData):
 
 
 class Coordinate(BaseData):
-    def __init__(self, reference_system: str = "", value: Vector3 = None, ID: str = ""):
+    def __init__(self, reference_system: str = "", position: Vector3 = None, ID: str = ""):
         self.reference_system = reference_system
-        self.value = value
+        self.position = position
         super().__init__(ID)
 
     def to_json_data(self):
         json_data = super().to_json_data()
         json_data['ReferenceSystem'] = self.reference_system
-        json_data['Value'] = self.value.to_json_data()
+        json_data['Position'] = self.position.to_json_data()
         return json_data
 
     @classmethod
     def from_json_data(cls, json_data: dict) -> 'Coordinate':
-        return cls(json_data["ReferenceSystem"], Vector3.from_json_data(json_data["Value"]), json_data['ID'])
+        return cls(json_data["ReferenceSystem"], Vector3.from_json_data(json_data["Position"]), json_data['ID'])
 
 
 class Site(BaseData):

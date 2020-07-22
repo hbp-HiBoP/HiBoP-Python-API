@@ -127,7 +127,7 @@ class DataInfo(BaseData):
     def from_json_data(cls, json_data: dict, patients: List[Patient] = None) -> 'DataInfo':
         class_type = json_data["$type"]
         result = None
-        if class_type == "HBP.Data.Experience.Dataset.iEEGDataInfo, Assembly-CSharp":
+        if class_type == "HBP.Data.Experience.Dataset.IEEGDataInfo, Assembly-CSharp":
             result = IEEGDataInfo.from_json_data(json_data, patients)
         elif class_type == "HBP.Data.Experience.Dataset.CCEPDataInfo, Assembly-CSharp":
             result = CCEPDataInfo.from_json_data(json_data, patients)
@@ -143,7 +143,7 @@ class IEEGDataInfo(DataInfo):
 
     def to_json_data(self) -> dict:
         json_data = dict()
-        json_data["$type"] = "HBP.Data.Experience.Dataset.iEEGDataInfo, Assembly-CSharp"
+        json_data["$type"] = "HBP.Data.Experience.Dataset.IEEGDataInfo, Assembly-CSharp"
         json_data.update(super().to_json_data())
         json_data["Patient"] = self.patient.ID
         json_data["Normalization"] = self.normalization.value

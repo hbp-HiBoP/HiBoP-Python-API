@@ -32,23 +32,23 @@ class Event(BaseData):
 
 
 class Icon(BaseData):
-    def __init__(self, name: str = "", illustration_path: str = "", window: Window = None, ID: str = ""):
+    def __init__(self, name: str = "", image_path: str = "", window: Window = None, ID: str = ""):
         super().__init__(ID)
         self.name = name
-        self.illustration_path = illustration_path
+        self.image_path = image_path
         self.window = window if window is not None else Window()
 
     def to_json_data(self) -> dict:
         json_data = super().to_json_data()
         json_data['Name'] = self.name
-        json_data['IllustrationPath'] = self.illustration_path
+        json_data['ImagePath'] = self.image_path
         json_data['Window'] = self.window.to_json_data()
         return json_data
 
     @classmethod
     def from_json_data(cls, json_data: dict) -> 'Icon':
         return cls(json_data["Name"],
-                   json_data["IllustrationPath"],
+                   json_data["ImagePath"],
                    Window.from_json_data(json_data["Window"]),
                    json_data['ID'])
 

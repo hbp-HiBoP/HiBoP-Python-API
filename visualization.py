@@ -33,41 +33,19 @@ class SiteConfiguration(BaseData):
                    json_data['ID'])
 
 
-class RegionOfInterest:
-    def __init__(self, name: str = "", spheres: List[Sphere] = None):
-        self.name = name
-        self.spheres = spheres if spheres is not None else []
-
-    def __repr__(self):
-        return super().__repr__() + "\n" + str(json.dumps(self.to_json_data(), indent=2))
-
-    def to_json_data(self) -> dict:
-        return dict(Name=self.name, Spheres=[sphere.to_json_data() for sphere in self.spheres])
-
-    @classmethod
-    def from_json_data(cls, json_data) -> 'RegionOfInterest':
-        return cls(json_data["Name"], [Sphere.from_json_data(sphere) for sphere in json_data["Spheres"]])
-
-
 class BaseConfiguration(BaseData):
-    def __init__(self, site_size: int = 0, regions_of_interest: List[RegionOfInterest] = None, configuration_by_site=None, ID: str = ""):
+    def __init__(self, configuration_by_site = None, ID: str = ""):
         super().__init__(ID)
-        self.site_size = site_size
-        self.regions_of_interest = regions_of_interest if regions_of_interest is not None else []
         self.configuration_by_site = configuration_by_site if configuration_by_site is not None else {}
 
     def to_json_data(self) -> dict:
         json_data = super().to_json_data()
-        json_data['SiteSize'] = self.site_size
-        json_data['RegionsOfInterest'] = [region_of_interest.to_json_data() for region_of_interest in self.regions_of_interest]
         json_data['ConfigurationBySite'] = {key: self.configuration_by_site[key].to_json_data() for key in self.configuration_by_site.keys()}
         return json_data
 
     @classmethod
     def from_json_data(cls, json_data) -> 'BaseConfiguration':
-        return cls(json_data["SiteSize"],
-                   [RegionOfInterest.from_json_data(roi) for roi in json_data["RegionsOfInterest"]],
-                   {key: SiteConfiguration.from_json_data(json_data["ConfigurationBySite"][key]) for key in json_data["ConfigurationBySite"].keys()})
+        return cls({key: SiteConfiguration.from_json_data(json_data["ConfigurationBySite"][key]) for key in json_data["ConfigurationBySite"].keys()})
 
 
 class DynamicConfiguration(BaseData):
@@ -223,41 +201,6 @@ class AnatomicColumn(Column):
                    json_data['ID'])
 
 
-class View:
-    def __init__(self, position: Vector3 = None, rotation: Quaternion = None, target: Vector3 = None):
-        self.position = position
-        self.rotation = rotation
-        self.target = target
-
-    def __repr__(self):
-        return super().__repr__() + "\n" + str(json.dumps(self.to_json_data(), indent=2))
-
-    def to_json_data(self) -> dict:
-        return dict(Position=self.position, Rotation=self.rotation, Target=self.target)
-
-    @classmethod
-    def from_json_data(cls, json_data) -> 'View':
-        return cls(json_data["Position"], json_data["Rotation"], json_data["Target"])
-
-
-class Cut:
-    def __init__(self, normal: Vector3, orientation: int, flip: bool, position: float):
-        self.normal = normal
-        self.orientation = orientation
-        self.flip = flip
-        self.position = position
-
-    def __repr__(self):
-        return super().__repr__() + "\n" + str(json.dumps(self.to_json_data(), indent=2))
-
-    def to_json_data(self):
-        return dict(Normal=self.normal, Orientation=self.orientation, Flip=self.flip, Position=self.position)
-
-    @classmethod
-    def from_json_data(cls, json_data) -> 'Cut':
-        return cls(json_data["Normal"], json_data["Orientation"], json_data["Flip"], json_data["Position"])
-
-
 class ColorType(enum.Enum):
     Grayscale = 0
     Hot = 1
@@ -279,6 +222,13 @@ class ColorType(enum.Enum):
     SoftGrayscale = 17
 
 
+class CutOrientation(enum.Enum):
+    Axial = 0
+    Coronal = 1
+    Sagittal = 2
+    Custom = 3
+
+
 class MeshPart(enum.Enum):
     Left = 0
     Right = 1
@@ -291,13 +241,64 @@ class CameraControl(enum.Enum):
     Orbital = 1
 
 
+class View:
+    def __init__(self, position: Vector3 = None, rotation: Quaternion = None, target: Vector3 = None):
+        self.position = position
+        self.rotation = rotation
+        self.target = target
+
+    def __repr__(self):
+        return super().__repr__() + "\n" + str(json.dumps(self.to_json_data(), indent=2))
+
+    def to_json_data(self) -> dict:
+        return dict(Position=self.position, Rotation=self.rotation, Target=self.target)
+
+    @classmethod
+    def from_json_data(cls, json_data) -> 'View':
+        return cls(json_data["Position"], json_data["Rotation"], json_data["Target"])
+
+
+class RegionOfInterest:
+    def __init__(self, name: str = "", spheres: List[Sphere] = None):
+        self.name = name
+        self.spheres = spheres if spheres is not None else []
+
+    def __repr__(self):
+        return super().__repr__() + "\n" + str(json.dumps(self.to_json_data(), indent=2))
+
+    def to_json_data(self) -> dict:
+        return dict(Name=self.name, Spheres=[sphere.to_json_data() for sphere in self.spheres])
+
+    @classmethod
+    def from_json_data(cls, json_data) -> 'RegionOfInterest':
+        return cls(json_data["Name"], [Sphere.from_json_data(sphere) for sphere in json_data["Spheres"]])
+
+
+class Cut:
+    def __init__(self, normal: Vector3, orientation: CutOrientation, flip: bool, position: float):
+        self.normal = normal
+        self.orientation = orientation
+        self.flip = flip
+        self.position = position
+
+    def __repr__(self):
+        return super().__repr__() + "\n" + str(json.dumps(self.to_json_data(), indent=2))
+
+    def to_json_data(self):
+        return dict(Normal=self.normal, Orientation=self.orientation.value, Flip=self.flip, Position=self.position)
+
+    @classmethod
+    def from_json_data(cls, json_data) -> 'Cut':
+        return cls(json_data["Normal"], CutOrientation(json_data["Orientation"]), json_data["Flip"], json_data["Position"])
+
+
 class VisualizationConfiguration(BaseData):
     def __init__(self, brain_color: ColorType = ColorType.Grayscale, brain_cut_color: ColorType = ColorType.Grayscale,
                  EEG_color: ColorType = ColorType.Grayscale, mesh_part: MeshPart = MeshPart.Left,
-                 mesh_name: str = "", MRI_name: str = "", implantation_name: str = "", show_edges: bool = False,
-                 strong_cuts: bool = False, hide_blacklisted_sites: bool = False, show_all_sites: bool = False,
+                 mesh_name: str = "", MRI_name: str = "", implantation_name: str = "", show_edges: bool = False, transparent_brain: bool = False,
+                 brain_alpha: float = 0.2, strong_cuts: bool = False, hide_blacklisted_sites: bool = False, show_all_sites: bool = False,
                  MRI_min: float = 0, MRI_max: float = 0, camera_type: CameraControl = CameraControl.Trackball,
-                 cuts: List[Cut] = None, views: List[View] = None, ID: str = ""):
+                 cuts: List[Cut] = None, views: List[View] = None, regions_of_interest: List[RegionOfInterest] = None, ID: str = ""):
         super().__init__(ID)
         self.brain_color = brain_color
         self.brain_cut_color = brain_cut_color
@@ -307,6 +308,8 @@ class VisualizationConfiguration(BaseData):
         self.MRI_name = MRI_name
         self.implantation_name = implantation_name
         self.show_edges = show_edges
+        self.transparent_brain = transparent_brain
+        self.brain_alpha = brain_alpha
         self.strong_cuts = strong_cuts
         self.hide_blacklisted_sites = hide_blacklisted_sites
         self.show_all_sites = show_all_sites
@@ -315,6 +318,7 @@ class VisualizationConfiguration(BaseData):
         self.camera_type = camera_type
         self.cuts = cuts if cuts is not None else []
         self.views = views if views is not None else []
+        self.regions_of_interest = regions_of_interest if regions_of_interest is not None else []
 
     def to_json_data(self) -> dict:
         json_data = super().to_json_data()
@@ -326,6 +330,8 @@ class VisualizationConfiguration(BaseData):
         json_data["MRI"] = self.MRI_name
         json_data["Implantation"] = self.implantation_name
         json_data["Edges"] = self.show_edges
+        json_data["Transparent Brain"] = self.transparent_brain
+        json_data["Brain Alpha"] = self.brain_alpha
         json_data["Strong Cuts"] = self.strong_cuts
         json_data["Hide Blacklisted Sites"] = self.hide_blacklisted_sites
         json_data["ShowAllSites"] = self.show_all_sites
@@ -334,6 +340,7 @@ class VisualizationConfiguration(BaseData):
         json_data["Camera Type"] = self.camera_type.value
         json_data["Cuts"] = [cut.to_json_data() for cut in self.cuts]
         json_data["Views"] = [view.to_json_data() for view in self.views]
+        json_data['RegionsOfInterest'] = [region_of_interest.to_json_data() for region_of_interest in self.regions_of_interest]
         return json_data
 
     @classmethod
@@ -346,6 +353,8 @@ class VisualizationConfiguration(BaseData):
                    json_data["MRI"],
                    json_data["Implantation"],
                    json_data["Edges"],
+                   json_data["Transparent Brain"],
+                   json_data["Brain Alpha"],
                    json_data["Strong Cuts"],
                    json_data["Hide Blacklisted Sites"],
                    json_data["ShowAllSites"],
@@ -354,6 +363,7 @@ class VisualizationConfiguration(BaseData):
                    CameraControl(json_data["Camera Type"]),
                    [Cut.from_json_data(cut) for cut in json_data["Cuts"]],
                    [View.from_json_data(view) for view in json_data["Views"]],
+                   [RegionOfInterest.from_json_data(roi) for roi in json_data["RegionsOfInterest"]],
                    json_data['ID'])
 
 
