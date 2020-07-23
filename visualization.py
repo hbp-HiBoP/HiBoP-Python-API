@@ -297,7 +297,7 @@ class VisualizationConfiguration(BaseData):
                  EEG_color: ColorType = ColorType.Grayscale, mesh_part: MeshPart = MeshPart.Left,
                  mesh_name: str = "", MRI_name: str = "", implantation_name: str = "", show_edges: bool = False, transparent_brain: bool = False,
                  brain_alpha: float = 0.2, strong_cuts: bool = False, hide_blacklisted_sites: bool = False, show_all_sites: bool = False,
-                 MRI_min: float = 0, MRI_max: float = 0, camera_type: CameraControl = CameraControl.Trackball,
+                 MRI_min: float = 0, MRI_max: float = 1, camera_type: CameraControl = CameraControl.Trackball,
                  cuts: List[Cut] = None, views: List[View] = None, regions_of_interest: List[RegionOfInterest] = None, ID: str = ""):
         super().__init__(ID)
         self.brain_color = brain_color
