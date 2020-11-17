@@ -1,28 +1,23 @@
 {
-  "ID": "xxxxxxxxxxxxxxxxxxxxxxxxx",
   "Name": "LEC1",
   "Blocs": [
     {
       "IllustrationPath": "",
-      "ID": "48ed4ac4-3cb7-4ff0-adec-e96ebb3859b5",
       "Name": "SEMANTIC",
       "Order": 0,
       "Sort": "C0L1",
       "SubBlocs": [
         {
-          "ID": "9ce7fbb8-931d-4023-ba32-c05078bf4d95",
           "Name": "Main",
           "Order": 0,
           "Type": 0,
           "Window": {
             "Start": -500,
-            "End": 3500,
-            "Lenght": 4000
+            "End": 3500
           },
           "Baseline": {
             "Start": -200,
-            "End": 0,
-            "Lenght": 200
+            "End": 0
           },
           "Events": [
             {
@@ -30,7 +25,8 @@
               "Codes": [
                 10
               ],
-              "Type": 0
+              "Type": 0,
+              "ID": "2654fb8e-a102-4abb-80bb-4f538cd7dffb"
             },
             {
               "Name": "RESPONSE",
@@ -38,35 +34,34 @@
                 1,
                 2
               ],
-              "Type": 1
+              "Type": 1,
+              "ID": "28b6a55d-4f95-40bb-b28a-552b451463e5"
             }
           ],
           "Icons": [],
-          "Treatments": []
+          "Treatments": [],
+          "ID": "9ce7fbb8-931d-4023-ba32-c05078bf4d95"
         }
-      ]
+      ],
+      "ID": "48ed4ac4-3cb7-4ff0-adec-e96ebb3859b5"
     },
     {
       "IllustrationPath": "",
-      "ID": "f9a5f9d9-eed6-4512-8165-eec89aefa616",
       "Name": "PHONETIC",
       "Order": 1,
       "Sort": "C0L1",
       "SubBlocs": [
         {
-          "ID": "31a38d0d-5dbc-4c49-b1f3-1a147d87674d",
           "Name": "Main",
           "Order": 0,
           "Type": 0,
           "Window": {
             "Start": -500,
-            "End": 3500,
-            "Lenght": 4000
+            "End": 3500
           },
           "Baseline": {
             "Start": -200,
-            "End": 0,
-            "Lenght": 200
+            "End": 0
           },
           "Events": [
             {
@@ -74,7 +69,8 @@
               "Codes": [
                 20
               ],
-              "Type": 0
+              "Type": 0,
+              "ID": "6ec2fa08-4fe2-4bb3-9116-70193235e9e5"
             },
             {
               "Name": "RESPONSE",
@@ -82,35 +78,34 @@
                 1,
                 2
               ],
-              "Type": 1
+              "Type": 1,
+              "ID": "6941c4f0-21bd-46d8-99f5-4a82b55c4229"
             }
           ],
           "Icons": [],
-          "Treatments": []
+          "Treatments": [],
+          "ID": "31a38d0d-5dbc-4c49-b1f3-1a147d87674d"
         }
-      ]
+      ],
+      "ID": "f9a5f9d9-eed6-4512-8165-eec89aefa616"
     },
     {
       "IllustrationPath": "",
-      "ID": "00d64693-75b4-424f-bc48-b9ecbd69724f",
       "Name": "VISUAL",
       "Order": 2,
       "Sort": "C0L1",
       "SubBlocs": [
         {
-          "ID": "abc1bab9-5733-48bd-bac7-86a8bc6ed956",
           "Name": "Main",
           "Order": 0,
           "Type": 0,
           "Window": {
             "Start": -500,
-            "End": 3500,
-            "Lenght": 4000
+            "End": 3500
           },
           "Baseline": {
             "Start": -200,
-            "End": 0,
-            "Lenght": 200
+            "End": 0
           },
           "Events": [
             {
@@ -118,7 +113,8 @@
               "Codes": [
                 30
               ],
-              "Type": 0
+              "Type": 0,
+              "ID": "f1f646cd-3eba-421b-b8af-a0a8af856b0a"
             },
             {
               "Name": "RESPONSE",
@@ -126,13 +122,17 @@
                 1,
                 2
               ],
-              "Type": 1
+              "Type": 1,
+              "ID": "417d275b-3df0-4623-be88-60d2acddbfe9"
             }
           ],
           "Icons": [],
-          "Treatments": []
+          "Treatments": [],
+          "ID": "abc1bab9-5733-48bd-bac7-86a8bc6ed956"
         }
-      ]
+      ],
+      "ID": "00d64693-75b4-424f-bc48-b9ecbd69724f"
     }
-  ]
+  ],
+  "ID": "1ecc3b7e-fc6c-422c-be33-05d4d82b259d"
 }

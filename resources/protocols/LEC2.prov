@@ -1,28 +1,23 @@
 {
-  "ID": "xxxxxxxxxxxxxxxxxxxxxxxxx",
   "Name": "LEC2",
   "Blocs": [
     {
       "IllustrationPath": "",
-      "ID": "3cd09a85-30ed-4fdc-95a2-cbdfd681a839",
       "Name": "ATTEND",
       "Order": 0,
       "Sort": "C0L1",
       "SubBlocs": [
         {
-          "ID": "9b338725-b0f0-4f02-a8b8-2fd672af5fea",
           "Name": "Main",
           "Order": 0,
           "Type": 0,
           "Window": {
             "Start": -500,
-            "End": 700,
-            "Lenght": 1200
+            "End": 700
           },
           "Baseline": {
             "Start": -200,
-            "End": 0,
-            "Lenght": 200
+            "End": 0
           },
           "Events": [
             {
@@ -30,35 +25,34 @@
               "Codes": [
                 10
               ],
-              "Type": 0
+              "Type": 0,
+              "ID": "15c62bec-7d73-4f1b-8b5c-4729a5cda97a"
             }
           ],
           "Icons": [],
-          "Treatments": []
+          "Treatments": [],
+          "ID": "9b338725-b0f0-4f02-a8b8-2fd672af5fea"
         }
-      ]
+      ],
+      "ID": "3cd09a85-30ed-4fdc-95a2-cbdfd681a839"
     },
     {
       "IllustrationPath": "",
-      "ID": "a6f96082-fef3-43b6-8eec-9405bfdce75c",
       "Name": "IGNORE",
       "Order": 1,
       "Sort": "C0L1",
       "SubBlocs": [
         {
-          "ID": "f35dc17b-d1cc-467c-b065-6119a4d259e8",
           "Name": "Main",
           "Order": 0,
           "Type": 0,
           "Window": {
             "Start": -500,
-            "End": 700,
-            "Lenght": 1200
+            "End": 700
           },
           "Baseline": {
             "Start": -200,
-            "End": 0,
-            "Lenght": 200
+            "End": 0
           },
           "Events": [
             {
@@ -66,13 +60,17 @@
               "Codes": [
                 20
               ],
-              "Type": 0
+              "Type": 0,
+              "ID": "28f371c4-f22a-42df-a681-01169467a74f"
             }
           ],
           "Icons": [],
-          "Treatments": []
+          "Treatments": [],
+          "ID": "f35dc17b-d1cc-467c-b065-6119a4d259e8"
         }
-      ]
+      ],
+      "ID": "a6f96082-fef3-43b6-8eec-9405bfdce75c"
     }
-  ]
+  ],
+  "ID": "3104ca42-96c5-4bc2-adaa-21c3a90dae3c"
 }

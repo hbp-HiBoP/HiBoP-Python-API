@@ -1,28 +1,23 @@
 {
-  "ID": "xxxxxxxxxxxxxxxxxxxxxxxxx",
   "Name": "MVEB",
   "Blocs": [
     {
       "IllustrationPath": "",
-      "ID": "57dff494-2a88-47b6-9b6c-c7c036d4aa1d",
       "Name": "LOAD2",
       "Order": 0,
       "Sort": "C0L1",
       "SubBlocs": [
         {
-          "ID": "66ba98a1-56c3-4a8c-ab52-af1f92dc6824",
           "Name": "Main",
           "Order": 0,
           "Type": 0,
           "Window": {
             "Start": -500,
-            "End": 7000,
-            "Lenght": 7500
+            "End": 7000
           },
           "Baseline": {
             "Start": -200,
-            "End": 0,
-            "Lenght": 200
+            "End": 0
           },
           "Events": [
             {
@@ -30,7 +25,8 @@
               "Codes": [
                 20
               ],
-              "Type": 0
+              "Type": 0,
+              "ID": "c0922ff5-a67d-43b8-8798-64f1c1334aae"
             },
             {
               "Name": "RESPONSE",
@@ -38,35 +34,34 @@
                 1,
                 2
               ],
-              "Type": 1
+              "Type": 1,
+              "ID": "804f669c-3ca2-4ef6-90dd-a781ca9c45e0"
             }
           ],
           "Icons": [],
-          "Treatments": []
+          "Treatments": [],
+          "ID": "66ba98a1-56c3-4a8c-ab52-af1f92dc6824"
         }
-      ]
+      ],
+      "ID": "57dff494-2a88-47b6-9b6c-c7c036d4aa1d"
     },
     {
       "IllustrationPath": "",
-      "ID": "5f50ffbf-1d8f-49f9-b8ac-6e76b8c1d114",
       "Name": "LOAD4",
       "Order": 1,
       "Sort": "C0L1",
       "SubBlocs": [
         {
-          "ID": "4492aede-ba8d-4cac-9187-1e80565b55d1",
           "Name": "Main",
           "Order": 0,
           "Type": 0,
           "Window": {
             "Start": -500,
-            "End": 7000,
-            "Lenght": 7500
+            "End": 7000
           },
           "Baseline": {
             "Start": -200,
-            "End": 0,
-            "Lenght": 200
+            "End": 0
           },
           "Events": [
             {
@@ -74,7 +69,8 @@
               "Codes": [
                 40
               ],
-              "Type": 0
+              "Type": 0,
+              "ID": "0c47eea2-6276-43d6-8514-1b89981170b9"
             },
             {
               "Name": "RESPONSE",
@@ -82,35 +78,34 @@
                 1,
                 2
               ],
-              "Type": 1
+              "Type": 1,
+              "ID": "d1e7c3e2-35fe-4227-b33a-f5a23b5c07c6"
             }
           ],
           "Icons": [],
-          "Treatments": []
+          "Treatments": [],
+          "ID": "4492aede-ba8d-4cac-9187-1e80565b55d1"
         }
-      ]
+      ],
+      "ID": "5f50ffbf-1d8f-49f9-b8ac-6e76b8c1d114"
     },
     {
       "IllustrationPath": "",
-      "ID": "0ac02cb4-06c0-450d-9ee8-f67a9c2085b9",
       "Name": "LOAD6",
       "Order": 2,
       "Sort": "C0L1",
       "SubBlocs": [
         {
-          "ID": "27ad0cd1-620d-4575-8c19-549ae4f3e4d8",
           "Name": "Main",
           "Order": 0,
           "Type": 0,
           "Window": {
             "Start": -500,
-            "End": 7000,
-            "Lenght": 7500
+            "End": 7000
           },
           "Baseline": {
             "Start": -200,
-            "End": 0,
-            "Lenght": 200
+            "End": 0
           },
           "Events": [
             {
@@ -118,7 +113,8 @@
               "Codes": [
                 60
               ],
-              "Type": 0
+              "Type": 0,
+              "ID": "a4a32dbc-e940-443f-98b8-d025f044bfb7"
             },
             {
               "Name": "RESPONSE",
@@ -126,35 +122,34 @@
                 1,
                 2
               ],
-              "Type": 1
+              "Type": 1,
+              "ID": "f3f1019e-ab06-426e-b0e6-fbc5d6641a71"
             }
           ],
           "Icons": [],
-          "Treatments": []
+          "Treatments": [],
+          "ID": "27ad0cd1-620d-4575-8c19-549ae4f3e4d8"
         }
-      ]
+      ],
+      "ID": "0ac02cb4-06c0-450d-9ee8-f67a9c2085b9"
     },
     {
       "IllustrationPath": "",
-      "ID": "039b7095-255d-4d32-af7f-0e3500df57a9",
       "Name": "CONTROL",
       "Order": 3,
       "Sort": "C0L1",
       "SubBlocs": [
         {
-          "ID": "2dbed018-a029-4920-b266-7f85a21ec6b9",
           "Name": "Main",
           "Order": 0,
           "Type": 0,
           "Window": {
             "Start": -500,
-            "End": 7000,
-            "Lenght": 7500
+            "End": 7000
           },
           "Baseline": {
             "Start": -200,
-            "End": 0,
-            "Lenght": 200
+            "End": 0
           },
           "Events": [
             {
@@ -164,7 +159,8 @@
                 41,
                 61
               ],
-              "Type": 0
+              "Type": 0,
+              "ID": "48099c19-8a1b-4abc-8647-ebaa52622c96"
             },
             {
               "Name": "RESPONSE",
@@ -172,13 +168,17 @@
                 1,
                 2
               ],
-              "Type": 1
+              "Type": 1,
+              "ID": "963b7fd9-4a66-4653-8bff-3f59c8740253"
             }
           ],
           "Icons": [],
-          "Treatments": []
+          "Treatments": [],
+          "ID": "2dbed018-a029-4920-b266-7f85a21ec6b9"
         }
-      ]
+      ],
+      "ID": "039b7095-255d-4d32-af7f-0e3500df57a9"
     }
-  ]
+  ],
+  "ID": "9e53a61d-48f0-44e0-be22-9d81205e61e5"
 }

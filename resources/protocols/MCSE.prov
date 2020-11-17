@@ -1,28 +1,23 @@
 {
-  "ID": "xxxxxxxxxxxxxxxxxxxxxxxxx",
   "Name": "MCSE",
   "Blocs": [
     {
       "IllustrationPath": "",
-      "ID": "920645aa-8a55-45f7-8747-268005244579",
       "Name": "POP-OUT",
       "Order": 0,
       "Sort": "C0L1",
       "SubBlocs": [
         {
-          "ID": "88deb34a-0cb1-4e16-973d-35ce5e213124",
           "Name": "Main",
           "Order": 0,
           "Type": 0,
           "Window": {
             "Start": -500,
-            "End": 3500,
-            "Lenght": 4000
+            "End": 3500
           },
           "Baseline": {
             "Start": -200,
-            "End": 0,
-            "Lenght": 200
+            "End": 0
           },
           "Events": [
             {
@@ -30,7 +25,8 @@
               "Codes": [
                 10
               ],
-              "Type": 0
+              "Type": 0,
+              "ID": "46c1b793-0411-49bf-9348-8f7ca50c4997"
             },
             {
               "Name": "RESPONSE",
@@ -38,35 +34,34 @@
                 1,
                 2
               ],
-              "Type": 1
+              "Type": 1,
+              "ID": "e2f77cf0-55fd-4797-a545-32a9e93612bf"
             }
           ],
           "Icons": [],
-          "Treatments": []
+          "Treatments": [],
+          "ID": "88deb34a-0cb1-4e16-973d-35ce5e213124"
         }
-      ]
+      ],
+      "ID": "920645aa-8a55-45f7-8747-268005244579"
     },
     {
       "IllustrationPath": "",
-      "ID": "0e46ce88-d71e-4b70-8de2-0be82b62879c",
       "Name": "RESEARCH",
       "Order": 1,
       "Sort": "C0L1",
       "SubBlocs": [
         {
-          "ID": "36059e86-a317-4398-8549-29f7af924f44",
           "Name": "Main",
           "Order": 0,
           "Type": 0,
           "Window": {
             "Start": -500,
-            "End": 3500,
-            "Lenght": 4000
+            "End": 3500
           },
           "Baseline": {
             "Start": -200,
-            "End": 0,
-            "Lenght": 200
+            "End": 0
           },
           "Events": [
             {
@@ -74,7 +69,8 @@
               "Codes": [
                 60
               ],
-              "Type": 0
+              "Type": 0,
+              "ID": "b7f2429a-ab9a-4f75-a4e2-2b13902cd1c2"
             },
             {
               "Name": "RESPONSE",
@@ -82,13 +78,17 @@
                 1,
                 2
               ],
-              "Type": 1
+              "Type": 1,
+              "ID": "956a349e-aefb-4acf-bc19-a75ff73aaae2"
             }
           ],
           "Icons": [],
-          "Treatments": []
+          "Treatments": [],
+          "ID": "36059e86-a317-4398-8549-29f7af924f44"
         }
-      ]
+      ],
+      "ID": "0e46ce88-d71e-4b70-8de2-0be82b62879c"
     }
-  ]
+  ],
+  "ID": "ef503470-f6ec-4782-a1b3-a42e76d9c74c"
 }
