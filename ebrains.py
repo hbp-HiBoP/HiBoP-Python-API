@@ -81,18 +81,18 @@ def generate_group_and_dataset_by_protocol(prov: Protocol):
         gamma_file = ""
         files = next(os.walk(patient_path_func))[2]
         for file in files:
-            if re.match(patient_name_func + "_" + protocol.name + "_ds\\d+.pos$", file):
+            if re.match(patient_name_func + "_" + prov.name + "_ds\\d+.pos$", file):
                 pos_file = os.path.join(patient_path_func, file)
-            elif re.match(patient_name_func + "_" + protocol.name + "_f8f24_ds\\d+_sm0.eeg$", file):
+            elif re.match(patient_name_func + "_" + prov.name + "_f8f24_ds\\d+_sm0.eeg$", file):
                 ab_file = os.path.join(patient_path_func, file)
-            elif re.match(patient_name_func + "_" + protocol.name + "_f50f150_ds\\d+_sm0.eeg$", file):
+            elif re.match(patient_name_func + "_" + prov.name + "_f50f150_ds\\d+_sm0.eeg$", file):
                 gamma_file = os.path.join(patient_path_func, file)
         if os.path.isfile(pos_file) and os.path.isfile(ab_file) and os.path.isfile(gamma_file):
             patient = [x for x in patients if x.name == patient_name_func][0]
             dataset_patients.append(patient)
             dataset_datainfo.append(IEEGDataInfo("alpha_beta", Elan(ab_file, pos_file), patient, NormalizationType.Auto))
             dataset_datainfo.append(IEEGDataInfo("gamma", Elan(gamma_file, pos_file), patient, NormalizationType.Auto))
-    return Group(protocol.name, dataset_patients), Dataset(protocol.name, protocol, dataset_datainfo)
+    return Group(prov.name, dataset_patients), Dataset(prov.name, prov, dataset_datainfo)
 
 
 for protocol in protocols:
