@@ -27,14 +27,18 @@ class DataContainer(BaseData):
     def from_json_data(cls, json_data: dict) -> 'DataContainer':
         class_type = json_data["$type"]
         result = None
-        if class_type == "HBP.Data.Container.BrainVision, Assembly-CSharp":
+        if class_type == "HBP.Core.Data.Container.BrainVision, Assembly-CSharp":
             result = BrainVision.from_json_data(json_data)
-        elif class_type == "HBP.Data.Container.Elan, Assembly-CSharp":
+        elif class_type == "HBP.Core.Data.Container.Elan, Assembly-CSharp":
             result = Elan.from_json_data(json_data)
-        elif class_type == "HBP.Data.Container.EDF, Assembly-CSharp":
+        elif class_type == "HBP.Core.Data.Container.EDF, Assembly-CSharp":
             result = EDF.from_json_data(json_data)
-        elif class_type == "HBP.Data.Container.Micromed, Assembly-CSharp":
+        elif class_type == "HBP.Core.Data.Container.Micromed, Assembly-CSharp":
             result = Micromed.from_json_data(json_data)
+        elif class_type == "HBP.Core.Data.Container.FIF, Assembly-CSharp":
+            result = FIF.from_json_data(json_data)
+        elif class_type == "HBP.Core.Data.Container.Nifti, Assemby-CSharp":
+            result = Nifti.from_json_data(json_data)
         return result
 
 
@@ -45,7 +49,7 @@ class BrainVision(DataContainer):
 
     def to_json_data(self) -> dict:
         json_data = dict()
-        json_data["$type"] = "HBP.Data.Container.BrainVision, Assembly-CSharp"
+        json_data["$type"] = "HBP.Core.Data.Container.BrainVision, Assembly-CSharp"
         json_data.update(super().to_json_data())
         json_data["Header"] = self.header
         return json_data
@@ -62,7 +66,7 @@ class EDF(DataContainer):
 
     def to_json_data(self) -> dict:
         json_data = dict()
-        json_data["$type"] = "HBP.Data.Container.EDF, Assembly-CSharp"
+        json_data["$type"] = "HBP.Core.Data.Container.EDF, Assembly-CSharp"
         json_data.update(super().to_json_data())
         json_data["EDF"] = self.edf
         return json_data
@@ -79,7 +83,7 @@ class Micromed(DataContainer):
 
     def to_json_data(self) -> dict:
         json_data = dict()
-        json_data["$type"] = "HBP.Data.Container.EDF, Assembly-CSharp"
+        json_data["$type"] = "HBP.Core.Data.Container.EDF, Assembly-CSharp"
         json_data.update(super().to_json_data())
         json_data["TRC"] = self.trc
         return json_data
@@ -98,7 +102,7 @@ class Elan(DataContainer):
 
     def to_json_data(self) -> dict:
         json_data = dict()
-        json_data["$type"] = "HBP.Data.Container.Elan, Assembly-CSharp"
+        json_data["$type"] = "HBP.Core.Data.Container.Elan, Assembly-CSharp"
         json_data.update(super().to_json_data())
         json_data["EEG"] = self.eeg
         json_data["POS"] = self.pos
@@ -108,6 +112,40 @@ class Elan(DataContainer):
     @classmethod
     def from_json_data(cls, json_data) -> 'Elan':
         return cls(json_data["EEG"], json_data["POS"], json_data["Notes"], json_data["ID"])
+
+
+class FIF(DataContainer):
+    def __init__(self, fif: str = "", ID: str = ""):
+        super().__init__(ID)
+        self.fif = fif
+
+    def to_json_data(self) -> dict:
+        json_data = dict()
+        json_data["$type"] = "HBP.Core.Data.Container.FIF, Assembly-CSharp"
+        json_data.update(super().to_json_data())
+        json_data["FIF"] = self.fif
+        return json_data
+
+    @classmethod
+    def from_json_data(cls, json_data) -> 'FIF':
+        return cls(json_data["FIF"], json_data["ID"])
+
+
+class Nifti(DataContainer):
+    def __init__(self, file: str = "", ID: str = ""):
+        super().__init__(ID)
+        self.file = file
+
+    def to_json_data(self) -> dict:
+        json_data = dict()
+        json_data["$type"] = "HBP.Core.Data.Container.Nifti, Assembly-CSharp"
+        json_data.update(super().to_json_data())
+        json_data["File"] = self.file
+        return json_data
+
+    @classmethod
+    def from_json_data(cls, json_data) -> 'Nifti':
+        return cls(json_data["File"], json_data["ID"])
 
 
 class DataInfo(BaseData):
@@ -127,10 +165,16 @@ class DataInfo(BaseData):
     def from_json_data(cls, json_data: dict, patients: List[Patient] = None) -> 'DataInfo':
         class_type = json_data["$type"]
         result = None
-        if class_type == "HBP.Data.Experience.Dataset.IEEGDataInfo, Assembly-CSharp":
+        if class_type == "HBP.Core.Data.IEEGDataInfo, Assembly-CSharp":
             result = IEEGDataInfo.from_json_data(json_data, patients)
-        elif class_type == "HBP.Data.Experience.Dataset.CCEPDataInfo, Assembly-CSharp":
+        elif class_type == "HBP.Core.Data.CCEPDataInfo, Assembly-CSharp":
             result = CCEPDataInfo.from_json_data(json_data, patients)
+        elif class_type == "HBP.Core.Data.FMRIDataInfo, Assembly-CSharp":
+            result = FMRIDataInfo.from_json_data(json_data, patients)
+        elif class_type == "HBP.Core.Data.MEGcDataInfo, Assembly-CSharp":
+            result = MEGcDataInfo.from_json_data(json_data, patients)
+        elif class_type == "HBP.Core.Data.MEGvDataInfo, Assembly-CSharp":
+            result = MEGvDataInfo.from_json_data(json_data, patients)
         return result
 
 
@@ -143,7 +187,7 @@ class IEEGDataInfo(DataInfo):
 
     def to_json_data(self) -> dict:
         json_data = dict()
-        json_data["$type"] = "HBP.Data.Experience.Dataset.IEEGDataInfo, Assembly-CSharp"
+        json_data["$type"] = "HBP.Core.Data.IEEGDataInfo, Assembly-CSharp"
         json_data.update(super().to_json_data())
         json_data["Patient"] = self.patient.ID
         json_data["Normalization"] = self.normalization.value
@@ -167,7 +211,7 @@ class CCEPDataInfo(DataInfo):
 
     def to_json_data(self) -> dict:
         json_data = dict()
-        json_data["$type"] = "HBP.Data.Experience.Dataset.CCEPDataInfo, Assembly-CSharp"
+        json_data["$type"] = "HBP.Core.Data.CCEPDataInfo, Assembly-CSharp"
         json_data.update(super().to_json_data())
         json_data["Patient"] = self.patient.ID
         json_data["StimulatedChannel"] = self.stimulated_channel
@@ -179,6 +223,66 @@ class CCEPDataInfo(DataInfo):
                    DataContainer.from_json_data(json_data["DataContainer"]),
                    next(patient for patient in patients if patient.ID == json_data["Patient"]),
                    json_data["StimulatedChannel"],
+                   json_data["ID"])
+
+
+class FMRIDataInfo(DataInfo):
+    def __init__(self, name: str = "", data_container: DataContainer = None, patient: Patient = None, ID: str = ""):
+        super().__init__(name, data_container, ID)
+        self.patient = patient
+
+    def to_json_data(self) -> dict:
+        json_data = dict()
+        json_data["$type"] = "HBP.Core.Data.FMRIDataInfo, Assembly-CSharp"
+        json_data.update(super().to_json_data())
+        json_data["Patient"] = self.patient.ID
+        return json_data
+
+    @classmethod
+    def from_json_data(cls, json_data, patients: List[Patient] = None) -> 'FMRIDataInfo':
+        return cls(json_data["Name"],
+                   DataContainer.from_json_data(json_data["DataContainer"]),
+                   next(patient for patient in patients if patient.ID == json_data["Patient"]),
+                   json_data["ID"])
+
+
+class MEGcDataInfo(DataInfo):
+    def __init__(self, name: str = "", data_container: DataContainer = None, patient: Patient = None, ID: str = ""):
+        super().__init__(name, data_container, ID)
+        self.patient = patient
+
+    def to_json_data(self) -> dict:
+        json_data = dict()
+        json_data["$type"] = "HBP.Core.Data.MEGcDataInfo, Assembly-CSharp"
+        json_data.update(super().to_json_data())
+        json_data["Patient"] = self.patient.ID
+        return json_data
+
+    @classmethod
+    def from_json_data(cls, json_data, patients: List[Patient] = None) -> 'MEGcDataInfo':
+        return cls(json_data["Name"],
+                   DataContainer.from_json_data(json_data["DataContainer"]),
+                   next(patient for patient in patients if patient.ID == json_data["Patient"]),
+                   json_data["ID"])
+
+
+class MEGvDataInfo(DataInfo):
+    def __init__(self, name: str = "", data_container: DataContainer = None, patient: Patient = None, ID: str = ""):
+        super().__init__(name, data_container, ID)
+        self.patient = patient
+
+    def to_json_data(self) -> dict:
+        json_data = dict()
+        json_data["$type"] = "HBP.Core.Data.MEGvDataInfo, Assembly-CSharp"
+        json_data.update(super().to_json_data())
+        json_data["Patient"] = self.patient.ID
+        return json_data
+
+    @classmethod
+    def from_json_data(cls, json_data, patients: List[Patient] = None) -> 'MEGvDataInfo':
+        return cls(json_data["Name"],
+                   DataContainer.from_json_data(json_data["DataContainer"]),
+                   next(patient for patient in patients if patient.ID == json_data["Patient"]),
                    json_data["ID"])
 
 

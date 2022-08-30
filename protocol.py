@@ -75,23 +75,23 @@ class Treatment(BaseData):
     def from_json_data(cls, json_data: dict) -> 'Treatment':
         class_type = json_data["$type"]
         result = None
-        if class_type == "HBP.Data.Experience.Protocol.AbsTreatment, Assembly-CSharp":
+        if class_type == "HBP.Core.Data.AbsTreatment, Assembly-CSharp":
             result = AbsTreatment.from_json_data(json_data)
-        elif class_type == "HBP.Data.Experience.Protocol.ClampTreatment, Assembly-CSharp":
+        elif class_type == "HBP.Core.Data.ClampTreatment, Assembly-CSharp":
             result = ClampTreatment.from_json_data(json_data)
-        elif class_type == "HBP.Data.Experience.Protocol.FactorTreatment, Assembly-CSharp":
+        elif class_type == "HBP.Core.Data.FactorTreatment, Assembly-CSharp":
             result = FactorTreatment.from_json_data(json_data)
-        elif class_type == "HBP.Data.Experience.Protocol.MaxTreatment, Assembly-CSharp":
+        elif class_type == "HBP.Core.Data.MaxTreatment, Assembly-CSharp":
             result = MaxTreatment.from_json_data(json_data)
-        elif class_type == "HBP.Data.Experience.Protocol.MeanTreatment, Assembly-CSharp":
+        elif class_type == "HBP.Core.Data.MeanTreatment, Assembly-CSharp":
             result = MeanTreatment.from_json_data(json_data)
-        elif class_type == "HBP.Data.Experience.Protocol.MedianTreatment, Assembly-CSharp":
+        elif class_type == "HBP.Core.Data.MedianTreatment, Assembly-CSharp":
             result = MedianTreatment.from_json_data(json_data)
-        elif class_type == "HBP.Data.Experience.Protocol.MinTreatment, Assembly-CSharp":
+        elif class_type == "HBP.Core.Data.MinTreatment, Assembly-CSharp":
             result = MinTreatment.from_json_data(json_data)
-        elif class_type == "HBP.Data.Experience.Protocol.OffsetTreatment, Assembly-CSharp":
+        elif class_type == "HBP.Core.Data.OffsetTreatment, Assembly-CSharp":
             result = OffsetTreatment.from_json_data(json_data)
-        elif class_type == "HBP.Data.Experience.Protocol.RescaleTreatment, Assembly-CSharp":
+        elif class_type == "HBP.Core.Data.RescaleTreatment, Assembly-CSharp":
             result = RescaleTreatment.from_json_data(json_data)
         return result
 
@@ -103,7 +103,7 @@ class AbsTreatment(Treatment):
 
     def to_json_data(self) -> dict:
         json_data = dict()
-        json_data["$type"] = "HBP.Data.Experience.Protocol.AbsTreatment, Assembly-CSharp"
+        json_data["$type"] = "HBP.Core.Data.AbsTreatment, Assembly-CSharp"
         json_data.update(super().to_json_data())
         return json_data
 
@@ -129,7 +129,7 @@ class ClampTreatment(Treatment):
 
     def to_json_data(self) -> dict:
         json_data = dict()
-        json_data["$type"] = "HBP.Data.Experience.Protocol.ClampTreatment, Assembly-CSharp"
+        json_data["$type"] = "HBP.Core.Data.ClampTreatment, Assembly-CSharp"
         json_data.update(super().to_json_data())
         json_data['UseMinClamp'] = self.use_min_clamp
         json_data['Min'] = self.min_value
@@ -159,7 +159,7 @@ class FactorTreatment(Treatment):
 
     def to_json_data(self) -> dict:
         json_data = dict()
-        json_data["$type"] = "HBP.Data.Experience.Protocol.FactorTreatment, Assembly-CSharp"
+        json_data["$type"] = "HBP.Core.Data.FactorTreatment, Assembly-CSharp"
         json_data.update(super().to_json_data())
         json_data['Factor'] = self.factor
         return json_data
@@ -182,7 +182,7 @@ class MaxTreatment(Treatment):
 
     def to_json_data(self) -> dict:
         json_data = dict()
-        json_data["$type"] = "HBP.Data.Experience.Protocol.MaxTreatment, Assembly-CSharp"
+        json_data["$type"] = "HBP.Core.Data.MaxTreatment, Assembly-CSharp"
         json_data.update(super().to_json_data())
         return json_data
 
@@ -203,7 +203,7 @@ class MeanTreatment(Treatment):
 
     def to_json_data(self) -> dict:
         json_data = dict()
-        json_data["$type"] = "HBP.Data.Experience.Protocol.MeanTreatment, Assembly-CSharp"
+        json_data["$type"] = "HBP.Core.Data.MeanTreatment, Assembly-CSharp"
         json_data.update(super().to_json_data())
         return json_data
 
@@ -224,7 +224,7 @@ class MedianTreatment(Treatment):
 
     def to_json_data(self) -> dict:
         json_data = dict()
-        json_data["$type"] = "HBP.Data.Experience.Protocol.MedianTreatment, Assembly-CSharp"
+        json_data["$type"] = "HBP.Core.Data.MedianTreatment, Assembly-CSharp"
         json_data.update(super().to_json_data())
         return json_data
 
@@ -245,7 +245,7 @@ class MinTreatment(Treatment):
 
     def to_json_data(self) -> dict:
         json_data = dict()
-        json_data["$type"] = "HBP.Data.Experience.Protocol.MinTreatment, Assembly-CSharp"
+        json_data["$type"] = "HBP.Core.Data.MinTreatment, Assembly-CSharp"
         json_data.update(super().to_json_data())
         return json_data
 
@@ -267,7 +267,7 @@ class OffsetTreatment(Treatment):
 
     def to_json_data(self) -> dict:
         json_data = dict()
-        json_data["$type"] = "HBP.Data.Experience.Protocol.OffsetTreatment, Assembly-CSharp"
+        json_data["$type"] = "HBP.Core.Data.OffsetTreatment, Assembly-CSharp"
         json_data.update(super().to_json_data())
         json_data['Offset'] = self.offset
         return json_data
@@ -295,7 +295,7 @@ class RescaleTreatment(Treatment):
 
     def to_json_data(self) -> dict:
         json_data = dict()
-        json_data["$type"] = "HBP.Data.Experience.Protocol.RescaleTreatment, Assembly-CSharp"
+        json_data["$type"] = "HBP.Core.Data.RescaleTreatment, Assembly-CSharp"
         json_data.update(super().to_json_data())
         json_data['BeforeMin'] = self.before_min
         json_data['BeforeMax'] = self.before_max

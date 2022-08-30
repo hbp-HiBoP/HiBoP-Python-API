@@ -92,6 +92,78 @@ class AnatomicConfiguration(BaseData):
         return cls(json_data['ID'])
 
 
+class FMRIConfiguration(BaseData):
+    def __init__(self, negative_min: float = 0, negative_max: float = 0, positive_min: float = 0, positive_max: float = 0,
+                 hide_lower_values: bool = False, hide_middle_values: bool = False, hide_higher_values: bool = False,
+                 ID: str = ""):
+        super().__init__(ID)
+        self.negative_min = negative_min
+        self.negative_max = negative_max
+        self.positive_min = positive_min
+        self.positive_max = positive_max
+        self.hide_lower_values = hide_lower_values
+        self.hide_middle_values = hide_middle_values
+        self.hide_higher_values = hide_higher_values
+
+    def to_json_data(self) -> dict:
+        result = super().to_json_data()
+        result["Negative Min"] = self.negative_min
+        result["Negative Max"] = self.negative_max
+        result["Positive Min"] = self.positive_min
+        result["Positive Max"] = self.positive_max
+        result["Hide Lower Values"] = self.hide_lower_values
+        result["Hide Middle Values"] = self.hide_middle_values
+        result["Hide Higher Values"] = self.hide_higher_values
+        return result
+
+    @classmethod
+    def from_json_data(cls, json_data) -> 'FMRIConfiguration':
+        return cls(json_data["Negative Min"],
+                   json_data["Negative Max"],
+                   json_data["Positive Min"],
+                   json_data["Positive Max"],
+                   json_data["Hide Lower Values"],
+                   json_data["Hide Middle Values"],
+                   json_data["Hide Higher Values"],
+                   json_data["ID"])
+
+
+class MEGConfiguration(BaseData):
+    def __init__(self, negative_min: float = 0, negative_max: float = 0, positive_min: float = 0, positive_max: float = 0,
+                 hide_lower_values: bool = False, hide_middle_values: bool = False, hide_higher_values: bool = False,
+                 ID: str = ""):
+        super().__init__(ID)
+        self.negative_min = negative_min
+        self.negative_max = negative_max
+        self.positive_min = positive_min
+        self.positive_max = positive_max
+        self.hide_lower_values = hide_lower_values
+        self.hide_middle_values = hide_middle_values
+        self.hide_higher_values = hide_higher_values
+
+    def to_json_data(self) -> dict:
+        result = super().to_json_data()
+        result["Negative Min"] = self.negative_min
+        result["Negative Max"] = self.negative_max
+        result["Positive Min"] = self.positive_min
+        result["Positive Max"] = self.positive_max
+        result["Hide Lower Values"] = self.hide_lower_values
+        result["Hide Middle Values"] = self.hide_middle_values
+        result["Hide Higher Values"] = self.hide_higher_values
+        return result
+
+    @classmethod
+    def from_json_data(cls, json_data) -> 'MEGConfiguration':
+        return cls(json_data["Negative Min"],
+                   json_data["Negative Max"],
+                   json_data["Positive Min"],
+                   json_data["Positive Max"],
+                   json_data["Hide Lower Values"],
+                   json_data["Hide Middle Values"],
+                   json_data["Hide Higher Values"],
+                   json_data["ID"])
+
+
 class Column(BaseData):
     def __init__(self, name: str = "", base_configuration: BaseConfiguration = None, ID: str = ""):
         super().__init__(ID)
@@ -109,12 +181,16 @@ class Column(BaseData):
     def from_json_data(cls, json_data: dict, datasets: List[Dataset] = None) -> 'Column':
         class_type = json_data["$type"]
         result = None
-        if class_type == "HBP.Data.Visualization.IEEGColumn, Assembly-CSharp":
+        if class_type == "HBP.Core.Data.IEEGColumn, Assembly-CSharp":
             result = IEEGColumn.from_json_data(json_data, datasets)
-        elif class_type == "HBP.Data.Visualization.CCEPColumn, Assembly-CSharp":
+        elif class_type == "HBP.Core.Data.CCEPColumn, Assembly-CSharp":
             result = CCEPColumn.from_json_data(json_data, datasets)
-        elif class_type == "HBP.Data.Visualization.AnatomicColumn, Assembly-CSharp":
+        elif class_type == "HBP.Core.Data.AnatomicColumn, Assembly-CSharp":
             result = AnatomicColumn.from_json_data(json_data)
+        elif class_type == "HBP.Core.Data.FMRIColumn, Assembly-CSharp":
+            result = FMRIColumn.from_json_data(json_data)
+        elif class_type == "HBP.Core.Data.MEGColumn, Assembly-CSharp":
+            result = MEGColumn.from_json_data(json_data)
         return result
 
 
@@ -129,7 +205,7 @@ class IEEGColumn(Column):
 
     def to_json_data(self) -> dict:
         json_data = dict()
-        json_data["$type"] = "HBP.Data.Visualization.IEEGColumn, Assembly-CSharp"
+        json_data["$type"] = "HBP.Core.Data.IEEGColumn, Assembly-CSharp"
         json_data.update(super().to_json_data())
         json_data["Dataset"] = self.dataset.ID
         json_data["DataName"] = self.data
@@ -159,7 +235,7 @@ class CCEPColumn(Column):
 
     def to_json_data(self) -> dict:
         json_data = dict()
-        json_data["$type"] = "HBP.Data.Visualization.CCEPColumn, Assembly-CSharp"
+        json_data["$type"] = "HBP.Core.Data.CCEPColumn, Assembly-CSharp"
         json_data.update(super().to_json_data())
         json_data["Dataset"] = self.dataset.ID
         json_data["Bloc"] = self.bloc.ID
@@ -188,7 +264,7 @@ class AnatomicColumn(Column):
 
     def to_json_data(self) -> dict:
         json_data = dict()
-        json_data["$type"] = "HBP.Data.Visualization.AnatomicColumn, Assembly-CSharp"
+        json_data["$type"] = "HBP.Core.Data.AnatomicColumn, Assembly-CSharp"
         json_data.update(super().to_json_data())
         json_data["AnatomicConfiguration"] = self.anatomic_configuration.to_json_data()
         return json_data
@@ -198,6 +274,56 @@ class AnatomicColumn(Column):
         return cls(json_data["Name"],
                    BaseConfiguration.from_json_data(json_data["BaseConfiguration"]),
                    AnatomicConfiguration.from_json_data(json_data["AnatomicConfiguration"]),
+                   json_data['ID'])
+
+
+class FMRIColumn(Column):
+    def __init__(self, name: str = "", base_configuration: BaseConfiguration = None, dataset: Dataset = None,
+                 fmri_configuration: FMRIConfiguration = None, ID: str = ""):
+        super().__init__(name, base_configuration, ID)
+        self.dataset = dataset
+        self.fmri_configuration = fmri_configuration
+
+    def to_json_data(self) -> dict:
+        json_data = dict()
+        json_data["$type"] = "HBP.Core.Data.FMRIColumn, Assembly-CSharp"
+        json_data.update(super().to_json_data())
+        json_data["Dataset"] = self.dataset.ID
+        json_data["FMRIConfiguration"] = self.fmri_configuration.to_json_data()
+        return json_data
+
+    @classmethod
+    def from_json_data(cls, json_data: dict, datasets: List[Dataset] = None) -> 'FMRIColumn':
+        dataset = next(dataset for dataset in datasets if dataset.ID == json_data["Dataset"])
+        return cls(json_data["Name"],
+                   BaseConfiguration.from_json_data(json_data["BaseConfiguration"]),
+                   dataset,
+                   FMRIConfiguration.from_json_data(json_data["FMRIConfiguration"]),
+                   json_data['ID'])
+
+
+class MEGColumn(Column):
+    def __init__(self, name: str = "", base_configuration: BaseConfiguration = None, dataset: Dataset = None,
+                 meg_configuration: MEGConfiguration = None, ID: str = ""):
+        super().__init__(name, base_configuration, ID)
+        self.dataset = dataset
+        self.meg_configuration = meg_configuration
+
+    def to_json_data(self) -> dict:
+        json_data = dict()
+        json_data["$type"] = "HBP.Core.Data.FMRIColumn, Assembly-CSharp"
+        json_data.update(super().to_json_data())
+        json_data["Dataset"] = self.dataset.ID
+        json_data["MEGConfiguration"] = self.meg_configuration.to_json_data()
+        return json_data
+
+    @classmethod
+    def from_json_data(cls, json_data: dict, datasets: List[Dataset] = None) -> 'MEGColumn':
+        dataset = next(dataset for dataset in datasets if dataset.ID == json_data["Dataset"])
+        return cls(json_data["Name"],
+                   BaseConfiguration.from_json_data(json_data["BaseConfiguration"]),
+                   dataset,
+                   MEGConfiguration.from_json_data(json_data["MEGConfiguration"]),
                    json_data['ID'])
 
 

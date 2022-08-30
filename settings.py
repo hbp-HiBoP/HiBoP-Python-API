@@ -34,17 +34,17 @@ class BaseTag(BaseData):
     def from_json_data(cls, json_data: dict) -> 'BaseTag':
         class_type = json_data["$type"]
         result = None
-        if class_type == "HBP.Data.BoolTag, Assembly-CSharp":
+        if class_type == "HBP.Core.Data.BoolTag, Assembly-CSharp":
             result = BoolTag.from_json_data(json_data)
-        elif class_type == "HBP.Data.EmptyTag, Assembly-CSharp":
+        elif class_type == "HBP.Core.Data.EmptyTag, Assembly-CSharp":
             result = EmptyTag.from_json_data(json_data)
-        elif class_type == "HBP.Data.EnumTag, Assembly-CSharp":
+        elif class_type == "HBP.Core.Data.EnumTag, Assembly-CSharp":
             result = EnumTag.from_json_data(json_data)
-        elif class_type == "HBP.Data.FloatTag, Assembly-CSharp":
+        elif class_type == "HBP.Core.Data.FloatTag, Assembly-CSharp":
             result = FloatTag.from_json_data(json_data)
-        elif class_type == "HBP.Data.IntTag, Assembly-CSharp":
+        elif class_type == "HBP.Core.Data.IntTag, Assembly-CSharp":
             result = IntTag.from_json_data(json_data)
-        elif class_type == "HBP.Data.StringTag, Assembly-CSharp":
+        elif class_type == "HBP.Core.Data.StringTag, Assembly-CSharp":
             result = StringTag.from_json_data(json_data)
         return result
 
@@ -55,7 +55,7 @@ class BoolTag(BaseTag):
 
     def to_json_data(self) -> dict:
         json_data = dict()
-        json_data["$type"] = "HBP.Data.BoolTag, Assembly-CSharp"
+        json_data["$type"] = "HBP.Core.Data.BoolTag, Assembly-CSharp"
         json_data.update(super().to_json_data())
         return json_data
 
@@ -70,7 +70,7 @@ class EmptyTag(BaseTag):
 
     def to_json_data(self) -> dict:
         json_data = dict()
-        json_data["$type"] = "HBP.Data.EmptyTag, Assembly-CSharp"
+        json_data["$type"] = "HBP.Core.Data.EmptyTag, Assembly-CSharp"
         json_data.update(super().to_json_data())
         return json_data
 
@@ -85,7 +85,7 @@ class StringTag(BaseTag):
 
     def to_json_data(self) -> dict:
         json_data = dict()
-        json_data["$type"] = "HBP.Data.StringTag, Assembly-CSharp"
+        json_data["$type"] = "HBP.Core.Data.StringTag, Assembly-CSharp"
         json_data.update(super().to_json_data())
         return json_data
 
@@ -101,7 +101,7 @@ class EnumTag(BaseTag):
 
     def to_json_data(self) -> dict:
         json_data = dict()
-        json_data["$type"] = "HBP.Data.EnumTag, Assembly-CSharp"
+        json_data["$type"] = "HBP.Core.Data.EnumTag, Assembly-CSharp"
         json_data.update(super().to_json_data())
         json_data['Values'] = self.values
         return json_data
@@ -120,7 +120,7 @@ class FloatTag(BaseTag):
 
     def to_json_data(self) -> dict:
         json_data = dict()
-        json_data["$type"] = "HBP.Data.FloatTag, Assembly-CSharp"
+        json_data["$type"] = "HBP.Core.Data.FloatTag, Assembly-CSharp"
         json_data.update(super().to_json_data())
         json_data['Clamped'] = self.clamped
         json_data['Min'] = self.min_value
@@ -141,7 +141,7 @@ class IntTag(BaseTag):
 
     def to_json_data(self) -> dict:
         json_data = dict()
-        json_data["$type"] = "HBP.Data.IntTag, Assembly-CSharp"
+        json_data["$type"] = "HBP.Core.Data.IntTag, Assembly-CSharp"
         json_data.update(super().to_json_data())
         json_data['Clamped'] = self.clamped
         json_data['Min'] = self.min_value
@@ -173,17 +173,17 @@ class BaseTagValue(BaseData):
     def from_json_data(cls, json_data: dict, tags: List[BaseTag] = None) -> 'BaseTagValue':
         class_type = json_data["$type"]
         result = None
-        if class_type == "HBP.Data.BoolTagValue, Assembly-CSharp":
+        if class_type == "HBP.Core.Data.BoolTagValue, Assembly-CSharp":
             result = BoolTagValue.from_json_data(json_data, tags)
-        elif class_type == "HBP.Data.EmptyTagValue, Assembly-CSharp":
+        elif class_type == "HBP.Core.Data.EmptyTagValue, Assembly-CSharp":
             result = EmptyTagValue.from_json_data(json_data, tags)
-        elif class_type == "HBP.Data.EnumTagValue, Assembly-CSharp":
+        elif class_type == "HBP.Core.Data.EnumTagValue, Assembly-CSharp":
             result = EnumTagValue.from_json_data(json_data, tags)
-        elif class_type == "HBP.Data.FloatTagValue, Assembly-CSharp":
+        elif class_type == "HBP.Core.Data.FloatTagValue, Assembly-CSharp":
             result = FloatTagValue.from_json_data(json_data, tags)
-        elif class_type == "HBP.Data.IntTagValue, Assembly-CSharp":
+        elif class_type == "HBP.Core.Data.IntTagValue, Assembly-CSharp":
             result = IntTagValue.from_json_data(json_data, tags)
-        elif class_type == "HBP.Data.StringTagValue, Assembly-CSharp":
+        elif class_type == "HBP.Core.Data.StringTagValue, Assembly-CSharp":
             result = StringTagValue.from_json_data(json_data, tags)
         return result
 
@@ -194,7 +194,7 @@ class BoolTagValue(BaseTagValue):
 
     def to_json_data(self):
         json_data = dict()
-        json_data["$type"] = "HBP.Data.BoolTagValue, Assembly-CSharp"
+        json_data["$type"] = "HBP.Core.Data.BoolTagValue, Assembly-CSharp"
         json_data.update(super().to_json_data())
         return json_data
 
@@ -209,7 +209,7 @@ class EmptyTagValue(BaseTagValue):
 
     def to_json_data(self):
         json_data = dict()
-        json_data["$type"] = "HBP.Data.EmptyTagValue, Assembly-CSharp"
+        json_data["$type"] = "HBP.Core.Data.EmptyTagValue, Assembly-CSharp"
         json_data.update(super().to_json_data())
         return json_data
 
@@ -224,7 +224,7 @@ class EnumTagValue(BaseTagValue):
 
     def to_json_data(self):
         json_data = dict()
-        json_data["$type"] = "HBP.Data.EnumTagValue, Assembly-CSharp"
+        json_data["$type"] = "HBP.Core.Data.EnumTagValue, Assembly-CSharp"
         json_data.update(super().to_json_data())
         return json_data
 
@@ -239,7 +239,7 @@ class FloatTagValue(BaseTagValue):
 
     def to_json_data(self):
         json_data = dict()
-        json_data["$type"] = "HBP.Data.FloatTagValue, Assembly-CSharp"
+        json_data["$type"] = "HBP.Core.Data.FloatTagValue, Assembly-CSharp"
         json_data.update(super().to_json_data())
         return json_data
 
@@ -254,7 +254,7 @@ class IntTagValue(BaseTagValue):
 
     def to_json_data(self):
         json_data = dict()
-        json_data["$type"] = "HBP.Data.IntTagValue, Assembly-CSharp"
+        json_data["$type"] = "HBP.Core.Data.IntTagValue, Assembly-CSharp"
         json_data.update(super().to_json_data())
         return json_data
 
@@ -269,7 +269,7 @@ class StringTagValue(BaseTagValue):
 
     def to_json_data(self):
         json_data = dict()
-        json_data["$type"] = "HBP.Data.StringTagValue, Assembly-CSharp"
+        json_data["$type"] = "HBP.Core.Data.StringTagValue, Assembly-CSharp"
         json_data.update(super().to_json_data())
         return json_data
 
