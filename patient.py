@@ -22,9 +22,9 @@ class BaseMesh(BaseData):
     def from_json_data(cls, json_data: dict) -> 'BaseMesh':
         class_type = json_data["$type"]
         result = None
-        if class_type == "HBP.Core.Data.LeftRightMesh, Assembly-CSharp":
+        if class_type == "HBP.Core.Data.LeftRightMesh, Assembly-CSharp" or class_type == "HBP.Data.LeftRightMesh, Assembly-CSharp":
             result = LeftRightMesh.from_json_data(json_data)
-        elif class_type == "HBP.Core.Data.SingleMesh, Assembly-CSharp":
+        elif class_type == "HBP.Core.Data.SingleMesh, Assembly-CSharp" or class_type == "HBP.Data.SingleMesh, Assembly-CSharp":
             result = SingleMesh.from_json_data(json_data)
         return result
 

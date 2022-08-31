@@ -75,23 +75,23 @@ class Treatment(BaseData):
     def from_json_data(cls, json_data: dict) -> 'Treatment':
         class_type = json_data["$type"]
         result = None
-        if class_type == "HBP.Core.Data.AbsTreatment, Assembly-CSharp":
+        if class_type == "HBP.Core.Data.AbsTreatment, Assembly-CSharp" or class_type == "HBP.Data.Experience.Protocol.AbsTreatment, Assembly-CSharp":
             result = AbsTreatment.from_json_data(json_data)
-        elif class_type == "HBP.Core.Data.ClampTreatment, Assembly-CSharp":
+        elif class_type == "HBP.Core.Data.ClampTreatment, Assembly-CSharp" or class_type == "HBP.Data.Experience.Protocol.ClampTreatment, Assembly-CSharp":
             result = ClampTreatment.from_json_data(json_data)
-        elif class_type == "HBP.Core.Data.FactorTreatment, Assembly-CSharp":
+        elif class_type == "HBP.Core.Data.FactorTreatment, Assembly-CSharp" or class_type == "HBP.Data.Experience.Protocol.FactorTreatment, Assembly-CSharp":
             result = FactorTreatment.from_json_data(json_data)
-        elif class_type == "HBP.Core.Data.MaxTreatment, Assembly-CSharp":
+        elif class_type == "HBP.Core.Data.MaxTreatment, Assembly-CSharp" or class_type == "HBP.Data.Experience.Protocol.MaxTreatment, Assembly-CSharp":
             result = MaxTreatment.from_json_data(json_data)
-        elif class_type == "HBP.Core.Data.MeanTreatment, Assembly-CSharp":
+        elif class_type == "HBP.Core.Data.MeanTreatment, Assembly-CSharp" or class_type == "HBP.Data.Experience.Protocol.MeanTreatment, Assembly-CSharp":
             result = MeanTreatment.from_json_data(json_data)
-        elif class_type == "HBP.Core.Data.MedianTreatment, Assembly-CSharp":
+        elif class_type == "HBP.Core.Data.MedianTreatment, Assembly-CSharp" or class_type == "HBP.Data.Experience.Protocol.MedianTreatment, Assembly-CSharp":
             result = MedianTreatment.from_json_data(json_data)
-        elif class_type == "HBP.Core.Data.MinTreatment, Assembly-CSharp":
+        elif class_type == "HBP.Core.Data.MinTreatment, Assembly-CSharp" or class_type == "HBP.Data.Experience.Protocol.MinTreatment, Assembly-CSharp":
             result = MinTreatment.from_json_data(json_data)
-        elif class_type == "HBP.Core.Data.OffsetTreatment, Assembly-CSharp":
+        elif class_type == "HBP.Core.Data.OffsetTreatment, Assembly-CSharp" or class_type == "HBP.Data.Experience.Protocol.OffsetTreatment, Assembly-CSharp":
             result = OffsetTreatment.from_json_data(json_data)
-        elif class_type == "HBP.Core.Data.RescaleTreatment, Assembly-CSharp":
+        elif class_type == "HBP.Core.Data.RescaleTreatment, Assembly-CSharp" or class_type == "HBP.Data.Experience.Protocol.RescaleTreatment, Assembly-CSharp":
             result = RescaleTreatment.from_json_data(json_data)
         return result
 

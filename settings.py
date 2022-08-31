@@ -34,17 +34,17 @@ class BaseTag(BaseData):
     def from_json_data(cls, json_data: dict) -> 'BaseTag':
         class_type = json_data["$type"]
         result = None
-        if class_type == "HBP.Core.Data.BoolTag, Assembly-CSharp":
+        if class_type == "HBP.Core.Data.BoolTag, Assembly-CSharp" or class_type == "HBP.Data.BoolTag, Assembly-CSharp":
             result = BoolTag.from_json_data(json_data)
-        elif class_type == "HBP.Core.Data.EmptyTag, Assembly-CSharp":
+        elif class_type == "HBP.Core.Data.EmptyTag, Assembly-CSharp" or class_type == "HBP.Data.EmptyTag, Assembly-CSharp":
             result = EmptyTag.from_json_data(json_data)
-        elif class_type == "HBP.Core.Data.EnumTag, Assembly-CSharp":
+        elif class_type == "HBP.Core.Data.EnumTag, Assembly-CSharp" or class_type == "HBP.Data.EnumTag, Assembly-CSharp":
             result = EnumTag.from_json_data(json_data)
-        elif class_type == "HBP.Core.Data.FloatTag, Assembly-CSharp":
+        elif class_type == "HBP.Core.Data.FloatTag, Assembly-CSharp" or class_type == "HBP.Data.FloatTag, Assembly-CSharp":
             result = FloatTag.from_json_data(json_data)
-        elif class_type == "HBP.Core.Data.IntTag, Assembly-CSharp":
+        elif class_type == "HBP.Core.Data.IntTag, Assembly-CSharp" or class_type == "HBP.Data.IntTag, Assembly-CSharp":
             result = IntTag.from_json_data(json_data)
-        elif class_type == "HBP.Core.Data.StringTag, Assembly-CSharp":
+        elif class_type == "HBP.Core.Data.StringTag, Assembly-CSharp" or class_type == "HBP.Data.StringTag, Assembly-CSharp":
             result = StringTag.from_json_data(json_data)
         return result
 
@@ -173,17 +173,17 @@ class BaseTagValue(BaseData):
     def from_json_data(cls, json_data: dict, tags: List[BaseTag] = None) -> 'BaseTagValue':
         class_type = json_data["$type"]
         result = None
-        if class_type == "HBP.Core.Data.BoolTagValue, Assembly-CSharp":
+        if class_type == "HBP.Core.Data.BoolTagValue, Assembly-CSharp" or class_type == "HBP.Data.BoolTagValue, Assembly-CSharp":
             result = BoolTagValue.from_json_data(json_data, tags)
-        elif class_type == "HBP.Core.Data.EmptyTagValue, Assembly-CSharp":
+        elif class_type == "HBP.Core.Data.EmptyTagValue, Assembly-CSharp" or class_type == "HBP.Data.EmptyTagValue, Assembly-CSharp":
             result = EmptyTagValue.from_json_data(json_data, tags)
-        elif class_type == "HBP.Core.Data.EnumTagValue, Assembly-CSharp":
+        elif class_type == "HBP.Core.Data.EnumTagValue, Assembly-CSharp" or class_type == "HBP.Data.EnumTagValue, Assembly-CSharp":
             result = EnumTagValue.from_json_data(json_data, tags)
-        elif class_type == "HBP.Core.Data.FloatTagValue, Assembly-CSharp":
+        elif class_type == "HBP.Core.Data.FloatTagValue, Assembly-CSharp" or class_type == "HBP.Data.FloatTagValue, Assembly-CSharp":
             result = FloatTagValue.from_json_data(json_data, tags)
-        elif class_type == "HBP.Core.Data.IntTagValue, Assembly-CSharp":
+        elif class_type == "HBP.Core.Data.IntTagValue, Assembly-CSharp" or class_type == "HBP.Data.IntTagValue, Assembly-CSharp":
             result = IntTagValue.from_json_data(json_data, tags)
-        elif class_type == "HBP.Core.Data.StringTagValue, Assembly-CSharp":
+        elif class_type == "HBP.Core.Data.StringTagValue, Assembly-CSharp" or class_type == "HBP.Data.StringTagValue, Assembly-CSharp":
             result = StringTagValue.from_json_data(json_data, tags)
         return result
 

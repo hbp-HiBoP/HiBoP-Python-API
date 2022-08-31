@@ -34,36 +34,34 @@ class SiteConfiguration(BaseData):
 
 
 class BaseConfiguration(BaseData):
-    def __init__(self, configuration_by_site = None, ID: str = ""):
+    def __init__(self, activity_alpha: float = 0.8, configuration_by_site = None, ID: str = ""):
         super().__init__(ID)
+        self.activity_alpha = activity_alpha
         self.configuration_by_site = configuration_by_site if configuration_by_site is not None else {}
 
     def to_json_data(self) -> dict:
         json_data = super().to_json_data()
+        json_data['Activity Alpha'] = self.activity_alpha
         json_data['ConfigurationBySite'] = {key: self.configuration_by_site[key].to_json_data() for key in self.configuration_by_site.keys()}
         return json_data
 
     @classmethod
     def from_json_data(cls, json_data) -> 'BaseConfiguration':
-        return cls({key: SiteConfiguration.from_json_data(json_data["ConfigurationBySite"][key]) for key in json_data["ConfigurationBySite"].keys()})
+        return cls(json_data['Activity Alpha'], {key: SiteConfiguration.from_json_data(json_data["ConfigurationBySite"][key]) for key in json_data["ConfigurationBySite"].keys()})
 
 
 class DynamicConfiguration(BaseData):
-    def __init__(self, site_gain: float = 1.0, site_maximum_influence: float = 15.0, transparency: float = 0.8,
-                 span_min: float = 0, middle: float = 0.5, span_max: float = 1.0, ID: str = ""):
+    def __init__(self, site_maximum_influence: float = 15.0, span_min: float = 0, middle: float = 0.5,
+                 span_max: float = 1.0, ID: str = ""):
         super().__init__(ID)
-        self.site_gain = site_gain
         self.site_maximum_influence = site_maximum_influence
-        self.transparency = transparency
         self.span_min = span_min
         self.middle = middle
         self.span_max = span_max
 
     def to_json_data(self) -> dict:
         result = super().to_json_data()
-        result["Site Gain"] = self.site_gain
         result["Site Maximum Influence"] = self.site_maximum_influence
-        result["Transparency"] = self.transparency
         result["Span Min"] = self.span_min
         result["Middle"] = self.middle
         result["Span Max"] = self.span_max
@@ -71,9 +69,7 @@ class DynamicConfiguration(BaseData):
 
     @classmethod
     def from_json_data(cls, json_data) -> 'DynamicConfiguration':
-        return cls(json_data["Site Gain"],
-                   json_data["Site Maximum Influence"],
-                   json_data["Transparency"],
+        return cls(json_data["Site Maximum Influence"],
                    json_data["Span Min"],
                    json_data["Middle"],
                    json_data["Span Max"],
@@ -181,15 +177,15 @@ class Column(BaseData):
     def from_json_data(cls, json_data: dict, datasets: List[Dataset] = None) -> 'Column':
         class_type = json_data["$type"]
         result = None
-        if class_type == "HBP.Core.Data.IEEGColumn, Assembly-CSharp":
+        if class_type == "HBP.Core.Data.IEEGColumn, Assembly-CSharp" or class_type == "HBP.Data.Visualization.IEEGColumn, Assembly-CSharp":
             result = IEEGColumn.from_json_data(json_data, datasets)
-        elif class_type == "HBP.Core.Data.CCEPColumn, Assembly-CSharp":
+        elif class_type == "HBP.Core.Data.CCEPColumn, Assembly-CSharp" or class_type == "HBP.Data.Visualization.CCEPColumn, Assembly-CSharp":
             result = CCEPColumn.from_json_data(json_data, datasets)
-        elif class_type == "HBP.Core.Data.AnatomicColumn, Assembly-CSharp":
+        elif class_type == "HBP.Core.Data.AnatomicColumn, Assembly-CSharp" or class_type == "HBP.Data.Visualization.AnatomicColumn, Assembly-CSharp":
             result = AnatomicColumn.from_json_data(json_data)
-        elif class_type == "HBP.Core.Data.FMRIColumn, Assembly-CSharp":
+        elif class_type == "HBP.Core.Data.FMRIColumn, Assembly-CSharp" or class_type == "HBP.Data.Visualization.FMRIColumn, Assembly-CSharp":
             result = FMRIColumn.from_json_data(json_data)
-        elif class_type == "HBP.Core.Data.MEGColumn, Assembly-CSharp":
+        elif class_type == "HBP.Core.Data.MEGColumn, Assembly-CSharp" or class_type == "HBP.Data.Visualization.MEGColumn, Assembly-CSharp":
             result = MEGColumn.from_json_data(json_data)
         return result
 
@@ -420,15 +416,15 @@ class Cut:
 
 class VisualizationConfiguration(BaseData):
     def __init__(self, brain_color: ColorType = ColorType.Grayscale, brain_cut_color: ColorType = ColorType.Grayscale,
-                 EEG_color: ColorType = ColorType.Grayscale, mesh_part: MeshPart = MeshPart.Left,
+                 colormap: ColorType = ColorType.Grayscale, mesh_part: MeshPart = MeshPart.Left,
                  mesh_name: str = "", MRI_name: str = "", implantation_name: str = "", show_edges: bool = False, transparent_brain: bool = False,
-                 brain_alpha: float = 0.2, strong_cuts: bool = False, hide_blacklisted_sites: bool = False, show_all_sites: bool = False,
-                 MRI_min: float = 0, MRI_max: float = 1, camera_type: CameraControl = CameraControl.Trackball,
+                 brain_alpha: float = 0.2, strong_cuts: bool = False, hide_blacklisted_sites: bool = False, show_all_sites: bool = False, automatic_cut_around_selected_site: bool = False,
+                 site_gain: float = 1.0, MRI_min: float = 0, MRI_max: float = 1, camera_type: CameraControl = CameraControl.Trackball,
                  cuts: List[Cut] = None, views: List[View] = None, regions_of_interest: List[RegionOfInterest] = None, ID: str = ""):
         super().__init__(ID)
         self.brain_color = brain_color
         self.brain_cut_color = brain_cut_color
-        self.EEG_color = EEG_color
+        self.colormap = colormap
         self.mesh_part = mesh_part
         self.mesh_name = mesh_name
         self.MRI_name = MRI_name
@@ -439,6 +435,8 @@ class VisualizationConfiguration(BaseData):
         self.strong_cuts = strong_cuts
         self.hide_blacklisted_sites = hide_blacklisted_sites
         self.show_all_sites = show_all_sites
+        self.automatic_cut_around_selected_site = automatic_cut_around_selected_site
+        self.site_gain = site_gain
         self.MRI_min = MRI_min
         self.MRI_max = MRI_max
         self.camera_type = camera_type
@@ -450,7 +448,7 @@ class VisualizationConfiguration(BaseData):
         json_data = super().to_json_data()
         json_data["Brain Color"] = self.brain_color.value
         json_data["Brain Cut Color"] = self.brain_cut_color.value
-        json_data["EEG Colormap"] = self.EEG_color.value
+        json_data["Colormap"] = self.colormap.value
         json_data["Mesh Part"] = self.mesh_part.value
         json_data["Mesh"] = self.mesh_name
         json_data["MRI"] = self.MRI_name
@@ -461,6 +459,8 @@ class VisualizationConfiguration(BaseData):
         json_data["Strong Cuts"] = self.strong_cuts
         json_data["Hide Blacklisted Sites"] = self.hide_blacklisted_sites
         json_data["ShowAllSites"] = self.show_all_sites
+        json_data["AutomaticCutAroundSelectedSite"] = self.automatic_cut_around_selected_site
+        json_data["Site Gain"] = self.site_gain
         json_data["MRI Min"] = self.MRI_min
         json_data["MRI Max"] = self.MRI_max
         json_data["Camera Type"] = self.camera_type.value
@@ -473,7 +473,7 @@ class VisualizationConfiguration(BaseData):
     def from_json_data(cls, json_data) -> 'VisualizationConfiguration':
         return cls(ColorType(json_data["Brain Color"]),
                    ColorType(json_data["Brain Cut Color"]),
-                   ColorType(json_data["EEG Colormap"]),
+                   ColorType(json_data["Colormap"]),
                    MeshPart(json_data["Mesh Part"]),
                    json_data["Mesh"],
                    json_data["MRI"],
@@ -484,6 +484,8 @@ class VisualizationConfiguration(BaseData):
                    json_data["Strong Cuts"],
                    json_data["Hide Blacklisted Sites"],
                    json_data["ShowAllSites"],
+                   json_data["AutomaticCutAroundSelectedSite"],
+                   json_data["Site Gain"],
                    json_data["MRI Min"],
                    json_data["MRI Max"],
                    CameraControl(json_data["Camera Type"]),

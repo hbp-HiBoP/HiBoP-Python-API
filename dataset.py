@@ -27,17 +27,17 @@ class DataContainer(BaseData):
     def from_json_data(cls, json_data: dict) -> 'DataContainer':
         class_type = json_data["$type"]
         result = None
-        if class_type == "HBP.Core.Data.Container.BrainVision, Assembly-CSharp":
+        if class_type == "HBP.Core.Data.Container.BrainVision, Assembly-CSharp" or class_type == "HBP.Data.Container.BrainVision, Assembly-CSharp":
             result = BrainVision.from_json_data(json_data)
-        elif class_type == "HBP.Core.Data.Container.Elan, Assembly-CSharp":
+        elif class_type == "HBP.Core.Data.Container.Elan, Assembly-CSharp" or class_type == "HBP.Data.Container.Elan, Assembly-CSharp":
             result = Elan.from_json_data(json_data)
-        elif class_type == "HBP.Core.Data.Container.EDF, Assembly-CSharp":
+        elif class_type == "HBP.Core.Data.Container.EDF, Assembly-CSharp" or class_type == "HBP.Data.Container.EDF, Assembly-CSharp":
             result = EDF.from_json_data(json_data)
-        elif class_type == "HBP.Core.Data.Container.Micromed, Assembly-CSharp":
+        elif class_type == "HBP.Core.Data.Container.Micromed, Assembly-CSharp" or class_type == "HBP.Data.Container.Micromed, Assembly-CSharp":
             result = Micromed.from_json_data(json_data)
-        elif class_type == "HBP.Core.Data.Container.FIF, Assembly-CSharp":
+        elif class_type == "HBP.Core.Data.Container.FIF, Assembly-CSharp" or class_type == "HBP.Data.Container.FIF, Assembly-CSharp":
             result = FIF.from_json_data(json_data)
-        elif class_type == "HBP.Core.Data.Container.Nifti, Assemby-CSharp":
+        elif class_type == "HBP.Core.Data.Container.Nifti, Assemby-CSharp" or class_type == "HBP.Data.Container.Nifti, Assemby-CSharp":
             result = Nifti.from_json_data(json_data)
         return result
 
@@ -165,15 +165,15 @@ class DataInfo(BaseData):
     def from_json_data(cls, json_data: dict, patients: List[Patient] = None) -> 'DataInfo':
         class_type = json_data["$type"]
         result = None
-        if class_type == "HBP.Core.Data.IEEGDataInfo, Assembly-CSharp":
+        if class_type == "HBP.Core.Data.IEEGDataInfo, Assembly-CSharp" or class_type == "HBP.Data.Experience.Dataset.IEEGDataInfo, Assembly-CSharp":
             result = IEEGDataInfo.from_json_data(json_data, patients)
-        elif class_type == "HBP.Core.Data.CCEPDataInfo, Assembly-CSharp":
+        elif class_type == "HBP.Core.Data.CCEPDataInfo, Assembly-CSharp" or class_type == "HBP.Data.Experience.Dataset.CCEPDataInfo, Assembly-CSharp":
             result = CCEPDataInfo.from_json_data(json_data, patients)
-        elif class_type == "HBP.Core.Data.FMRIDataInfo, Assembly-CSharp":
+        elif class_type == "HBP.Core.Data.FMRIDataInfo, Assembly-CSharp" or class_type == "HBP.Data.Experience.Dataset.FMRIDataInfo, Assembly-CSharp":
             result = FMRIDataInfo.from_json_data(json_data, patients)
-        elif class_type == "HBP.Core.Data.MEGcDataInfo, Assembly-CSharp":
+        elif class_type == "HBP.Core.Data.MEGcDataInfo, Assembly-CSharp" or class_type == "HBP.Data.Experience.Dataset.MEGcDataInfo, Assembly-CSharp":
             result = MEGcDataInfo.from_json_data(json_data, patients)
-        elif class_type == "HBP.Core.Data.MEGvDataInfo, Assembly-CSharp":
+        elif class_type == "HBP.Core.Data.MEGvDataInfo, Assembly-CSharp" or class_type == "HBP.Data.Experience.Dataset.MEGvDataInfo, Assembly-CSharp":
             result = MEGvDataInfo.from_json_data(json_data, patients)
         return result
 

@@ -156,6 +156,11 @@ class Project:
             with zipfile.ZipFile(path, "r") as zip:
                 namelist = zip.namelist()
 
+                # Get into tmp dir
+                if not os.path.isdir(".tmp"):
+                    os.mkdir(".tmp")
+                os.chdir(".tmp")
+
                 # Load Settings
                 settings_path = next(name for name in namelist if str.endswith(name, ".settings"))
                 settings = None
@@ -171,14 +176,14 @@ class Project:
                 patients = []
                 for i, patient_path in enumerate(patients_path):
                     try:
-                        patients.append(Patient.from_json_file(zip.extract(patient_path)))
+                        patients.append(Patient.from_json_file(zip.extract(patient_path), settings.general_tags + settings.patients_tags + settings.sites_tags))
                     except OSError:
                         print("[{0}/{1}] Loading of the patient file {2} failed".format(i + 1, len(patients_path),
                                                                                         patient_path))
                     else:
                         print("[{0}/{1}] Successfully loaded the patient file {2}".format(i + 1, len(patients_path),
                                                                                           patient_path))
-                patients = [Patient.from_json_file(zip.extract(patient)) for patient in patients_path]
+                patients = [Patient.from_json_file(zip.extract(patient), settings.general_tags + settings.patients_tags + settings.sites_tags) for patient in patients_path]
 
                 # Load Groups
                 groups_path = [name for name in namelist if str.endswith(name, ".group")]
@@ -235,7 +240,17 @@ class Project:
                                                                                                 len(visualizations_path)
                                                                                                 , visualization_path))
 
+                # Change dir back and delete tmp
+                os.chdir("..")
+                for root, dirs, files in os.walk(".tmp", topdown=False):
+                    for name in files:
+                        os.remove(os.path.join(root, name))
+                    for name in dirs:
+                        os.rmdir(os.path.join(root, name))
+                os.rmdir(".tmp")
                 print("Successfully loaded the project %s " % path)
+
                 return cls(settings, patients, groups, protocols, datasets, visualizations)
-        except OSError:
+        except OSError as err:
+            print(err)
             print("Loading of the project %s failed" % path)
