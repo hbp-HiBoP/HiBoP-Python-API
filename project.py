@@ -26,7 +26,7 @@ class Project:
 
     def save(self, path):
         # General
-        project_directory_path = path + os.altsep + self.preferences.name
+        project_directory_path = os.path.join(path,self.preferences.name)
         try:
             if os.path.exists(project_directory_path):
                 shutil.rmtree(project_directory_path)
@@ -37,7 +37,7 @@ class Project:
             print("Successfully created the directory %s " % project_directory_path)
 
             # Project Preferences
-            settings_path = project_directory_path + os.altsep + self.preferences.name + ".settings"
+            settings_path = os.path.join(project_directory_path, self.preferences.name + ".settings")
             try:
                 self.preferences.to_json_file(settings_path)
             except OSError:
@@ -46,7 +46,7 @@ class Project:
                 print("Successfully created the file %s " % settings_path)
 
             # Patients
-            patients_directory_path = project_directory_path + os.altsep + "Patients"
+            patients_directory_path = os.path.join(project_directory_path, "Patients")
             try:
                 os.mkdir(patients_directory_path)
             except OSError:
@@ -54,7 +54,7 @@ class Project:
             else:
                 print("Successfully created the directory %s " % patients_directory_path)
                 for patient in self.patients:
-                    patient_path = patients_directory_path + os.altsep + patient.name + ".patient"
+                    patient_path = os.path.join(patients_directory_path, patient.name + ".patient")
                     try:
                         patient.to_json_file(patient_path)
                     except OSError:
@@ -63,7 +63,7 @@ class Project:
                         print("Successfully created the file %s " % patient_path)
 
             # Groups
-            groups_directory_path = project_directory_path + os.altsep + "Groups"
+            groups_directory_path = os.path.join(project_directory_path, "Groups")
             try:
                 os.mkdir(groups_directory_path)
             except OSError:
@@ -71,7 +71,7 @@ class Project:
             else:
                 print("Successfully created the directory %s " % groups_directory_path)
                 for group in self.groups:
-                    group_path = groups_directory_path + os.altsep + group.name + ".group"
+                    group_path = os.path.join(groups_directory_path, group.name + ".group")
                     try:
                         group.to_json_file(group_path)
                     except OSError:
@@ -80,7 +80,7 @@ class Project:
                         print("Successfully created the file %s " % group_path)
 
             # Protocols
-            protocols_directory_path = project_directory_path + os.altsep + "Protocols"
+            protocols_directory_path = os.path.join(project_directory_path, "Protocols")
             try:
                 os.mkdir(protocols_directory_path)
             except OSError:
@@ -88,7 +88,7 @@ class Project:
             else:
                 print("Successfully created the directory %s " % protocols_directory_path)
                 for protocol in self.protocols:
-                    protocol_path = protocols_directory_path + os.altsep + protocol.name + ".prov"
+                    protocol_path = os.path.join(protocols_directory_path, protocol.name + ".prov")
                     try:
                         protocol.to_json_file(protocol_path)
                     except OSError:
@@ -97,7 +97,7 @@ class Project:
                         print("Successfully created the file %s " % protocol_path)
 
             # Datasets
-            datasets_directory_path = project_directory_path + os.altsep + "Datasets"
+            datasets_directory_path = os.path.join(project_directory_path, "Datasets")
             try:
                 os.mkdir(datasets_directory_path)
             except OSError:
@@ -105,7 +105,7 @@ class Project:
             else:
                 print("Successfully created the directory %s " % datasets_directory_path)
                 for dataset in self.datasets:
-                    dataset_path = datasets_directory_path + os.altsep + dataset.name + ".dataset"
+                    dataset_path = os.path.join(datasets_directory_path, dataset.name + ".dataset")
                     try:
                         dataset.to_json_file(dataset_path)
                     except OSError:
@@ -114,7 +114,7 @@ class Project:
                         print("Successfully created the file %s " % dataset_path)
 
             # Visualizations
-            visualizations_directory_path = project_directory_path + os.altsep + "Visualizations"
+            visualizations_directory_path = os.path.join(project_directory_path, "Visualizations")
             try:
                 os.mkdir(visualizations_directory_path)
             except OSError:
@@ -122,8 +122,7 @@ class Project:
             else:
                 print("Successfully created the directory %s " % visualizations_directory_path)
                 for visualization in self.visualizations:
-                    visualization_path = visualizations_directory_path + os.altsep + visualization.name\
-                                         + ".visualization"
+                    visualization_path = os.path.join(visualizations_directory_path, visualization.name + ".visualization")
                     try:
                         visualization.to_json_file(visualization_path)
                     except OSError:
