@@ -83,7 +83,7 @@ class Micromed(DataContainer):
 
     def to_json_data(self) -> dict:
         json_data = dict()
-        json_data["$type"] = "HBP.Core.Data.Container.EDF, Assembly-CSharp"
+        json_data["$type"] = "HBP.Core.Data.Container.Micromed, Assembly-CSharp"
         json_data.update(super().to_json_data())
         json_data["TRC"] = self.trc
         return json_data
