@@ -93,7 +93,7 @@ def demo_visualization():
     project_datasets = [Dataset('VISU', Protocol('VISU', [Bloc('Main')])), Dataset('LEC1', Protocol('LEC1')), Dataset('LEC2', Protocol('LEC2'))]
 
     # Create a visualization
-    ieeg_column = IEEGColumn('FRUIT', BaseConfiguration({"A'1": SiteConfiguration(False, False, Color(0.1, 0.2, 0.3, 1.2), ["Tutu"])}), project_datasets[0], '', project_datasets[0].protocol.blocs[0], DynamicConfiguration())
+    ieeg_column = IEEGColumn('FRUIT', BaseConfiguration(0.8, {"A'1": SiteConfiguration(False, False, Color(0.1, 0.2, 0.3, 1.2), ["Tutu"])}), project_datasets[0], '', project_datasets[0].protocol.blocs[0], DynamicConfiguration())
     ccep_column = CCEPColumn('CCEP', BaseConfiguration(), project_datasets[0], '', project_datasets[0].protocol.blocs[0], DynamicConfiguration())
     anatomic_column = AnatomicColumn('Anatomic', BaseConfiguration(), AnatomicConfiguration())
     visualization = Visualization('New Visualization', project_patients[3:], [ieeg_column, ccep_column, anatomic_column], VisualizationConfiguration())
@@ -135,7 +135,7 @@ def demo_project():
     datasets = [Dataset('VISU', protocols[0], [IEEGDataInfo('IEEG data', EDF("Yoda_VISU.edf"), patients[4], NormalizationType.Bloc)]), Dataset('CCEP', protocols[1], [CCEPDataInfo('CCEP data', BrainVision("John_doe_CCEP.vhdr"), patients[0], "A'1")])]
 
     # Create a visualization
-    ieeg_column = IEEGColumn('FRUIT', BaseConfiguration({"A'1": SiteConfiguration(False, False, Color(0.1, 0.2, 0.3, 1.2), ["Tutu"])}), datasets[0], '', datasets[0].protocol.blocs[0], DynamicConfiguration())
+    ieeg_column = IEEGColumn('FRUIT', BaseConfiguration(0.8, {"A'1": SiteConfiguration(False, False, Color(0.1, 0.2, 0.3, 1.2), ["Tutu"])}), datasets[0], '', datasets[0].protocol.blocs[0], DynamicConfiguration())
     ccep_column = CCEPColumn('CCEP', BaseConfiguration(), datasets[0], '', datasets[0].protocol.blocs[0], DynamicConfiguration())
     anatomic_column = AnatomicColumn('Anatomic', BaseConfiguration(), AnatomicConfiguration())
     visualizations = [Visualization('New Visualization', patients[3:], [ieeg_column, ccep_column, anatomic_column], VisualizationConfiguration())]
