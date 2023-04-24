@@ -54,7 +54,7 @@ class Project:
             else:
                 print("Successfully created the directory %s " % patients_directory_path)
                 for patient in self.patients:
-                    patient_path = os.path.join(patients_directory_path, patient.name + ".patient")
+                    patient_path = os.path.join(patients_directory_path, patient.ID + ".patient")
                     try:
                         patient.to_json_file(patient_path)
                     except OSError:
@@ -71,7 +71,7 @@ class Project:
             else:
                 print("Successfully created the directory %s " % groups_directory_path)
                 for group in self.groups:
-                    group_path = os.path.join(groups_directory_path, group.name + ".group")
+                    group_path = os.path.join(groups_directory_path, group.ID + ".group")
                     try:
                         group.to_json_file(group_path)
                     except OSError:
@@ -88,7 +88,7 @@ class Project:
             else:
                 print("Successfully created the directory %s " % protocols_directory_path)
                 for protocol in self.protocols:
-                    protocol_path = os.path.join(protocols_directory_path, protocol.name + ".prov")
+                    protocol_path = os.path.join(protocols_directory_path, protocol.ID + ".prov")
                     try:
                         protocol.to_json_file(protocol_path)
                     except OSError:
@@ -105,7 +105,7 @@ class Project:
             else:
                 print("Successfully created the directory %s " % datasets_directory_path)
                 for dataset in self.datasets:
-                    dataset_path = os.path.join(datasets_directory_path, dataset.name + ".dataset")
+                    dataset_path = os.path.join(datasets_directory_path, dataset.ID + ".dataset")
                     try:
                         dataset.to_json_file(dataset_path)
                     except OSError:
@@ -122,7 +122,7 @@ class Project:
             else:
                 print("Successfully created the directory %s " % visualizations_directory_path)
                 for visualization in self.visualizations:
-                    visualization_path = os.path.join(visualizations_directory_path, visualization.name + ".visualization")
+                    visualization_path = os.path.join(visualizations_directory_path, visualization.ID + ".visualization")
                     try:
                         visualization.to_json_file(visualization_path)
                     except OSError:
